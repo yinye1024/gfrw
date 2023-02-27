@@ -20,14 +20,15 @@ message p_machineInfo{
 }
 
 message role_reconnect_c2s{
-  required int32 client_mid = 1;
-  required int32 svr_mid = 2;
-  required int32 uid = 3;
-  required int32 svr_id = 4;
+  required int32 uid = 1;
+  required int32 svr_id = 2;
+  required int32 client_mid = 3;
+  required int32 svr_mid = 4;
 }
 message role_reconnect_s2c{
   required bool need_login = 1;       //是否需要重登，
-  required int32 cur_client_mid = 2;  //服务端补包对应的，当前服务端收到的，当前记录的 client mid
+  required bool has_pack = 2;         //是否需要补包，
+  optional int32 last_client_mid =3;  //服务端补包对应的，服务端最后收到的 client mid
 }
 message reset_gw_mid_c2s{
   required int32 mid = 1;  //重置玩家网关进程的 client mid

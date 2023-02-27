@@ -17,7 +17,7 @@
 
 -export([on_login_success/1, on_created_success/0,on_logout_s2c/0]).
 -export([on_recv_role_info/1]).
--export([on_role_reconnect_s2c/2]).
+-export([on_role_reconnect_s2c/3]).
 
 %% ===================================================================================
 %% API functions implements
@@ -30,6 +30,7 @@ login_or_create()->
     ?FALSE ->
       UserId = robot_client_role_item:get_id(RoleInfo),
       UName = robot_client_role_item:get_name(RoleInfo),
+      %% 每次重登需要重新建立链接
       robot_role_client:new_role_client(UserId),
       robot_login_c2s_sender:role_login_c2s(UserId,UName),
       ?OK;
@@ -57,7 +58,9 @@ role_reconnect_c2s()->
   ?LOG_ERROR({"send role_reconnect_c2s"}),
   RoleInfo = robot_pc_mgr:get_client_role_info(),
   UserId = robot_client_role_item:get_id(RoleInfo),
-  {ClientMid,SvrMid} = {1,1},
+  {ClientMid,SvrMid} = {robot_pc_mgr:get_client_mid(),robot_pc_mgr:get_svr_mid()},
+  %% 每次重登需要重新建立链接
+  robot_role_client:new_role_client(UserId),
   robot_login_c2s_sender:role_reconnect_c2s(UserId,ClientMid,SvrMid),
   ?OK.
 
@@ -96,17 +99,15 @@ on_logout_s2c()->
   priv_set_login_status(?FALSE),
   ?OK.
 
-on_role_reconnect_s2c(NeedLogin,CurClientMid)->
-  IsLogin = not NeedLogin,
-  priv_set_login_status(IsLogin),
+on_role_reconnect_s2c(NeedLogin,_HasPack, LastClientMid)->
   case NeedLogin of
     ?TRUE ->
-      IsLogin = not NeedLogin,
-      priv_set_login_status(IsLogin),
+      SetIsLogin = not NeedLogin,
+      priv_set_login_status(SetIsLogin),
       ?OK;
     ?FALSE ->
-      robot_pc_mgr:reset_client_mid(CurClientMid),
-      robot_login_c2s_sender:reset_gw_mid_c2s(CurClientMid),
+      robot_pc_mgr:reset_client_mid(LastClientMid),
+      robot_login_c2s_sender:reset_gw_mid_c2s(LastClientMid),
       ?OK
   end,
   ?OK.

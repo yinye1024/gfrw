@@ -29,14 +29,14 @@ decode_c2s(C2SId, C2SBinData)->
 
 %% c2s(C2SId)->{MsgHandlerMod,MsgHandlerMethod,MsgDecoderMod,MsgName};
 %%login.proto
-priv_c2s(?CREATE_ROLE_C2S)->{login_c2s_handler,login_pb,create_role_c2s};
-priv_c2s(?ROLE_LOGIN_C2S)->{login_c2s_handler,login_pb,role_login_c2s};
-priv_c2s(?ROLE_RECONNECT_C2S)->{login_c2s_handler,login_pb,role_reconnect_c2s};
+priv_c2s(?CREATE_ROLE_C2S)->{gw_c2s_handler,login_pb,create_role_c2s};
+priv_c2s(?ROLE_LOGIN_C2S)->{gw_c2s_handler,login_pb,role_login_c2s};
+priv_c2s(?ROLE_RECONNECT_C2S)->{gw_c2s_handler,login_pb,role_reconnect_c2s};
+priv_c2s(?RESET_GW_MID_C2S)->{gw_c2s_handler,login_pb,reset_gw_mid_c2s};
 priv_c2s(?ROLE_LOGOUT_C2S)->{role_c2s_handler,login_pb,role_logout_c2s};
-priv_c2s(?RESET_GW_MID_C2S)->{role_c2s_handler,login_pb,reset_gw_mid_c2s};
 
 %%avatar.proto
-priv_c2s(201)->{avatar_c2s_handler,avatar_pb,avatar_heart_beat_c2s};
+priv_c2s(?AVATAR_HEART_BEAT_C2S)->{gw_c2s_handler,avatar_pb,avatar_heart_beat_c2s};
 
 priv_c2s(_)->{unknown_c2s_handler}.
 

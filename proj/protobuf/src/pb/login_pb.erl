@@ -151,7 +151,7 @@ encode_msg_p_machineInfo(#p_machineInfo{device = F1, device_id = F2, device_name
 encode_msg_role_reconnect_c2s(Msg, TrUserData) -> encode_msg_role_reconnect_c2s(Msg, <<>>, TrUserData).
 
 
-encode_msg_role_reconnect_c2s(#role_reconnect_c2s{client_mid = F1, svr_mid = F2, uid = F3, svr_id = F4}, Bin, TrUserData) ->
+encode_msg_role_reconnect_c2s(#role_reconnect_c2s{uid = F1, svr_id = F2, client_mid = F3, svr_mid = F4}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end,
     B2 = begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end,
     B3 = begin TrF3 = id(F3, TrUserData), e_type_int32(TrF3, <<B2/binary, 24>>, TrUserData) end,
@@ -160,8 +160,12 @@ encode_msg_role_reconnect_c2s(#role_reconnect_c2s{client_mid = F1, svr_mid = F2,
 encode_msg_role_reconnect_s2c(Msg, TrUserData) -> encode_msg_role_reconnect_s2c(Msg, <<>>, TrUserData).
 
 
-encode_msg_role_reconnect_s2c(#role_reconnect_s2c{need_login = F1, cur_client_mid = F2}, Bin, TrUserData) ->
-    B1 = begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end, begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end.
+encode_msg_role_reconnect_s2c(#role_reconnect_s2c{need_login = F1, has_pack = F2, last_client_mid = F3}, Bin, TrUserData) ->
+    B1 = begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end,
+    B2 = begin TrF2 = id(F2, TrUserData), e_type_bool(TrF2, <<B1/binary, 16>>, TrUserData) end,
+    if F3 == undefined -> B2;
+       true -> begin TrF3 = id(F3, TrUserData), e_type_int32(TrF3, <<B2/binary, 24>>, TrUserData) end
+    end.
 
 encode_msg_reset_gw_mid_c2s(Msg, TrUserData) -> encode_msg_reset_gw_mid_c2s(Msg, <<>>, TrUserData).
 
@@ -512,21 +516,21 @@ skip_64_p_machineInfo(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUser
 
 decode_msg_role_reconnect_c2s(Bin, TrUserData) -> dfp_read_field_def_role_reconnect_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_role_reconnect_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_client_mid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-dfp_read_field_def_role_reconnect_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_svr_mid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-dfp_read_field_def_role_reconnect_c2s(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_uid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-dfp_read_field_def_role_reconnect_c2s(<<32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_svr_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-dfp_read_field_def_role_reconnect_c2s(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #role_reconnect_c2s{client_mid = F@_1, svr_mid = F@_2, uid = F@_3, svr_id = F@_4};
+dfp_read_field_def_role_reconnect_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_uid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_role_reconnect_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_svr_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_role_reconnect_c2s(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_client_mid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_role_reconnect_c2s(<<32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_role_reconnect_c2s_svr_mid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_role_reconnect_c2s(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #role_reconnect_c2s{uid = F@_1, svr_id = F@_2, client_mid = F@_3, svr_mid = F@_4};
 dfp_read_field_def_role_reconnect_c2s(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dg_read_field_def_role_reconnect_c2s(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
 dg_read_field_def_role_reconnect_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 32 - 7 -> dg_read_field_def_role_reconnect_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
 dg_read_field_def_role_reconnect_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_role_reconnect_c2s_client_mid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
-      16 -> d_field_role_reconnect_c2s_svr_mid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
-      24 -> d_field_role_reconnect_c2s_uid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
-      32 -> d_field_role_reconnect_c2s_svr_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      8 -> d_field_role_reconnect_c2s_uid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      16 -> d_field_role_reconnect_c2s_svr_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      24 -> d_field_role_reconnect_c2s_client_mid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      32 -> d_field_role_reconnect_c2s_svr_mid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 -> skip_varint_role_reconnect_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData);
@@ -536,22 +540,22 @@ dg_read_field_def_role_reconnect_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1,
 	    5 -> skip_32_role_reconnect_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData)
 	  end
     end;
-dg_read_field_def_role_reconnect_c2s(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #role_reconnect_c2s{client_mid = F@_1, svr_mid = F@_2, uid = F@_3, svr_id = F@_4}.
-
-d_field_role_reconnect_c2s_client_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_client_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-d_field_role_reconnect_c2s_client_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, F@_4, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, NewFValue, F@_2, F@_3, F@_4, TrUserData).
-
-d_field_role_reconnect_c2s_svr_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_svr_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-d_field_role_reconnect_c2s_svr_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, F@_4, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, F@_1, NewFValue, F@_3, F@_4, TrUserData).
+dg_read_field_def_role_reconnect_c2s(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #role_reconnect_c2s{uid = F@_1, svr_id = F@_2, client_mid = F@_3, svr_mid = F@_4}.
 
 d_field_role_reconnect_c2s_uid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_uid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-d_field_role_reconnect_c2s_uid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, F@_4, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, F@_1, F@_2, NewFValue, F@_4, TrUserData).
+d_field_role_reconnect_c2s_uid(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, NewFValue, F@_2, F@_3, F@_4, TrUserData).
 
 d_field_role_reconnect_c2s_svr_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_svr_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
-d_field_role_reconnect_c2s_svr_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, _, TrUserData) ->
+d_field_role_reconnect_c2s_svr_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, F@_1, NewFValue, F@_3, F@_4, TrUserData).
+
+d_field_role_reconnect_c2s_client_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_client_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_role_reconnect_c2s_client_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, F@_1, F@_2, NewFValue, F@_4, TrUserData).
+
+d_field_role_reconnect_c2s_svr_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_role_reconnect_c2s_svr_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_role_reconnect_c2s_svr_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, _, TrUserData) ->
     {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_c2s(RestF, 0, 0, F, F@_1, F@_2, F@_3, NewFValue, TrUserData).
 
 skip_varint_role_reconnect_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> skip_varint_role_reconnect_c2s(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
@@ -567,48 +571,56 @@ skip_32_role_reconnect_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F
 
 skip_64_role_reconnect_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dfp_read_field_def_role_reconnect_c2s(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
-decode_msg_role_reconnect_s2c(Bin, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_role_reconnect_s2c(Bin, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_role_reconnect_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_role_reconnect_s2c_need_login(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_role_reconnect_s2c(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_role_reconnect_s2c_cur_client_mid(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_role_reconnect_s2c(<<>>, 0, 0, _, F@_1, F@_2, _) -> #role_reconnect_s2c{need_login = F@_1, cur_client_mid = F@_2};
-dfp_read_field_def_role_reconnect_s2c(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_role_reconnect_s2c(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
+dfp_read_field_def_role_reconnect_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_role_reconnect_s2c_need_login(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_role_reconnect_s2c(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_role_reconnect_s2c_has_pack(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_role_reconnect_s2c(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_role_reconnect_s2c_last_client_mid(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_role_reconnect_s2c(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #role_reconnect_s2c{need_login = F@_1, has_pack = F@_2, last_client_mid = F@_3};
+dfp_read_field_def_role_reconnect_s2c(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_role_reconnect_s2c(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-dg_read_field_def_role_reconnect_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_role_reconnect_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-dg_read_field_def_role_reconnect_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
+dg_read_field_def_role_reconnect_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_role_reconnect_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+dg_read_field_def_role_reconnect_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_role_reconnect_s2c_need_login(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
-      16 -> d_field_role_reconnect_s2c_cur_client_mid(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      8 -> d_field_role_reconnect_s2c_need_login(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      16 -> d_field_role_reconnect_s2c_has_pack(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      24 -> d_field_role_reconnect_s2c_last_client_mid(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    1 -> skip_64_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    2 -> skip_length_delimited_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    3 -> skip_group_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    5 -> skip_32_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
+	    0 -> skip_varint_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    1 -> skip_64_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    2 -> skip_length_delimited_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    3 -> skip_group_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    5 -> skip_32_role_reconnect_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
 	  end
     end;
-dg_read_field_def_role_reconnect_s2c(<<>>, 0, 0, _, F@_1, F@_2, _) -> #role_reconnect_s2c{need_login = F@_1, cur_client_mid = F@_2}.
+dg_read_field_def_role_reconnect_s2c(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #role_reconnect_s2c{need_login = F@_1, has_pack = F@_2, last_client_mid = F@_3}.
 
-d_field_role_reconnect_s2c_need_login(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_role_reconnect_s2c_need_login(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_role_reconnect_s2c_need_login(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) -> {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_role_reconnect_s2c(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
+d_field_role_reconnect_s2c_need_login(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_role_reconnect_s2c_need_login(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_role_reconnect_s2c_need_login(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_role_reconnect_s2c(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
 
-d_field_role_reconnect_s2c_cur_client_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_role_reconnect_s2c_cur_client_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_role_reconnect_s2c_cur_client_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_s2c(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
+d_field_role_reconnect_s2c_has_pack(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_role_reconnect_s2c_has_pack(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_role_reconnect_s2c_has_pack(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_role_reconnect_s2c(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
 
-skip_varint_role_reconnect_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-skip_varint_role_reconnect_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+d_field_role_reconnect_s2c_last_client_mid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_role_reconnect_s2c_last_client_mid(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_role_reconnect_s2c_last_client_mid(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_role_reconnect_s2c(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
 
-skip_length_delimited_role_reconnect_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_role_reconnect_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-skip_length_delimited_role_reconnect_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_role_reconnect_s2c(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
+skip_varint_role_reconnect_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+skip_varint_role_reconnect_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-skip_group_role_reconnect_s2c(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_role_reconnect_s2c(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
+skip_length_delimited_role_reconnect_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_role_reconnect_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+skip_length_delimited_role_reconnect_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_role_reconnect_s2c(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
 
-skip_32_role_reconnect_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_group_role_reconnect_s2c(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_role_reconnect_s2c(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
 
-skip_64_role_reconnect_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_32_role_reconnect_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_64_role_reconnect_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_role_reconnect_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
 decode_msg_reset_gw_mid_c2s(Bin, TrUserData) -> dfp_read_field_def_reset_gw_mid_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
 
@@ -1071,11 +1083,16 @@ merge_msg_p_machineInfo(#p_machineInfo{device = PFdevice, device_id = PFdevice_i
 		       end}.
 
 -compile({nowarn_unused_function,merge_msg_role_reconnect_c2s/3}).
-merge_msg_role_reconnect_c2s(#role_reconnect_c2s{}, #role_reconnect_c2s{client_mid = NFclient_mid, svr_mid = NFsvr_mid, uid = NFuid, svr_id = NFsvr_id}, _) ->
-    #role_reconnect_c2s{client_mid = NFclient_mid, svr_mid = NFsvr_mid, uid = NFuid, svr_id = NFsvr_id}.
+merge_msg_role_reconnect_c2s(#role_reconnect_c2s{}, #role_reconnect_c2s{uid = NFuid, svr_id = NFsvr_id, client_mid = NFclient_mid, svr_mid = NFsvr_mid}, _) ->
+    #role_reconnect_c2s{uid = NFuid, svr_id = NFsvr_id, client_mid = NFclient_mid, svr_mid = NFsvr_mid}.
 
 -compile({nowarn_unused_function,merge_msg_role_reconnect_s2c/3}).
-merge_msg_role_reconnect_s2c(#role_reconnect_s2c{}, #role_reconnect_s2c{need_login = NFneed_login, cur_client_mid = NFcur_client_mid}, _) -> #role_reconnect_s2c{need_login = NFneed_login, cur_client_mid = NFcur_client_mid}.
+merge_msg_role_reconnect_s2c(#role_reconnect_s2c{last_client_mid = PFlast_client_mid}, #role_reconnect_s2c{need_login = NFneed_login, has_pack = NFhas_pack, last_client_mid = NFlast_client_mid}, _) ->
+    #role_reconnect_s2c{need_login = NFneed_login, has_pack = NFhas_pack,
+			last_client_mid =
+			    if NFlast_client_mid =:= undefined -> PFlast_client_mid;
+			       true -> NFlast_client_mid
+			    end}.
 
 -compile({nowarn_unused_function,merge_msg_reset_gw_mid_c2s/3}).
 merge_msg_reset_gw_mid_c2s(#reset_gw_mid_c2s{}, #reset_gw_mid_c2s{mid = NFmid}, _) -> #reset_gw_mid_c2s{mid = NFmid}.
@@ -1200,13 +1217,19 @@ v_msg_p_machineInfo(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_mach
 
 -compile({nowarn_unused_function,v_msg_role_reconnect_c2s/3}).
 -dialyzer({nowarn_function,v_msg_role_reconnect_c2s/3}).
-v_msg_role_reconnect_c2s(#role_reconnect_c2s{client_mid = F1, svr_mid = F2, uid = F3, svr_id = F4}, Path, TrUserData) ->
-    v_type_int32(F1, [client_mid | Path], TrUserData), v_type_int32(F2, [svr_mid | Path], TrUserData), v_type_int32(F3, [uid | Path], TrUserData), v_type_int32(F4, [svr_id | Path], TrUserData), ok;
+v_msg_role_reconnect_c2s(#role_reconnect_c2s{uid = F1, svr_id = F2, client_mid = F3, svr_mid = F4}, Path, TrUserData) ->
+    v_type_int32(F1, [uid | Path], TrUserData), v_type_int32(F2, [svr_id | Path], TrUserData), v_type_int32(F3, [client_mid | Path], TrUserData), v_type_int32(F4, [svr_mid | Path], TrUserData), ok;
 v_msg_role_reconnect_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, role_reconnect_c2s}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_role_reconnect_s2c/3}).
 -dialyzer({nowarn_function,v_msg_role_reconnect_s2c/3}).
-v_msg_role_reconnect_s2c(#role_reconnect_s2c{need_login = F1, cur_client_mid = F2}, Path, TrUserData) -> v_type_bool(F1, [need_login | Path], TrUserData), v_type_int32(F2, [cur_client_mid | Path], TrUserData), ok;
+v_msg_role_reconnect_s2c(#role_reconnect_s2c{need_login = F1, has_pack = F2, last_client_mid = F3}, Path, TrUserData) ->
+    v_type_bool(F1, [need_login | Path], TrUserData),
+    v_type_bool(F2, [has_pack | Path], TrUserData),
+    if F3 == undefined -> ok;
+       true -> v_type_int32(F3, [last_client_mid | Path], TrUserData)
+    end,
+    ok;
 v_msg_role_reconnect_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, role_reconnect_s2c}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_reset_gw_mid_c2s/3}).
@@ -1354,9 +1377,11 @@ get_msg_defs() ->
       [#field{name = device, fnum = 1, rnum = 2, type = string, occurrence = optional, opts = []}, #field{name = device_id, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
        #field{name = device_name, fnum = 3, rnum = 4, type = string, occurrence = optional, opts = []}]},
      {{msg, role_reconnect_c2s},
-      [#field{name = client_mid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = svr_mid, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []},
-       #field{name = uid, fnum = 3, rnum = 4, type = int32, occurrence = required, opts = []}, #field{name = svr_id, fnum = 4, rnum = 5, type = int32, occurrence = required, opts = []}]},
-     {{msg, role_reconnect_s2c}, [#field{name = need_login, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}, #field{name = cur_client_mid, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}]},
+      [#field{name = uid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = svr_id, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []},
+       #field{name = client_mid, fnum = 3, rnum = 4, type = int32, occurrence = required, opts = []}, #field{name = svr_mid, fnum = 4, rnum = 5, type = int32, occurrence = required, opts = []}]},
+     {{msg, role_reconnect_s2c},
+      [#field{name = need_login, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}, #field{name = has_pack, fnum = 2, rnum = 3, type = bool, occurrence = required, opts = []},
+       #field{name = last_client_mid, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}]},
      {{msg, reset_gw_mid_c2s}, [#field{name = mid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}]},
      {{msg, create_role_c2s}, [#field{name = name, fnum = 1, rnum = 2, type = string, occurrence = required, opts = []}, #field{name = gender, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}]},
      {{msg, create_role_s2c}, [#field{name = result_code, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}]},
@@ -1403,9 +1428,11 @@ find_msg_def(p_machineInfo) ->
     [#field{name = device, fnum = 1, rnum = 2, type = string, occurrence = optional, opts = []}, #field{name = device_id, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
      #field{name = device_name, fnum = 3, rnum = 4, type = string, occurrence = optional, opts = []}];
 find_msg_def(role_reconnect_c2s) ->
-    [#field{name = client_mid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = svr_mid, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []},
-     #field{name = uid, fnum = 3, rnum = 4, type = int32, occurrence = required, opts = []}, #field{name = svr_id, fnum = 4, rnum = 5, type = int32, occurrence = required, opts = []}];
-find_msg_def(role_reconnect_s2c) -> [#field{name = need_login, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}, #field{name = cur_client_mid, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}];
+    [#field{name = uid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = svr_id, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []},
+     #field{name = client_mid, fnum = 3, rnum = 4, type = int32, occurrence = required, opts = []}, #field{name = svr_mid, fnum = 4, rnum = 5, type = int32, occurrence = required, opts = []}];
+find_msg_def(role_reconnect_s2c) ->
+    [#field{name = need_login, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}, #field{name = has_pack, fnum = 2, rnum = 3, type = bool, occurrence = required, opts = []},
+     #field{name = last_client_mid, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}];
 find_msg_def(reset_gw_mid_c2s) -> [#field{name = mid, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}];
 find_msg_def(create_role_c2s) -> [#field{name = name, fnum = 1, rnum = 2, type = string, occurrence = required, opts = []}, #field{name = gender, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}];
 find_msg_def(create_role_s2c) -> [#field{name = result_code, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}];

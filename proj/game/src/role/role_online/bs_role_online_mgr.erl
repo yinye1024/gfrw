@@ -54,17 +54,21 @@ send_msg({MsgId,C2SId,BinData})->
 
 reconnect({TcpGen,ClientMid,SvrMid})->
   ?LOG_INFO({"received reconnect from client:",{TcpGen,ClientMid,SvrMid}}),
+  %% 重连是保持 clientmid 但重新建立tcp链接，要做tcp的切换
+  role_adm_mgr:switch_tcp_gen(TcpGen),
   RoleId = role_adm_mgr:get_roleId(),
   role_pack_mgr:reconnect(RoleId,ClientMid,SvrMid), %% 补包
   ?OK.
 
 login({})->
+  %%  首次拉起玩家进程
   ?LOG_INFO({"login from client:" }),
   priv_do_login(),
   ?OK.
 
 re_login({TcpGen})->
   ?LOG_INFO({"reLogin from client:",{TcpGen}}),
+  %% 重登是新建立tcp链接，要做tcp的切换
   role_pack_mgr:reset(),
   role_adm_mgr:switch_tcp_gen(TcpGen),
   priv_do_login(),

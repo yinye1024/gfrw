@@ -25,8 +25,8 @@ init({UserId} = _GenArgs)->
 
   robot_ticker_mgr:init(),
 
-%%  robot_test_fun:test_reLogin(),
-  robot_test_fun:test_reconnect(),
+  robot_test_fun:test_reLogin(),
+%%  robot_test_fun:test_reconnect(),
   ?OK.
 
 loop_1_sec()->

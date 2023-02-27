@@ -20,16 +20,20 @@
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-route_c2s({login_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
+route_c2s({gw_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
+  ?LOG_INFO({"role_reconnect_c2s",C2SRD}),
   #role_reconnect_c2s{client_mid=ClientMid,svr_mid = SvrMid,svr_id = SvrId,uid = UserId} = C2SRD,
   ContextItem_1 =
   case priv_check_reconnect_params(C2SRD,ContextItem) of
     ?TRUE ->
+      ?LOG_INFO("role_reconnect_c2s 1111"),
       case  priv_do_reconnect({UserId,SvrId,ClientMid,SvrMid}) of
         {?OK,RoleId} ->
+          ?LOG_INFO("role_reconnect_c2s 1122"),
           ContextItemTmp = role_gw_context:on_reconnect({SvrId,RoleId},ContextItem),
           ContextItemTmp;
         {?ERROR,Reason}->
+          ?LOG_INFO("role_reconnect_c2s 1123"),
           role_gw_helper:cast_stop(Reason),
           ContextItem
       end;
@@ -38,7 +42,7 @@ route_c2s({login_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
       ContextItem
   end,
   ContextItem_1;
-route_c2s({login_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
+route_c2s({gw_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({role_login_c2s,{C2SRD}}),
   #role_login_c2s{uid = UserId,uname = UserName,svrId = SvrId,
     plat = Platform,game_id = GameId,machine_info = MachineInfo} = C2SRD,
@@ -63,7 +67,7 @@ route_c2s({login_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
         ContextItem
     end,
   ContextItem_1;
-route_c2s({login_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
+route_c2s({gw_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({create_role_c2s,{C2SRD}}),
   #create_role_c2s{name = Name,gender = Gender} = C2SRD,
   ContextItem_1 =
@@ -84,16 +88,17 @@ route_c2s({login_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
         ContextItem
     end,
   ContextItem_1;
-route_c2s({avatar_c2s_handler,avatar_heart_beat_c2s,_C2SRD},_MsgId,ContextItem)->
+route_c2s({gw_c2s_handler,avatar_heart_beat_c2s,_C2SRD},_MsgId,ContextItem)->
+  ?LOG_INFO({"gw_c2s_handler ,avatar_heart_beat_c2s:"}),
   role_gw_pc_mgr:on_receive_heartbeat(),
   ContextItem;
-route_c2s({unknown_c2s_handler,C2SId,C2SBinData},_MsgId,ContextItem)->
-  ?LOG_ERROR({"unknown_c2s_handler,C2SId,C2SBinData:",C2SId,C2SBinData}),
-  ContextItem;
-route_c2s({login_c2s_handler,reset_gw_mid_c2s,C2SRD},_MsgId,ContextItem)->
+route_c2s({gw_c2s_handler,reset_gw_mid_c2s,C2SRD},_MsgId,ContextItem)->
   MsgId = C2SRD#reset_gw_mid_c2s.mid,
-  ?LOG_INFO({"login_c2s_handler,reset_gw_mid_c2s,MsgId:",MsgId}),
+  ?LOG_INFO({"gw_c2s_handler,reset_gw_mid_c2s,MsgId:",MsgId}),
   role_gw_pc_mgr:set_client_mid(MsgId),
+  ContextItem;
+route_c2s({unknown_c2s_handler,C2SId,C2SBinData},_MsgId,ContextItem)->
+  ?LOG_INFO({"unknown_c2s_handler,C2SId,C2SBinData:",C2SId,C2SBinData}),
   ContextItem;
 route_c2s({MsgHandlerMod,MsgHandlerMethod,C2SRD},MsgId,ContextItem)->
   %% 发到玩家online进程的消息才需要检查mid，别的情况不需要，因为别的情况都会新建tcp链接
@@ -127,9 +132,9 @@ priv_do_reconnect({UserId,SvrId,ClientMid,SvrMid})->
         RolePid = gs_role_online_mgr:get_role_pid(RoleId),
         case yyu_pid:is_local_alive(RolePid) of
           ?TRUE ->
-            ?OK = gs_role_online_mgr:call_reconnect(RolePid,self(),ClientMid,SvrMid),
             %% 被RolePId监控，RolePId挂了当前进程也要被销毁
             priv_set_self_monitor_by(RolePid),
+            ?OK = gs_role_online_mgr:call_reconnect(RolePid,self(),ClientMid,SvrMid),
             {?OK,RoleId};
           ?FALSE ->
             {?ERROR,?Logout_Reconnect_No_Role_Gen}

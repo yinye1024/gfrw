@@ -16,9 +16,9 @@
 -define(Max_Miss,20).     %% 超过 Max_Miss 则直接重登，不进行补包操作
 %% 不需要补包的协议在这里添加过滤
 -define(Filter_S2C,[
-   client_pack_syn_s2c
+   role_reconnect_s2c
   ,role_logout_s2c
-  ,avatar_heartbeat_s2c
+%%  ,avatar_heartbeat_s2c
   ,tips_s2c
 ]).
 %% API functions defined
@@ -41,20 +41,20 @@ reset()->
 reconnect(RoleId,ClientMid,SvrMid)->
   RoleId = role_adm_mgr:get_roleId(),
   Data = priv_get_data(),
-  CurClientMId = role_pack_pc_pojo:get_recv_pack_id(Data),
+  LastClientMId = role_pack_pc_pojo:get_recv_pack_id(Data),
   {L1,L2} = role_pack_pc_pojo:get_pack_queue(Data),
-  case CurClientMId < ClientMid andalso ClientMid < CurClientMId + ?Max_Miss of
+  case LastClientMId < ClientMid andalso ClientMid < LastClientMId + ?Max_Miss of
     ?TRUE ->
       case priv_get_pack_queue(SvrMid,L1,L2) of
         SendList when is_list(SendList)->
-          priv_send_role_reconnect_s2c(?FALSE,CurClientMId), %% 需要补包-通知客户端正在发送同步包
-          priv_send_by_tcp(RoleId,SendList);
+          priv_send_role_reconnect_s2c(?FALSE,?TRUE, LastClientMId), %% 需要补包-通知客户端正在发送同步包
+          priv_send_packList(SendList);
         _->
-          priv_send_role_reconnect_s2c(?TRUE,0), %% 补包失败，通知客户端重新登陆
+          priv_send_role_reconnect_s2c(?FALSE,?FALSE, LastClientMId), %% 不需要补包
           ?OK
       end;
     _->
-      priv_send_role_reconnect_s2c(?TRUE,0), %% 补包失败，通知客户端重新登陆
+      priv_send_role_reconnect_s2c(?TRUE,?FALSE,0), %% 补包失败，通知客户端重新登陆
       ?OK
   end.
 
@@ -123,10 +123,11 @@ priv_get_increment_id(_L1,[{Id,_,_}|_L2])->
   Max = ?Queue_Length *2,
   Id rem Max+1.
 %% ======================================= 收包相关  结束 =========================================================
-priv_send_by_tcp(RoleId,SendList)->
-  role_inner_misc:inner_mark_send_RecordData(SendList).
-priv_send_role_reconnect_s2c(IsNeedLogin,CurClientMId)->
-  role_s2c_handler:send_role_reconnect_s2c(IsNeedLogin,CurClientMId),
+priv_send_packList(PackList)->
+  role_inner_misc:inner_mark_send_RecordData(PackList).
+%%
+priv_send_role_reconnect_s2c(IsNeedLogin, HasPack,LastClientMId)->
+  role_s2c_handler:send_role_reconnect_s2c(IsNeedLogin,HasPack, LastClientMId),
   ?OK.
 
 

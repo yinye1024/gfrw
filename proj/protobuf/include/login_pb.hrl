@@ -38,10 +38,10 @@
 -ifndef('ROLE_RECONNECT_C2S_PB_H').
 -define('ROLE_RECONNECT_C2S_PB_H', true).
 -record(role_reconnect_c2s,
-        {client_mid             :: integer() | undefined, % = 1, required, 32 bits
-         svr_mid                :: integer() | undefined, % = 2, required, 32 bits
-         uid                    :: integer() | undefined, % = 3, required, 32 bits
-         svr_id                 :: integer() | undefined % = 4, required, 32 bits
+        {uid                    :: integer() | undefined, % = 1, required, 32 bits
+         svr_id                 :: integer() | undefined, % = 2, required, 32 bits
+         client_mid             :: integer() | undefined, % = 3, required, 32 bits
+         svr_mid                :: integer() | undefined % = 4, required, 32 bits
         }).
 -endif.
 
@@ -49,7 +49,8 @@
 -define('ROLE_RECONNECT_S2C_PB_H', true).
 -record(role_reconnect_s2c,
         {need_login             :: boolean() | 0 | 1 | undefined, % = 1, required
-         cur_client_mid         :: integer() | undefined % = 2, required, 32 bits
+         has_pack               :: boolean() | 0 | 1 | undefined, % = 2, required
+         last_client_mid        :: integer() | undefined % = 3, optional, 32 bits
         }).
 -endif.
 

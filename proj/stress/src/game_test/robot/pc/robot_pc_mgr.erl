@@ -21,7 +21,7 @@
 -export([on_gw_active/0, is_gw_active/0]).
 -export([get_svr_mid/0,set_svr_mid/1]).
 -export([set_is_miss_client_pack/1]).
--export([send_msg/1,reset_client_mid/1]).
+-export([send_msg/1,reset_client_mid/1,get_client_mid/0]).
 
 %% ===================================================================================
 %% API functions implements
@@ -77,20 +77,26 @@ set_tcp_client_gen(TcpClientGen)->
 send_msg({C2SId,BinData})->
   MsgId = priv_get_and_incr_msgId(),
 %%  ?LOG_INFO({"client send msg:",{MsgId,C2SId,BinData}}),
-  case priv_is_miss_client_pack() of
-    ?TRUE ->
-      ?OK;
-    ?FALSE ->
-      ClientGen = get_tcp_client_gen(),
-      yynw_tcp_client_api:send(ClientGen,{MsgId,C2SId,BinData}),
-      ?OK
-  end,
+  ClientGen = get_tcp_client_gen(),
+  yynw_tcp_client_api:send(ClientGen,{MsgId,C2SId,BinData}),
+%%  case priv_is_miss_client_pack() of
+%%    ?TRUE ->
+%%      ?OK;
+%%    ?FALSE ->
+%%      ClientGen = get_tcp_client_gen(),
+%%      yynw_tcp_client_api:send(ClientGen,{MsgId,C2SId,BinData}),
+%%      ?OK
+%%  end,
   ?OK.
 
 priv_get_and_incr_msgId()->
   Data = priv_get_data(),
   {MsgId,Data_1} = robot_pc_pojo:get_and_incr_msgId(Data),
   priv_update(Data_1),
+  MsgId.
+get_client_mid()->
+  Data = priv_get_data(),
+  MsgId = robot_pc_pojo:get_client_mid(Data),
   MsgId.
 
 set_is_miss_client_pack(IsDoMiss) when is_boolean(IsDoMiss)->

@@ -17,7 +17,7 @@
 -export([get_svr_role_info/1,set_svr_role_info/2]).
 -export([get_tcp_client_gen/1, set_tcp_client_gen/2]).
 -export([is_active/1,set_is_active/2]).
--export([set_client_mid/2,get_and_incr_msgId/1]).
+-export([set_client_mid/2,get_and_incr_msgId/1,get_client_mid/1]).
 -export([get_svr_mid/1,set_svr_mid/2]).
 -export([is_miss_client_pack/1, set_is_miss_client_pack/2]).
 
@@ -35,7 +35,7 @@ new_pojo(UserId)->
     client_mid => 1,            %% 发信息自增id
     svr_mid => ?NOT_SET,         %% 收到的服务端mid 补包需要用到
 
-    is_miss_client_pack = ?FALSE    %% 是否开始丢前端包
+    is_miss_client_pack => ?FALSE    %% 是否开始丢前端包
   }.
 
 get_id(ItemMap) ->
@@ -68,11 +68,11 @@ set_is_active(Value, ItemMap) ->
   yyu_map:put_value(is_active, Value, ItemMap).
 
 
-priv_get_client_mid(ItemMap) ->
+get_client_mid(ItemMap) ->
   yyu_map:get_value(client_mid, ItemMap).
 
 get_and_incr_msgId(ItemMap) ->
-  MsgId = priv_get_client_mid(ItemMap),
+  MsgId = get_client_mid(ItemMap),
   NextMsgId = ?IF(MsgId+1 > ?MAX_SHORT,1,MsgId+1),  %% 和后端保持一致
   ItemMap_1 = set_client_mid(NextMsgId, ItemMap),
   {MsgId,ItemMap_1}.

@@ -12,7 +12,7 @@
 -include_lib("protobuf/include/login_pb.hrl").
 -include_lib("yyutils/include/yyu_comm.hrl").
 %% API
--export([send_role_logout_s2c/1, send_role_info_s2c/1, send_role_reconnect_s2c/2]).
+-export([send_role_logout_s2c/1, send_role_info_s2c/1, send_role_reconnect_s2c/3]).
 
 
 %% 通知客户端玩家登出,ReasonCode
@@ -31,10 +31,12 @@ send_role_info_s2c(RolePdbPojo)->
   },
   role_inner_misc:inner_mark_send_RecordData(RoleInfoS2C).
 
-send_role_reconnect_s2c(IsNeedLogin,CurClientMId)->
+send_role_reconnect_s2c(IsNeedLogin,HasPack, LastClientMId)->
   RecordS2C = #role_reconnect_s2c{
     need_login = IsNeedLogin,
-    cur_client_mid = CurClientMId
+    has_pack = HasPack,
+    last_client_mid = LastClientMId
   },
+  ?LOG_INFO("send_role_reconnect_s2c"),
   role_inner_misc:inner_mark_send_RecordData(RecordS2C).
 
