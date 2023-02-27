@@ -1,0 +1,14 @@
+{"1.1.0",
+[{<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},2},
+ {<<"lager">>,
+  {git,"https://github.com/erlang-lager/lager.git",
+       {ref,"8c32954cdb40791047f8f3fb4f77459af0ba573f"}},
+  1},
+ {<<"yyutils">>,
+  {git,"https://github.com/yinye1024/yyutils.git",
+       {ref,"d7feb7778458cf22f1efa906e23c0a4204e1aac0"}},
+  0}]}.
+[
+{pkg_hash,[
+ {<<"goldrush">>, <<"F06E5D5F1277DA5C413E84D5A2924174182FB108DABB39D5EC548B27424CD106">>}]}
+].

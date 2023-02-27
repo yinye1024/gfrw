@@ -1,0 +1,30 @@
+{"1.1.0",
+[{<<"bson">>,
+  {git,"https://github.com/comtihon/bson-erlang.git",
+       {ref,"d5e5a954ab29d721cfab0dcf2906d247208bdd35"}},
+  1},
+ {<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},2},
+ {<<"lager">>,
+  {git,"https://github.com/erlang-lager/lager.git",
+       {ref,"8c32954cdb40791047f8f3fb4f77459af0ba573f"}},
+  1},
+ {<<"mochiweb">>,
+  {git,"https://github.com/mochi/mochiweb.git",
+       {ref,"d3d3d7bd54d87afa45470a540d41d62e19a31400"}},
+  1},
+ {<<"pbkdf2">>,
+  {git,"https://github.com/emqx/erlang-pbkdf2.git",
+       {ref,"45d9981209ea07a83a58cf85aaf8236457da4342"}},
+  1},
+ {<<"poolboy">>,
+  {git,"https://github.com/devinus/poolboy.git",
+       {ref,"29be47db8c2be38b18c908e43a80ebb7b9b6116b"}},
+  2},
+ {<<"yypb">>,
+  {git,"https://github.com/yinye1024/pbwraper.git",
+       {ref,"dc5358a126ba11d41390e946794544abf7e03cf1"}},
+  1}]}.
+[
+{pkg_hash,[
+ {<<"goldrush">>, <<"F06E5D5F1277DA5C413E84D5A2924174182FB108DABB39D5EC548B27424CD106">>}]}
+].

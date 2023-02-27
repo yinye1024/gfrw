@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+
+message svr_error_s2c{
+  required string msg = 1;
+}
+
+message tips_s2c{
+  required p_msg msg = 1;
+}
+
+message p_msg{
+  required uint32 type = 1; //1 飘字提示 2 滚动提示 3 弹窗提示 4 可输入弹窗 5 系统弹窗（无法关闭）
+  required  uint32 id = 2;
+  optional string param = 3;
+}

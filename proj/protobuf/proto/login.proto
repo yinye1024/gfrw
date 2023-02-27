@@ -1,0 +1,72 @@
+syntax = "proto2";
+
+// 链接是否成功激活
+message connect_active_s2c{
+  required int32 result_code = 1;   //1 成功 0 失败
+}
+
+message role_login_c2s{
+  required int32 uid = 1;
+  required string uname = 2;
+  required string plat = 3;
+  required string game_id = 4;
+  required int32 svrId = 6;
+  optional p_machineInfo machine_info = 7;
+}
+message p_machineInfo{
+  optional string device = 1;
+  optional string device_id = 2;
+  optional string device_name = 3;
+}
+
+message role_reconnect_c2s{
+  required int32 client_mid = 1;
+  required int32 svr_mid = 2;
+  required int32 uid = 3;
+  required int32 svr_id = 4;
+}
+message role_reconnect_s2c{
+  required bool need_login = 1;       //是否需要重登，
+  required int32 cur_client_mid = 2;  //服务端补包对应的，当前服务端收到的，当前记录的 client mid
+}
+message reset_gw_mid_c2s{
+  required int32 mid = 1;  //重置玩家网关进程的 client mid
+}
+
+message create_role_c2s{
+  required string name = 1;
+  required int32 gender = 2;
+}
+
+message create_role_s2c{
+  required int32 result_code = 1;   //1 成功 0 失败
+}
+
+message role_login_s2c{
+  required int32 result_code = 1;   //1 成功 0 失败
+  optional int32 main_svr_id = 2;    // 主服id
+  optional bool exist_role = 3;    // 是否存在角色
+}
+
+message role_info_s2c{
+  optional p_roleInfo role_info = 1;    // 角色信息
+}
+
+message p_roleInfo{
+  required int64 role_id = 1;
+  optional string name = 2;
+  optional int32 gender = 3;
+  optional int32 exp = 4;
+  optional int32 level = 5;
+  optional int32 vip = 6;
+}
+
+// 用户登出
+message role_logout_c2s{
+}
+message role_logout_s2c{
+  required int32 code = 1;   //1 用户主动登出 2 系统踢下线 3 心跳超时 4 重连失败
+}
+
+
+

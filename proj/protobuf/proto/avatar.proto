@@ -1,0 +1,41 @@
+syntax = "proto2";
+
+
+message avatar_info_s2c{
+  required string name = 1;
+  required int64 id = 2;
+  optional int32 head = 3;
+  optional int32 head_border = 4;
+  optional int32 level = 5;
+  optional int32 exp = 6;
+  optional int32 vip = 7;
+}
+
+message avatar_info_change_s2c{
+  required string name = 1;
+  required int64 id = 2;
+  optional int32 head_id = 3;
+  optional int32 head_border = 4;
+  optional int32 level = 5;
+  optional int32 exp = 6;
+  optional int32 vip = 7;
+}
+
+message avatar_head_change_s2c{
+  required int32 head_id = 1;
+  required int32 head_border = 2;
+}
+
+message avatar_heart_beat_c2s{
+  required int32 svr_time = 1;  //客户端计算的服务器时间
+}
+message avatar_heart_beat_s2c{
+  required int32 svr_time = 1;  //服务端当前时间
+}
+
+message svr_open_time_c2s{
+}
+message svr_open_time_s2c{
+  required int32 open_time = 1;
+}
+
