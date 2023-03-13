@@ -16,7 +16,7 @@
 -export([proc_init/0]).
 
 -export([inner_mark_send_RecordData/1, inner_mark_send_RecordList/1]).
--export([inner_direct_send_pack/2]).
+-export([inner_direct_send_pack/1]).
 -export([send_error_code/1,send_error_code/2,send_error_code/3]).
 
 proc_init()->
@@ -41,7 +41,7 @@ inner_mark_send_RecordList(S2CDataList) when is_list(S2CDataList)->
 priv_mark_and_pack_list([S2CData|Less],AccList)->
  PackData = priv_mark_and_pack_data(S2CData),
  NewAccList = [PackData|AccList],
- priv_mark_and_pack_list(Less,AccList);
+ priv_mark_and_pack_list(Less,NewAccList);
 priv_mark_and_pack_list([],AccList)->
  AccList.
 
@@ -70,6 +70,6 @@ send_error_code(Type,Id,Param)->
 
 %% 直接发送到网关进程，不计数，不补包
 %% 比方战斗相关的数据包
-inner_direct_send_pack(S2CId,PBufPackData)->
+inner_direct_send_pack(PBufPackData)->
  TcpGen = role_adm_mgr:get_tcp_gen(),
  is_pid(TcpGen) andalso yynw_tcp_gw_api:send(TcpGen,PBufPackData).

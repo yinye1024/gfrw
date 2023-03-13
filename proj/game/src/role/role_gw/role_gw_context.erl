@@ -28,7 +28,6 @@ new()->
 
     svrId =>?NOT_SET,
     roleId=>?NOT_SET,
-    userId =>?NOT_SET,
     time_out_count=>0,
     last_time_out=>?NOT_SET
   }.
@@ -57,7 +56,7 @@ on_reconnect({SvrId,RoleId},ItemMap)->
     roleId=>RoleId
   }.
 
-on_login({Platform,MachineInfo,SvrId,UserId,UserName,RoleId},ItemMap)->
+on_login({_Platform,_MachineInfo,SvrId,_UserId,_UserName,RoleId},ItemMap)->
   ItemMap#{
     svrId =>SvrId,
     roleId=>RoleId

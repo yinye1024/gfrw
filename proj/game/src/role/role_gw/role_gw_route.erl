@@ -45,7 +45,7 @@ route_c2s({gw_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
 route_c2s({gw_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({role_login_c2s,{C2SRD}}),
   #role_login_c2s{uid = UserId,uname = UserName,svrId = SvrId,
-    plat = Platform,game_id = GameId,machine_info = MachineInfo} = C2SRD,
+    plat = Platform,game_id = _GameId,machine_info = MachineInfo} = C2SRD,
   ContextItem_1 =
     case priv_check_user_login_params(C2SRD,ContextItem) of
       ?TRUE ->
@@ -69,7 +69,7 @@ route_c2s({gw_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
   ContextItem_1;
 route_c2s({gw_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({create_role_c2s,{C2SRD}}),
-  #create_role_c2s{name = Name,gender = Gender} = C2SRD,
+%%  #create_role_c2s{name = _Name,gender = _Gender} = C2SRD,
   ContextItem_1 =
     case priv_check_create_role_params(ContextItem) of
       ?TRUE ->

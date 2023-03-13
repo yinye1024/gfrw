@@ -18,7 +18,7 @@
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-new_pojo(RoleId,{UserId,SvrId,Name,Gender})->
+new_pojo(RoleId,{_UserId,_SvrId,_Name,_Gender})->
   #{
     '_id' => RoleId,ver=>0,class=>?MODULE
   }.

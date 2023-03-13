@@ -14,7 +14,7 @@
 -define(ACTIVE_S2CID,1).
 
 %% API functions defined
--export([init/1, loop_5_seconds/0, persistent/0,terminate/1]).
+-export([init/1, loop_tick/0, persistent/0,terminate/1]).
 -export([reconnect/1, route_c2s/1,send_msg/1]).
 -export([login/1,re_login/1]).
 
@@ -23,6 +23,7 @@
 %% API functions implements
 %% =============================================================:======================
 init({RoleId,TcpGen} = _GenArgs)->
+
   role_adm_mgr:init({RoleId,TcpGen}),
   role_proc_db:init(),
   role_pack_mgr:init(),
@@ -30,11 +31,14 @@ init({RoleId,TcpGen} = _GenArgs)->
   gs_role_gen_life_cycle_mgr:data_load(),
   gs_role_gen_life_cycle_mgr:after_data_load(),
 
+  role_ticker_mgr:init(),
+  role_ticker_mgr:add_loop(1,{5,fun gs_role_gen_life_cycle_mgr:loop_5_seconds/0}),
+
   role_online_gen_mgr:reg(RoleId,self()),
   ?OK.
 
-loop_5_seconds()->
-  gs_role_gen_life_cycle_mgr:loop_5_seconds(),
+loop_tick()->
+  role_ticker_mgr:tick(),
   ?OK.
 
 persistent()->

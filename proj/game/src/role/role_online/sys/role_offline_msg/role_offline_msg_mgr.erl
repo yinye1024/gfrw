@@ -43,13 +43,13 @@ clean_week(_RoleId,_LastCleanTime)->
 on_login(_RoleId)->
   ?OK.
 
-
-priv_get_data()->
-  RoleId = role_adm_mgr:get_roleId(),
-  Data = role_offline_msg_pdb_holder:get_data(RoleId),
-  Data.
-
-priv_update_data(MultiData)->
-  NewMultiData = role_offline_msg_pdb_pojo:incr_ver(MultiData),
-  role_offline_msg_pdb_holder:put_data(NewMultiData),
-  ?OK.
+%%
+%%priv_get_data()->
+%%  RoleId = role_adm_mgr:get_roleId(),
+%%  Data = role_offline_msg_pdb_holder:get_data(RoleId),
+%%  Data.
+%%
+%%priv_update_data(MultiData)->
+%%  NewMultiData = role_offline_msg_pdb_pojo:incr_ver(MultiData),
+%%  role_offline_msg_pdb_holder:put_data(NewMultiData),
+%%  ?OK.

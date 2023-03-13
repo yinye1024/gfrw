@@ -31,9 +31,9 @@ stop()->
   game_mongo_gen:do_stop(),
   ?OK.
 
-priv_call_fun({WorkFun,Param})->
-  Result = game_mongo_gen:call_fun({WorkFun,Param}),
-  Result.
+%%priv_call_fun({WorkFun,Param})->
+%%  Result = game_mongo_gen:call_fun({WorkFun,Param}),
+%%  Result.
 priv_cast_fun({WorkFun,Param})->
   game_mongo_gen:cast_fun({WorkFun,Param}),
   ?OK.

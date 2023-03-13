@@ -11,7 +11,7 @@
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
--define(LifeCycleMgrList, [role_mgr:get_mod()]).
+-define(LifeCycleMgrList, [role_mgr:get_mod(),role_res_mgr:get_mod()]).
 %% API
 -export([role_init/0,data_load/0,after_data_load/0,loop_5_seconds/0,clean_midnight/1,clean_week/1,on_login/0]).
 
@@ -38,13 +38,11 @@ loop_5_seconds()->
 
 clean_midnight(LastCleanTime)->
   RoleId = role_adm_mgr:get_roleId(),
-  NowTime = yyu_time:now_seconds(),
   priv_do_fun(?LifeCycleMgrList,clean_midnight,RoleId,LastCleanTime),
   ?OK.
 
 clean_week(LastCleanTime)->
   RoleId = role_adm_mgr:get_roleId(),
-  NowTime = yyu_time:now_seconds(),
   priv_do_fun(?LifeCycleMgrList,clean_week,RoleId,LastCleanTime),
   ?OK.
 

@@ -51,7 +51,7 @@ get_data()->
   Data = role_pdb_holder:get_data(RoleId),
   Data.
 
-priv_update_data(MultiData)->
-  NewMultiData = role_pdb_pojo:incr_ver(MultiData),
-  role_pdb_holder:put_data(NewMultiData),
-  ?OK.
+%%priv_update_data(MultiData)->
+%%  NewMultiData = role_pdb_pojo:incr_ver(MultiData),
+%%  role_pdb_holder:put_data(NewMultiData),
+%%  ?OK.

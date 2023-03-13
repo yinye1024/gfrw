@@ -14,11 +14,11 @@
 
 -define(Class,?MODULE).
 %% API functions defined
--export([new_pojo/2,is_class/1,has_id/1,get_id/1,get_ver/1,incr_ver/1]).
+-export([new_pojo/1,is_class/1,has_id/1,get_id/1,get_ver/1,incr_ver/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-new_pojo(RoleId,{UserId,SvrId,Name,Gender})->
+new_pojo(RoleId)->
   #{
     '_id' => RoleId,ver=>0,class=>?MODULE
   }.

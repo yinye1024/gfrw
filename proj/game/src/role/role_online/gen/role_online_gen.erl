@@ -52,7 +52,7 @@ init({RoleId,TcpGen})->
   erlang:process_flag(trap_exit,true),
   bs_role_online_mgr:init({RoleId,TcpGen}),
 
-  erlang:send_after(?GEN_TICK_SPAN,self(),{loop_5_seconds}),
+  erlang:send_after(?GEN_TICK_SPAN,self(),{loop_tick}),
   erlang:send_after(?GEN_PERSIST_SPAN,self(),{persistent}),
   {?OK,#state{roleId = RoleId}}.
 
@@ -101,9 +101,9 @@ do_handle_info({persistent},State)->
   ?TRY_CATCH(bs_role_online_mgr:persistent()),
   erlang:send_after(?GEN_PERSIST_SPAN,self(),{persistent}),
   {?NO_REPLY,State};
-do_handle_info({loop_5_seconds},State)->
-  ?TRY_CATCH(bs_role_online_mgr:loop_5_seconds()),
-  erlang:send_after(?GEN_TICK_SPAN,self(),{loop_5_seconds}),
+do_handle_info({loop_tick},State)->
+  ?TRY_CATCH(bs_role_online_mgr:loop_tick()),
+  erlang:send_after(?GEN_TICK_SPAN,self(),{loop_tick}),
   {?NO_REPLY,State};
 do_handle_info(Msg,State)->
   case yyu_fun:info_do_fun(Msg) of
