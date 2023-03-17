@@ -26,7 +26,7 @@ update_to_db()->
   glb_role_plrudb_holder:update_to_db(),
   ?OK.
 check_lru()->
-  glb_role_plrudb_holder:check_lru(),
+  glb_role_plrudb_holder:do_lru(),
   ?OK.
 
 
@@ -48,5 +48,6 @@ priv_get_data(RoleId)->
 update_role(GlbRole)->
   NewGlbRole = glb_role_pdb_pojo:incr_ver(GlbRole),
   glb_role_plrudb_holder:put_data(NewGlbRole),
+  s2s_glb_role_adm_mgr:put_data(NewGlbRole),
   ?OK.
 

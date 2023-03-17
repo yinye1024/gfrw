@@ -32,12 +32,12 @@ start_link({RoleId,TcpGen})->
 do_stop(Pid)->
   priv_call(Pid,{stop}).
 
-call_fun(Pid,{Fun,Param})->
-  Msg = ?DO_FUN(Fun,Param),
+call_fun(Pid,{Fun,ParamList}) when is_list(ParamList)->
+  Msg = ?DO_FUN(Fun,ParamList),
   priv_call(Pid,Msg).
 
-cast_fun(Pid,{Fun,Param})->
-  Msg = ?DO_FUN(Fun,Param),
+cast_fun(Pid,{Fun,ParamList}) when is_list(ParamList)->
+  Msg = ?DO_FUN(Fun,ParamList),
   priv_cast(Pid,Msg).
 
 priv_call(Pid,Msg)->

@@ -32,9 +32,9 @@ get_roleId()->
 priv_get_data()->
   Data = role_tpl_pc_dao:get_data(),
   Data.
-priv_update(Data)->
-  role_tpl_pc_dao:put_data(Data),
-  ?OK.
+%%priv_update(Data)->
+%%  role_tpl_pc_dao:put_data(Data),
+%%  ?OK.
 
 
 

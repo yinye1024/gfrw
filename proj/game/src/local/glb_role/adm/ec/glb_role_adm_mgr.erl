@@ -18,7 +18,7 @@
 
 %% API functions defined
 -export([proc_init/0, check_and_clean_expired/0]).
--export([get_data/1]).
+-export([get_data/1,put_data/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -39,7 +39,7 @@ get_data(RoleId)->
         ?NOT_SET ->
           ?NOT_SET;
         RolePdbPojo ->
-          glb_role_ets_time_cache_dao:put_data(RolePdbPojo),
+          put_data(RolePdbPojo),
           RolePdbPojo
       end;
     DataTmp ->
@@ -47,4 +47,6 @@ get_data(RoleId)->
   end,
   Data.
 
-
+put_data(RolePdbPojo)->
+  glb_role_ets_time_cache_dao:put_data(RolePdbPojo),
+  ?OK.

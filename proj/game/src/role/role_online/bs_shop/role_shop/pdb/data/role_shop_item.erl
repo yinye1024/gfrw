@@ -58,7 +58,7 @@ priv_get_lattice_list([LatticeId|Less],ItemMap,AccList)->
       [LatticeItem|AccList]
   end,
   priv_get_lattice_list(Less,ItemMap,AccList_1);
-priv_get_lattice_list([LatticeId|Less],ItemMap,AccList)->
+priv_get_lattice_list([],_ItemMap,AccList)->
   AccList.
 
 get_lattice(LatticeId,ItemMap)->

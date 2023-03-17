@@ -31,7 +31,7 @@ put_lru_data(GlbTplPojo)->
   ?OK.
 
 check_lru()->
-  ExpiredDataMap = yyu_proc_lru_cache_dao:check_lru(?MODULE),
+  ExpiredDataMap = yyu_proc_lru_cache_dao:check_and_remove_expired(?MODULE),
   ExpiredDataMap.
 
 %% 从 check_lru 获得 ExpiredDataMapTmp

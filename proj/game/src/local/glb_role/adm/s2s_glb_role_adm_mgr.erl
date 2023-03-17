@@ -14,7 +14,7 @@
 
 %% API functions defined
 -export([start_sup_link/0, stop/0]).
--export([get_data/1]).
+-export([get_data/1,put_data/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -30,6 +30,9 @@ stop()->
 
 get_data(RoleId)->
   RolePdbPojo = glb_role_adm_mgr:get_data(RoleId),
+  RolePdbPojo.
+put_data(RolePdbPojo)->
+  RolePdbPojo = glb_role_adm_mgr:put_data(RolePdbPojo),
   RolePdbPojo.
 
 %%priv_call_fun(CursorPid,{WorkFun,Param})->

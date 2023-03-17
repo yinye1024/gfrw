@@ -16,8 +16,8 @@
 -define(Class, ?MODULE).
 %% API functions defined
 -export([new_pojo/1, is_class/1, has_id/1, get_id/1, get_ver/1, incr_ver/1]).
--export([get_item/2,put_item/2,rm_item/2]).
--export([get_item_map/1]).
+-export([incr_and_get_itemId/1,put_item/2,rm_item/2]).
+-export([get_item/2,get_item_map/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================

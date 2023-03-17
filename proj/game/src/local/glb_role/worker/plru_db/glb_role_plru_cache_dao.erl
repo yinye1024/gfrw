@@ -13,7 +13,7 @@
 
 %% API functions defined
 -export([proc_init/0]).
--export([get_lru_data/1,put_lru_data/1,check_lru/0, put_back_expired_data/1]).
+-export([get_lru_data/1,put_lru_data/1, check_and_remove_expired/0]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
@@ -30,13 +30,7 @@ put_lru_data(GlbRolePojo)->
   yyu_proc_lru_cache_dao:put_lru_data(?MODULE,RoleId,GlbRolePojo),
   ?OK.
 
-check_lru()->
-  ExpiredDataMap = yyu_proc_lru_cache_dao:check_lru(?MODULE),
+check_and_remove_expired()->
+  ExpiredDataMap = yyu_proc_lru_cache_dao:check_and_remove_expired(?MODULE),
   ExpiredDataMap.
 
-%% 从 check_lru 获得 ExpiredDataMapTmp
-%% ExpiredDataMapTmp 成功操作完，没有得到处理的data重新放入到过期数据里
-%% 等待下一轮处理
-put_back_expired_data(ExpiredDataMap)->
-  yyu_proc_lru_cache_dao:put_back_expired_data(?MODULE,ExpiredDataMap),
-  ?OK.

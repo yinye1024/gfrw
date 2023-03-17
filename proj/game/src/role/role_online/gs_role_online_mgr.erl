@@ -52,9 +52,10 @@ route_c2s(RolePid,C2SMsg) when is_pid(RolePid)->
   priv_cast_fun(RolePid,{fun bs_role_online_mgr:route_c2s/1,[C2SMsg]}),
   ?OK.
 
-route_s2s(RoleIdOrPid,{CastFun,Param})->
-  priv_cast_fun(RoleIdOrPid,{CastFun,Param}),
+route_s2s(RoleIdOrPid,{CastFun,ParamList})->
+  priv_cast_fun(RoleIdOrPid,{CastFun,ParamList}),
   ?OK.
+
 send_data(RoleIdOrRolePid,MsgId,C2SId,BinData)->
   priv_cast_fun(RoleIdOrRolePid,{fun bs_role_online_mgr:send_msg/1,[{MsgId,C2SId,BinData}]}),
   ?OK.
@@ -69,28 +70,28 @@ call_login(RolePid)->
   Result =  priv_call_fun(RolePid,{fun bs_role_online_mgr:login/1,[{}]}),
   Result.
 
-priv_cast_fun(RolePid,{CastFun,Param})when is_pid(RolePid)->
-  role_online_gen:cast_fun(RolePid,{CastFun,Param}),
+priv_cast_fun(RolePid,{CastFun,ParamList})when is_pid(RolePid)->
+  role_online_gen:cast_fun(RolePid,{CastFun,ParamList}),
   ?OK;
-priv_cast_fun(RoleId,{CastFun,Param})->
+priv_cast_fun(RoleId,{CastFun,ParamList})->
   case get_role_pid(RoleId) of
     ?NOT_SET ->
       ?LOG_DEBUG({"role gen not found, id:",RoleId}),
       ?FAIL;
     RolePid->
-      role_online_gen:cast_fun(RolePid,{CastFun,Param}),
+      role_online_gen:cast_fun(RolePid,{CastFun,ParamList}),
       ?OK
   end.
-priv_call_fun(RolePid,{CastFun,Param})when is_pid(RolePid)->
-  role_online_gen:call_fun(RolePid,{CastFun,Param}),
+priv_call_fun(RolePid,{CastFun,ParamList})when is_pid(RolePid)->
+  role_online_gen:call_fun(RolePid,{CastFun,ParamList}),
   ?OK;
-priv_call_fun(RoleId,{CastFun,Param})->
+priv_call_fun(RoleId,{CastFun,ParamList})->
   case get_role_pid(RoleId) of
     ?NOT_SET ->
       ?LOG_DEBUG({"role gen not found, id:",RoleId}),
       ?FAIL;
     RolePid->
-      role_online_gen:call_fun(RolePid,{CastFun,Param}),
+      role_online_gen:call_fun(RolePid,{CastFun,ParamList}),
       ?OK
   end.
 

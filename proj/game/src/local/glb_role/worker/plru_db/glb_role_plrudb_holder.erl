@@ -13,7 +13,7 @@
 
 
 %% API functions defined
--export([proc_init/0,update_to_db/0,check_lru/0]).
+-export([proc_init/0,update_to_db/0,do_lru/0]).
 -export([get_data/1, put_data/1]).
 
 %% ===================================================================================
@@ -29,23 +29,16 @@ update_to_db()->
   glb_role_proc_db:update_to_db(),
   ?OK.
 
-check_lru()->
-  ExpiredDataMap = glb_role_plru_cache_dao:check_lru(),
-  LeftExpiredDataMap = priv_clean_expired_data(yyu_map:to_kv_list(ExpiredDataMap),yyu_map:new_map()),
-  glb_role_plru_cache_dao:put_back_expired_data(LeftExpiredDataMap),
+do_lru()->
+  ExpiredDataMap = glb_role_plru_cache_dao:check_and_remove_expired(),
+  priv_clean_expired_data(yyu_map:to_kv_list(ExpiredDataMap)),
   ?OK.
-priv_clean_expired_data([{DataId,Data}|Less],AccUnhandledMap)->
-  AccUnhandledMap_1 =
-  case glb_role_pdb_holder:is_data_dirty(DataId) of
-    ?TRUE ->
-      glb_role_pdb_holder:remove_data(DataId),
-      AccUnhandledMap;
-    ?FALSE ->
-      yyu_map:put_value(DataId,Data,AccUnhandledMap)
-  end,
-  priv_clean_expired_data(Less,AccUnhandledMap_1);
-priv_clean_expired_data([],AccUnhandledMap)->
-  AccUnhandledMap.
+priv_clean_expired_data([{RoleId,_Data}|Less])->
+  glb_role_proc_db:update_to_db(RoleId),
+  glb_role_pdb_holder:remove_data(RoleId),
+  priv_clean_expired_data(Less);
+priv_clean_expired_data([])->
+  ?OK.
 
 get_data(RoleId)->
   Data =
