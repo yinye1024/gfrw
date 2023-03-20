@@ -43,7 +43,7 @@ stop_all()->
 priv_stop_all(GenId)when GenId < ?MaxGenCount->
   priv_stop(GenId),
   priv_stop_all(GenId+1);
-priv_stop_all(GenId)->
+priv_stop_all(_GenId)->
   ?OK.
 
 priv_stop(GenId) when is_integer(GenId)->

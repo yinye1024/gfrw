@@ -68,7 +68,7 @@ get_lattice(LatticeId,ItemMap)->
 
 put_lattice_list([LatticeItem|Less],ItemMap)->
   ItemMap_1 = put_lattice(LatticeItem,ItemMap),
-  put_lattice_list(Less,ItemMap);
+  put_lattice_list(Less,ItemMap_1);
 put_lattice_list([],ItemMap)->
   ItemMap.
 
