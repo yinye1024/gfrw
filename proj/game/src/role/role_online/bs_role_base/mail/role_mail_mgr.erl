@@ -8,77 +8,70 @@
 %%%-------------------------------------------------------------------
 -module(role_mail_mgr).
 -author("yinye").
--behavior(role_mgr_behaviour).
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API functions defined
--export([get_mod/0]).
-
--export([role_init/1,data_load/1,after_data_load/1,loop_5_seconds/2,clean_midnight/2,clean_week/2,on_login/1]).
--export([notify_new_mail/0, cb_on_Get_All_Mail/1]).
+-export([get_all_mail/0,notify_new_mail/0, cb_on_get_all_mail/1]).
+-export([on_mail_read/1,on_mail_extract/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-get_mod()->?MODULE.
-
-%% 角色创建，或者角色进程初始化的时候执行
-role_init(_RoleId)->
-  ?OK.
-%% 角色进程初始化的时候执行
-data_load(_RoleId)->
-  ?OK.
-%% 角色进程初始化，data_load 后执行
-after_data_load(_RoleId)->
-  ?OK.
-%% 大约每隔5秒执行一次，具体执行情况要看是否有消息堆积
-loop_5_seconds(_RoleId,_NowTime)->
-  ?OK.
-%% 跨天执行,一般是一些清理业务
-clean_midnight(_RoleId,_LastCleanTime)->
-  ?OK.
-%% 跨周执行,一般是一些清理业务
-clean_week(_RoleId,_LastCleanTime)->
-  ?OK.
-%% 玩家登陆的时候执行
-on_login(_RoleId)->
-  handle_mail(),
-  ?OK.
-
-
 notify_new_mail()->
+  get_all_mail(),
   ?OK.
-handle_mail()->
+
+get_all_mail()->
   RoleId = role_adm_mgr:get_roleId(),
   LocalCbPojo = role_mail_cb_handler:get_cb_on_Get_All_Mail(),
   lc_mail_app_api:get_data(RoleId,LocalCbPojo),
   ?OK.
 
-cb_on_Get_All_Mail(MailPojo)->
+cb_on_get_all_mail(MailPojo)->
   RoleId = role_adm_mgr:get_roleId(),
-  MailItemList = lc_mail_pojo:get_mail_list(MailPojo),
+  LcMailItemList = lc_mail_pojo:get_mail_list(MailPojo),
   NewLastIndex = lc_mail_pojo:get_mail_index(MailPojo),
 
   RoleMailData = priv_get_data(),
   LastIndex = role_mail_pdb_pojo:get_last_index(RoleMailData),
-  MailItemList_1 = priv_get_new_mailList(MailItemList,LastIndex,[]),
+  RoleMailItemList_1 = priv_get_new_role_mailList(LcMailItemList,LastIndex,[]),
   RoleMailData_1 = role_mail_pdb_pojo:set_last_index(NewLastIndex,RoleMailData),
-  RoleMailData_2 = role_mail_pdb_pojo:put_mailList(MailItemList_1,RoleMailData_1),
+  RoleMailData_2 = role_mail_pdb_pojo:put_mailList(RoleMailItemList_1,RoleMailData_1),
   priv_update_data(RoleMailData_2),
   %% 通知 lc mail 移除已完成的mail
   lc_mail_app_api:remove_by_index(RoleId,NewLastIndex),
   ?OK.
-priv_get_new_mailList([MailItem|Less],LastIndex,AccItemList) ->
+priv_get_new_role_mailList([LcMailItem |Less],LastIndex,AccItemList) ->
   AccItemList_1 =
-  case lc_mail_item:get_index(MailItem) > LastIndex of
+  case lc_mail_item:get_index(LcMailItem) > LastIndex of
     ?TRUE ->
-      [MailItem|AccItemList];
+      RoleMailItem = lc_mail_item:to_role_mail(LcMailItem),
+      [RoleMailItem|AccItemList];
     ?FALSE -> AccItemList
   end,
-  priv_get_new_mailList(Less,LastIndex,AccItemList_1);
-priv_get_new_mailList([],_LastIndex,AccItemList) ->
+  priv_get_new_role_mailList(Less,LastIndex,AccItemList_1);
+priv_get_new_role_mailList([],_LastIndex,AccItemList) ->
     AccItemList.
 
+on_mail_read(MailId)->
+  RoleMailData = priv_get_data(),
+  RoleMailItem = role_mail_pdb_pojo:get_mail(MailId,RoleMailData),
+  RoleMailItem_1 = role_mail_item:on_read(RoleMailItem),
+  RoleMailData_1 = role_mail_pdb_pojo:update_mail(RoleMailItem_1,RoleMailData),
+  priv_update_data(RoleMailData_1),
+  ?OK.
+
+on_mail_extract(MailId)->
+  RoleMailData = priv_get_data(),
+  RoleMailItem = role_mail_pdb_pojo:get_mail(MailId,RoleMailData),
+  AttachItemList = role_mail_item:get_attach_item_list(RoleMailItem),
+  RoleMailItem_1 = role_mail_item:on_extract(RoleMailItem),
+  RoleMailData_1 = role_mail_pdb_pojo:update_mail(RoleMailItem_1,RoleMailData),
+  priv_update_data(RoleMailData_1),
+
+  %% 更新状态再读取附件，避免出错的时候会重复读取附件，
+  yyu_list:foreach(fun(AttachItem) -> role_mail_attach_agent:do_attach(AttachItem) end,AttachItemList),
+  ?OK.
 
 priv_get_data()->
   RoleId = role_adm_mgr:get_roleId(),

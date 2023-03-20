@@ -16,7 +16,7 @@
 %% API functions defined
 -export([new_pojo/1,is_class/1,has_id/1,get_id/1,get_ver/1,incr_ver/1]).
 -export([get_last_index/1,set_last_index/2]).
--export([get_mail/2, put_mailList/2]).
+-export([get_mail/2, update_mail/2,put_mailList/2]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
@@ -24,7 +24,7 @@ new_pojo(RoleId)->
   #{
     '_id' => RoleId,ver=>0,class=>?MODULE,
     last_index => 0,     %% 最后处理的 index，> index 的mail认为是新的，需要处理的
-    mail_map => yyu_map:new_map()  %%{MailIndex,MailItem}
+    mail_map => yyu_map:new_map()  %%{MailId,role_mail_item}
   }.
 
 is_class(ItemMap)->
@@ -53,15 +53,21 @@ get_mail(MailIndex,ItemMap)->
   MailMap = priv_get_mail_map(ItemMap),
   yyu_map:get_value(MailIndex,MailMap).
 
-put_mailList(LcMailItemList,ItemMap)->
+update_mail(MailItem,ItemMap)->
   MailMap = priv_get_mail_map(ItemMap),
-  MailMap_1 = priv_put_mail(LcMailItemList,MailMap),
+  MailId = role_mail_item:get_id(MailItem),
+  MailMap_1 = yyu_map:put_value(MailId,MailItem,MailMap),
   priv_set_mail_map(MailMap_1,ItemMap).
 
-priv_put_mail([LcMailItem|Less],AccMailMap)->
-  AccMailMap_1 = yyu_map:put_value(lc_mail_item:get_index(LcMailItem),LcMailItem,AccMailMap),
-  priv_put_mail(Less,AccMailMap_1);
-priv_put_mail([],AccMailMap)->
+put_mailList(LcMailItemList,ItemMap)->
+  MailMap = priv_get_mail_map(ItemMap),
+  MailMap_1 = priv_put_mailList(LcMailItemList,MailMap),
+  priv_set_mail_map(MailMap_1,ItemMap).
+
+priv_put_mailList([LcMailItem|Less],AccMailMap)->
+  AccMailMap_1 = yyu_map:put_value(role_mail_item:get_id(LcMailItem),LcMailItem,AccMailMap),
+  priv_put_mailList(Less,AccMailMap_1);
+priv_put_mailList([],AccMailMap)->
   AccMailMap.
 
 

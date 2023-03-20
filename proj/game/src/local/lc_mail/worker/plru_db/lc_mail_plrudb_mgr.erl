@@ -30,15 +30,15 @@ check_lru()->
   ?OK.
 
 
-add_mail({RoleId,mail})->
+add_mail({RoleId,Mail})->
   Mail = priv_get_data(RoleId),
-  NewMail = lc_mail_pojo:add_mail(mail,Mail),
+  NewMail = lc_mail_pojo:add_mail(Mail,Mail),
   priv_update_mail(NewMail),
   ?OK.
 
-remove_by_index({RoleId,mailIndex})->
+remove_by_index({RoleId,MailIndex})->
   Mail = priv_get_data(RoleId),
-  NewMail = lc_mail_pojo:remove_by_index(mailIndex,Mail),
+  NewMail = lc_mail_pojo:remove_by_index(MailIndex,Mail),
   priv_update_mail(NewMail),
   ?OK.
 

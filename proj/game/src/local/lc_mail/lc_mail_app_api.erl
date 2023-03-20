@@ -45,9 +45,9 @@ get_data(RoleId,LocalCbPojo)->
   s2s_lc_mail_worker_mgr:get_all_mail(RoleId,LocalCbPojo),
   ?OK.
 
-add_mail(RoleId,mail)->
-  s2s_lc_mail_worker_mgr:add_mail(RoleId,mail),
+add_mail(RoleId,Mail)->
+  s2s_lc_mail_worker_mgr:add_mail(RoleId,Mail),
   ?OK.
-remove_by_index(RoleId,mailIndex)->
-  s2s_lc_mail_worker_mgr:remove_by_index(RoleId,mailIndex),
+remove_by_index(RoleId,MailIndex)->
+  s2s_lc_mail_worker_mgr:remove_by_index(RoleId,MailIndex),
   ?OK.

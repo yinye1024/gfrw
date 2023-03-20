@@ -50,11 +50,11 @@ priv_stop(GenId) when is_integer(GenId)->
   gs_lc_mail_worker_mgr:stop(GenId),
   ?OK.
 
-add_mail(RoleId,mail)->
-  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:add_mail/1,[{RoleId,mail}]}),
+add_mail(RoleId,Mail)->
+  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:add_mail/1,[{RoleId,Mail}]}),
   ?OK.
-remove_by_index(RoleId,mailIndex)->
-  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:remove_by_index/1,[{RoleId,mailIndex}]}),
+remove_by_index(RoleId,MailIndex)->
+  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:remove_by_index/1,[{RoleId,MailIndex}]}),
   ?OK.
 
 get_all_mail(RoleId,LocalCbPojo)->

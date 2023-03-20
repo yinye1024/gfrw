@@ -35,10 +35,10 @@ incr_ver(ItemMap) ->
   NewVer = yyu_misc:incr_ver(CurVer),
   yyu_map:put_value(ver, NewVer, ItemMap).
 
-add_mail(mail,ItemMap) ->
+add_mail(Mail,ItemMap) ->
   {NextIndex,ItemMap_1} = priv_incr_and_get_nextId(ItemMap),
-  mailItem = lc_mail_item:new_pojo(NextIndex,mail),
-  ItemMap_2 = priv_add_mail_item(mailItem,ItemMap_1),
+  MailItem = lc_mail_item:new_pojo(NextIndex,Mail),
+  ItemMap_2 = priv_add_mail_item(MailItem,ItemMap_1),
   ItemMap_2.
 
 get_mail_list(ItemMap) ->
@@ -60,9 +60,9 @@ get_mail_index(ItemMap) ->
 priv_set_mail_index(Value, ItemMap) ->
   yyu_map:put_value(mail_index, Value, ItemMap).
 
-priv_add_mail_item(mailItem,ItemMap)->
+priv_add_mail_item(MailItem,ItemMap)->
   List = priv_get_mail_list(ItemMap),
-  priv_set_mail_list([mailItem|List],ItemMap).
+  priv_set_mail_list([MailItem|List],ItemMap).
 priv_get_mail_list(ItemMap) ->
   yyu_map:get_value(mail_list, ItemMap).
 priv_set_mail_list(Value, ItemMap) ->

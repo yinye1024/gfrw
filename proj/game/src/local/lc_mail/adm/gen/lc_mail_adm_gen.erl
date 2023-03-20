@@ -34,17 +34,17 @@ do_stop()->
   priv_call({stop}).
 
 call_fun({Fun,Param})->
-  mail = ?DO_FUN(Fun,Param),
-  priv_call(mail).
+  Mail = ?DO_FUN(Fun,Param),
+  priv_call(Mail).
 
 cast_fun({Fun,Param})->
-  mail = ?DO_FUN(Fun,Param),
-  priv_cast(mail).
+  Mail = ?DO_FUN(Fun,Param),
+  priv_cast(Mail).
 
-priv_call(mail)->
-  gen_server:call(?MODULE,mail,?GEN_CALL_TIMEOUT).
-priv_cast(mail)->
-  gen_server:cast(?MODULE,mail).
+priv_call(Mail)->
+  gen_server:call(?MODULE,Mail,?GEN_CALL_TIMEOUT).
+priv_cast(Mail)->
+  gen_server:cast(?MODULE,Mail).
 
 %% ===================================================================================
 %% Behavioural functions implements
@@ -64,33 +64,33 @@ terminate(Reason,_State=#state{})->
 code_change(_OldVsn,State,_Extra)->
   {?OK,State}.
 
-handle_call(mail,_From,State)->
-  ?DO_HANDLE_CALL(mail,State).
+handle_call(Mail,_From,State)->
+  ?DO_HANDLE_CALL(Mail,State).
 
-handle_cast(mail,State)->
-  ?DO_HANDLE_CAST(mail,State).
+handle_cast(Mail,State)->
+  ?DO_HANDLE_CAST(Mail,State).
 
-handle_info(mail,State)->
-  ?DO_HANDLE_INFO(mail,State).
+handle_info(Mail,State)->
+  ?DO_HANDLE_INFO(Mail,State).
 
 %% ===================================================================================
 %% internal functions implements
 %% ===================================================================================
 do_handle_call({stop},State)->
   {?STOP,?NORMAL,?OK,State};
-do_handle_call(mail,State)->
+do_handle_call(Mail,State)->
   Reply =
-    case yyu_fun:call_do_fun(mail) of
-      ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[mail]}),
+    case yyu_fun:call_do_fun(Mail) of
+      ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[Mail]}),
         ?UNKNOWN;
       Result->Result
     end,
   {?REPLY,Reply,State}.
 
 
-do_handle_cast(mail,State)->
-  case yyu_fun:cast_do_fun(mail) of
-    ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[mail]});
+do_handle_cast(Mail,State)->
+  case yyu_fun:cast_do_fun(Mail) of
+    ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[Mail]});
     _->?OK
   end,
   {?NO_REPLY,State}.
@@ -105,9 +105,9 @@ do_handle_info({loop_tick},State)->
   ?TRY_CATCH(bs_lc_mail_adm_mgr:loop_tick()),
   erlang:send_after(?GEN_TICK_SPAN,self(),{loop_tick}),
   {?NO_REPLY,State};
-do_handle_info(mail,State)->
-  case yyu_fun:info_do_fun(mail) of
-    ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[mail]});
+do_handle_info(Mail,State)->
+  case yyu_fun:info_do_fun(Mail) of
+    ?UNKNOWN -> ?LOG_WARNING({"unknown info fun",[Mail]});
     _->?OK
   end,
   {?NO_REPLY,State}.

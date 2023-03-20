@@ -6,29 +6,29 @@
 %%% @end
 %%% Created : 25. 四月 2021 19:45
 %%%-------------------------------------------------------------------
--module(role_mail_cb_handler).
+-module(role_mail_attach_data).
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
--define(Get_All_Mail,1).
+
 %% API functions defined
--export([handle_callback/1]).
--export([get_cb_on_Get_All_Mail/0]).
+-export([new_item/2]).
+-export([get_type/1, get_data/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-handle_callback({?Get_All_Mail,CbParam})->
-  role_mail_life_cycle:cb_on_Get_All_Mail(CbParam),
-  ?OK;
-handle_callback({LocalParam,CbParam})->
-  ?LOG_ERROR({"unknow callback:",LocalParam,CbParam}),
-  ?OK.
+new_item(Type,Data)->
+  #{
+    type => Type,
+    data =>Data
+  }.
 
-get_cb_on_Get_All_Mail()->
-  Cb = yyu_local_callback_pojo:new_cb(priv_get_cbfun(),?Get_All_Mail),
-  Cb.
 
-priv_get_cbfun()->
-  fun s2s_role_mail_mgr:callback_from_lc_mail/2.
+get_type(ItemMap) ->
+  yyu_map:get_value(type, ItemMap).
+
+get_data(ItemMap) ->
+  yyu_map:get_value(data, ItemMap).
+
