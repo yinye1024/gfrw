@@ -76,7 +76,7 @@ priv_handle_msg_item([MsgItem|Less],LastIndex) ->
     ?FALSE ->?OK
   end,
   priv_handle_msg_item(Less,LastIndex);
-priv_handle_msg_item([],LastIndex) ->
+priv_handle_msg_item([],_LastIndex) ->
   ?OK.
 
 

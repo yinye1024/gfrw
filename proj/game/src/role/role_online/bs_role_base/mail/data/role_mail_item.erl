@@ -16,7 +16,7 @@
 -export([new_pojo/3]).
 -export([get_id/1,set_id/2]).
 -export([get_type/1, get_send_id/1, get_send_time/1, get_title/1, get_content/1, get_attach_item_list/1]).
--export([on_read/1, on_extract/1]).
+-export([on_read/1, is_read/1,on_extract/1,is_extract/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
@@ -66,13 +66,13 @@ get_content(ItemMap) ->
 get_attach_item_list(ItemMap) ->
   yyu_map:get_value(attach_item_list, ItemMap).
 
-priv_get_is_read(ItemMap) ->
+is_read(ItemMap) ->
   yyu_map:get_value(is_read, ItemMap).
 
 priv_set_is_read(Value, ItemMap) ->
   yyu_map:put_value(is_read, Value, ItemMap).
 
-priv_get_is_extract(ItemMap) ->
+is_extract(ItemMap) ->
   yyu_map:get_value(is_extract, ItemMap).
 
 priv_set_is_extract(Value, ItemMap) ->

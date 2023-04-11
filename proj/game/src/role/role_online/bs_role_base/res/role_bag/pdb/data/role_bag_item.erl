@@ -54,9 +54,9 @@ add_count(Count,MaxCount,ItemMap)->
   {LeftCount,ItemMap_1} =
   case CurCount + Count > MaxCount of
     ?TRUE ->
-      {CurCount+Count-MaxCount,role_bag_item:priv_set_count(MaxCount, ItemMap)};
+      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(MaxCount, ItemMap)};
     ?FALSE ->
-      {CurCount+Count-MaxCount,role_bag_item:priv_set_count(CurCount + Count, ItemMap)}
+      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(CurCount + Count, ItemMap)}
   end,
   {LeftCount,ItemMap_1}.
 

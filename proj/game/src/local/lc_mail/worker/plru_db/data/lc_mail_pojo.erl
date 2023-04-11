@@ -10,21 +10,24 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
-
+-define(Class,?MODULE).
 %% API functions defined
--export([new_pojo/1,get_id/1,get_ver/1,incr_ver/1]).
+-export([new_pojo/1,is_class/1,has_id/1,get_id/1,get_ver/1,incr_ver/1]).
 -export([add_mail/2,remove_by_index/2,get_mail_list/1,get_mail_index/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-new_pojo(Id)->
+new_pojo(RoleId)->
   #{
-    '_id' => Id,
-    ver=>0,
+    '_id' => RoleId,ver=>0,class=>?MODULE,
     mail_index => 0,
     mail_list => []
   }.
 
+is_class(ItemMap)->
+  yyu_map:get_value(class,ItemMap) == ?Class.
+has_id(ItemMap)->
+  get_id(ItemMap) =/= ?NOT_SET.
 get_id(ItemMap) ->
   yyu_map:get_value('_id', ItemMap).
 

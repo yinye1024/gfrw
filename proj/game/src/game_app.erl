@@ -20,7 +20,9 @@ start(_StartType, _StartArgs) ->
     %% 启动mongodb服务
     gs_game_mongo_mgr:init(),
 
-    %%启动玩家服务，监听网关端口
+    %% 后台 http 管理服务端口
+    adm_httpd_starter:start_svr(10091,10),
+    %%启动玩家进程服务，开启网关端口
     role_app_starter:start_svr(10090),
 
     game_sup:start_link().

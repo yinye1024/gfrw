@@ -37,6 +37,16 @@ priv_c2s(?ROLE_LOGOUT_C2S)->{role_c2s_handler,login_pb,role_logout_c2s};
 
 %%avatar.proto
 priv_c2s(?AVATAR_HEART_BEAT_C2S)->{gw_c2s_handler,avatar_pb,avatar_heart_beat_c2s};
+priv_c2s(?AVATAR_HEAD_CHANGE_C2S)->{avatar_c2s_handler,avatar_pb,avatar_head_change_c2s};
+priv_c2s(?SVR_OPEN_TIME_C2S)->{avatar_c2s_handler,avatar_pb,svr_open_time_c2s};
+
+%%friend.proto
+priv_c2s(?FRIEND_APPLY_LIST_C2S)->{friend_c2s_handler,friend_pb,friend_apply_list_c2s};
+priv_c2s(?FRIEND_NEW_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_new_apply_c2s};
+priv_c2s(?FRIEND_NEW_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_handle_apply_c2s};
+
+
+
 
 priv_c2s(_)->{unknown_c2s_handler}.
 
@@ -54,5 +64,14 @@ priv_s2c(role_login_s2c)->{?ROLE_LOGIN_S2C,login_pb};
 priv_s2c(role_reconnect_s2c)->{?ROLE_RECONNECT_S2C,login_pb};
 priv_s2c(role_logout_s2c)->{?ROLE_LOGOUT_S2C,login_pb};
 priv_s2c(role_info_s2c)->{?ROLE_INFO_S2C,login_pb};
+
+%%avatar.proto
+priv_s2c(avatar_head_change_s2c)->{?AVATAR_HEAD_CHANGE_S2C,avatar_pb};
+priv_s2c(svr_open_time_s2c)->{?SVR_OPEN_TIME_S2C,avatar_pb};
+
+%%friend.proto
+priv_s2c(friend_apply_list_s2c)->{?FRIEND_APPLY_LIST_S2C,friend_pb};
+priv_s2c(friend_new_apply_s2c)->{?FRIEND_NEW_APPLY_S2C,friend_pb};
+priv_s2c(friend_handle_apply_s2c)->{?FRIEND_HANDLE_APPLY_S2C,friend_pb};
 
 priv_s2c(UnknownRecord)->yyu_error:throw_error({unknown_s2c_record,UnknownRecord}).

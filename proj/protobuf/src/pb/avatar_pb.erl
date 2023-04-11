@@ -58,6 +58,8 @@
 
 -type avatar_info_change_s2c() :: #avatar_info_change_s2c{}.
 
+-type avatar_head_change_c2s() :: #avatar_head_change_c2s{}.
+
 -type avatar_head_change_s2c() :: #avatar_head_change_s2c{}.
 
 -type avatar_heart_beat_c2s() :: #avatar_heart_beat_c2s{}.
@@ -68,9 +70,9 @@
 
 -type svr_open_time_s2c() :: #svr_open_time_s2c{}.
 
--export_type(['avatar_info_s2c'/0, 'avatar_info_change_s2c'/0, 'avatar_head_change_s2c'/0, 'avatar_heart_beat_c2s'/0, 'avatar_heart_beat_s2c'/0, 'svr_open_time_c2s'/0, 'svr_open_time_s2c'/0]).
--type '$msg_name'() :: avatar_info_s2c | avatar_info_change_s2c | avatar_head_change_s2c | avatar_heart_beat_c2s | avatar_heart_beat_s2c | svr_open_time_c2s | svr_open_time_s2c.
--type '$msg'() :: avatar_info_s2c() | avatar_info_change_s2c() | avatar_head_change_s2c() | avatar_heart_beat_c2s() | avatar_heart_beat_s2c() | svr_open_time_c2s() | svr_open_time_s2c().
+-export_type(['avatar_info_s2c'/0, 'avatar_info_change_s2c'/0, 'avatar_head_change_c2s'/0, 'avatar_head_change_s2c'/0, 'avatar_heart_beat_c2s'/0, 'avatar_heart_beat_s2c'/0, 'svr_open_time_c2s'/0, 'svr_open_time_s2c'/0]).
+-type '$msg_name'() :: avatar_info_s2c | avatar_info_change_s2c | avatar_head_change_c2s | avatar_head_change_s2c | avatar_heart_beat_c2s | avatar_heart_beat_s2c | svr_open_time_c2s | svr_open_time_s2c.
+-type '$msg'() :: avatar_info_s2c() | avatar_info_change_s2c() | avatar_head_change_c2s() | avatar_head_change_s2c() | avatar_heart_beat_c2s() | avatar_heart_beat_s2c() | svr_open_time_c2s() | svr_open_time_s2c().
 -export_type(['$msg_name'/0, '$msg'/0]).
 
 -spec encode_msg('$msg'()) -> binary().
@@ -90,6 +92,7 @@ encode_msg(Msg, MsgName, Opts) ->
     case MsgName of
       avatar_info_s2c -> encode_msg_avatar_info_s2c(id(Msg, TrUserData), TrUserData);
       avatar_info_change_s2c -> encode_msg_avatar_info_change_s2c(id(Msg, TrUserData), TrUserData);
+      avatar_head_change_c2s -> encode_msg_avatar_head_change_c2s(id(Msg, TrUserData), TrUserData);
       avatar_head_change_s2c -> encode_msg_avatar_head_change_s2c(id(Msg, TrUserData), TrUserData);
       avatar_heart_beat_c2s -> encode_msg_avatar_heart_beat_c2s(id(Msg, TrUserData), TrUserData);
       avatar_heart_beat_s2c -> encode_msg_avatar_heart_beat_s2c(id(Msg, TrUserData), TrUserData);
@@ -142,11 +145,30 @@ encode_msg_avatar_info_change_s2c(#avatar_info_change_s2c{name = F1, id = F2, he
        true -> begin TrF7 = id(F7, TrUserData), e_type_int32(TrF7, <<B6/binary, 56>>, TrUserData) end
     end.
 
+encode_msg_avatar_head_change_c2s(Msg, TrUserData) -> encode_msg_avatar_head_change_c2s(Msg, <<>>, TrUserData).
+
+
+encode_msg_avatar_head_change_c2s(#avatar_head_change_c2s{head_id = F1, head_border = F2}, Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true -> begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end
+	 end,
+    if F2 == undefined -> B1;
+       true -> begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end
+    end.
+
 encode_msg_avatar_head_change_s2c(Msg, TrUserData) -> encode_msg_avatar_head_change_s2c(Msg, <<>>, TrUserData).
 
 
-encode_msg_avatar_head_change_s2c(#avatar_head_change_s2c{head_id = F1, head_border = F2}, Bin, TrUserData) ->
-    B1 = begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end, begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end.
+encode_msg_avatar_head_change_s2c(#avatar_head_change_s2c{result = F1, head_id = F2, head_border = F3}, Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true -> begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true -> begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end
+	 end,
+    if F3 == undefined -> B2;
+       true -> begin TrF3 = id(F3, TrUserData), e_type_int32(TrF3, <<B2/binary, 24>>, TrUserData) end
+    end.
 
 encode_msg_avatar_heart_beat_c2s(Msg, TrUserData) -> encode_msg_avatar_heart_beat_c2s(Msg, <<>>, TrUserData).
 
@@ -261,6 +283,7 @@ decode_msg_1_catch(Bin, MsgName, TrUserData) ->
 
 decode_msg_2_doit(avatar_info_s2c, Bin, TrUserData) -> id(decode_msg_avatar_info_s2c(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(avatar_info_change_s2c, Bin, TrUserData) -> id(decode_msg_avatar_info_change_s2c(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(avatar_head_change_c2s, Bin, TrUserData) -> id(decode_msg_avatar_head_change_c2s(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(avatar_head_change_s2c, Bin, TrUserData) -> id(decode_msg_avatar_head_change_s2c(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(avatar_heart_beat_c2s, Bin, TrUserData) -> id(decode_msg_avatar_heart_beat_c2s(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(avatar_heart_beat_s2c, Bin, TrUserData) -> id(decode_msg_avatar_heart_beat_s2c(Bin, TrUserData), TrUserData);
@@ -438,50 +461,101 @@ skip_32_avatar_info_change_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_
 
 skip_64_avatar_info_change_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, F@_7, TrUserData) -> dfp_read_field_def_avatar_info_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, F@_7, TrUserData).
 
-decode_msg_avatar_head_change_s2c(Bin, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_avatar_head_change_c2s(Bin, TrUserData) -> dfp_read_field_def_avatar_head_change_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_avatar_head_change_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_avatar_head_change_s2c_head_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_avatar_head_change_s2c(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_avatar_head_change_s2c_head_border(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_avatar_head_change_s2c(<<>>, 0, 0, _, F@_1, F@_2, _) -> #avatar_head_change_s2c{head_id = F@_1, head_border = F@_2};
-dfp_read_field_def_avatar_head_change_s2c(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_avatar_head_change_s2c(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
+dfp_read_field_def_avatar_head_change_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_avatar_head_change_c2s_head_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_avatar_head_change_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_avatar_head_change_c2s_head_border(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_avatar_head_change_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #avatar_head_change_c2s{head_id = F@_1, head_border = F@_2};
+dfp_read_field_def_avatar_head_change_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_avatar_head_change_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-dg_read_field_def_avatar_head_change_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_avatar_head_change_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-dg_read_field_def_avatar_head_change_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
+dg_read_field_def_avatar_head_change_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_avatar_head_change_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+dg_read_field_def_avatar_head_change_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_avatar_head_change_s2c_head_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
-      16 -> d_field_avatar_head_change_s2c_head_border(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      8 -> d_field_avatar_head_change_c2s_head_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      16 -> d_field_avatar_head_change_c2s_head_border(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    1 -> skip_64_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    2 -> skip_length_delimited_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    3 -> skip_group_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    5 -> skip_32_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
+	    0 -> skip_varint_avatar_head_change_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    1 -> skip_64_avatar_head_change_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    2 -> skip_length_delimited_avatar_head_change_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    3 -> skip_group_avatar_head_change_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    5 -> skip_32_avatar_head_change_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
 	  end
     end;
-dg_read_field_def_avatar_head_change_s2c(<<>>, 0, 0, _, F@_1, F@_2, _) -> #avatar_head_change_s2c{head_id = F@_1, head_border = F@_2}.
+dg_read_field_def_avatar_head_change_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #avatar_head_change_c2s{head_id = F@_1, head_border = F@_2}.
 
-d_field_avatar_head_change_s2c_head_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_avatar_head_change_s2c_head_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_avatar_head_change_s2c_head_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_s2c(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
+d_field_avatar_head_change_c2s_head_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_avatar_head_change_c2s_head_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_avatar_head_change_c2s_head_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_c2s(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
 
-d_field_avatar_head_change_s2c_head_border(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_avatar_head_change_s2c_head_border(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_avatar_head_change_s2c_head_border(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_s2c(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
+d_field_avatar_head_change_c2s_head_border(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_avatar_head_change_c2s_head_border(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_avatar_head_change_c2s_head_border(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_c2s(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
 
-skip_varint_avatar_head_change_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-skip_varint_avatar_head_change_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_varint_avatar_head_change_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_avatar_head_change_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+skip_varint_avatar_head_change_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_length_delimited_avatar_head_change_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_avatar_head_change_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-skip_length_delimited_avatar_head_change_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
-    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_avatar_head_change_s2c(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
+skip_length_delimited_avatar_head_change_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_avatar_head_change_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+skip_length_delimited_avatar_head_change_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_avatar_head_change_c2s(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
 
-skip_group_avatar_head_change_s2c(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_avatar_head_change_s2c(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
+skip_group_avatar_head_change_c2s(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_avatar_head_change_c2s(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
 
-skip_32_avatar_head_change_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_32_avatar_head_change_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_64_avatar_head_change_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_64_avatar_head_change_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_avatar_head_change_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+
+decode_msg_avatar_head_change_s2c(Bin, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+
+dfp_read_field_def_avatar_head_change_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_avatar_head_change_s2c_result(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_avatar_head_change_s2c(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_avatar_head_change_s2c_head_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_avatar_head_change_s2c(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_avatar_head_change_s2c_head_border(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_avatar_head_change_s2c(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #avatar_head_change_s2c{result = F@_1, head_id = F@_2, head_border = F@_3};
+dfp_read_field_def_avatar_head_change_s2c(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_avatar_head_change_s2c(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+dg_read_field_def_avatar_head_change_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_avatar_head_change_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+dg_read_field_def_avatar_head_change_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      8 -> d_field_avatar_head_change_s2c_result(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      16 -> d_field_avatar_head_change_s2c_head_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      24 -> d_field_avatar_head_change_s2c_head_border(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 -> skip_varint_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    1 -> skip_64_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    2 -> skip_length_delimited_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    3 -> skip_group_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    5 -> skip_32_avatar_head_change_s2c(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
+	  end
+    end;
+dg_read_field_def_avatar_head_change_s2c(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #avatar_head_change_s2c{result = F@_1, head_id = F@_2, head_border = F@_3}.
+
+d_field_avatar_head_change_s2c_result(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_avatar_head_change_s2c_result(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_avatar_head_change_s2c_result(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_s2c(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
+
+d_field_avatar_head_change_s2c_head_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_avatar_head_change_s2c_head_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_avatar_head_change_s2c_head_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_s2c(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
+
+d_field_avatar_head_change_s2c_head_border(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_avatar_head_change_s2c_head_border(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_avatar_head_change_s2c_head_border(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_avatar_head_change_s2c(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
+
+skip_varint_avatar_head_change_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+skip_varint_avatar_head_change_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_length_delimited_avatar_head_change_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_avatar_head_change_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+skip_length_delimited_avatar_head_change_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_avatar_head_change_s2c(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_group_avatar_head_change_s2c(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_avatar_head_change_s2c(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
+
+skip_32_avatar_head_change_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_64_avatar_head_change_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_avatar_head_change_s2c(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
 decode_msg_avatar_heart_beat_c2s(Bin, TrUserData) -> dfp_read_field_def_avatar_heart_beat_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
 
@@ -694,6 +768,7 @@ merge_msgs(Prev, New, MsgName, Opts) ->
     case MsgName of
       avatar_info_s2c -> merge_msg_avatar_info_s2c(Prev, New, TrUserData);
       avatar_info_change_s2c -> merge_msg_avatar_info_change_s2c(Prev, New, TrUserData);
+      avatar_head_change_c2s -> merge_msg_avatar_head_change_c2s(Prev, New, TrUserData);
       avatar_head_change_s2c -> merge_msg_avatar_head_change_s2c(Prev, New, TrUserData);
       avatar_heart_beat_c2s -> merge_msg_avatar_heart_beat_c2s(Prev, New, TrUserData);
       avatar_heart_beat_s2c -> merge_msg_avatar_heart_beat_s2c(Prev, New, TrUserData);
@@ -751,8 +826,31 @@ merge_msg_avatar_info_change_s2c(#avatar_info_change_s2c{head_id = PFhead_id, he
 				   true -> NFvip
 				end}.
 
+-compile({nowarn_unused_function,merge_msg_avatar_head_change_c2s/3}).
+merge_msg_avatar_head_change_c2s(#avatar_head_change_c2s{head_id = PFhead_id, head_border = PFhead_border}, #avatar_head_change_c2s{head_id = NFhead_id, head_border = NFhead_border}, _) ->
+    #avatar_head_change_c2s{head_id =
+				if NFhead_id =:= undefined -> PFhead_id;
+				   true -> NFhead_id
+				end,
+			    head_border =
+				if NFhead_border =:= undefined -> PFhead_border;
+				   true -> NFhead_border
+				end}.
+
 -compile({nowarn_unused_function,merge_msg_avatar_head_change_s2c/3}).
-merge_msg_avatar_head_change_s2c(#avatar_head_change_s2c{}, #avatar_head_change_s2c{head_id = NFhead_id, head_border = NFhead_border}, _) -> #avatar_head_change_s2c{head_id = NFhead_id, head_border = NFhead_border}.
+merge_msg_avatar_head_change_s2c(#avatar_head_change_s2c{result = PFresult, head_id = PFhead_id, head_border = PFhead_border}, #avatar_head_change_s2c{result = NFresult, head_id = NFhead_id, head_border = NFhead_border}, _) ->
+    #avatar_head_change_s2c{result =
+				if NFresult =:= undefined -> PFresult;
+				   true -> NFresult
+				end,
+			    head_id =
+				if NFhead_id =:= undefined -> PFhead_id;
+				   true -> NFhead_id
+				end,
+			    head_border =
+				if NFhead_border =:= undefined -> PFhead_border;
+				   true -> NFhead_border
+				end}.
 
 -compile({nowarn_unused_function,merge_msg_avatar_heart_beat_c2s/3}).
 merge_msg_avatar_heart_beat_c2s(#avatar_heart_beat_c2s{}, #avatar_heart_beat_c2s{svr_time = NFsvr_time}, _) -> #avatar_heart_beat_c2s{svr_time = NFsvr_time}.
@@ -779,6 +877,7 @@ verify_msg(Msg, MsgName, Opts) ->
     case MsgName of
       avatar_info_s2c -> v_msg_avatar_info_s2c(Msg, [MsgName], TrUserData);
       avatar_info_change_s2c -> v_msg_avatar_info_change_s2c(Msg, [MsgName], TrUserData);
+      avatar_head_change_c2s -> v_msg_avatar_head_change_c2s(Msg, [MsgName], TrUserData);
       avatar_head_change_s2c -> v_msg_avatar_head_change_s2c(Msg, [MsgName], TrUserData);
       avatar_heart_beat_c2s -> v_msg_avatar_heart_beat_c2s(Msg, [MsgName], TrUserData);
       avatar_heart_beat_s2c -> v_msg_avatar_heart_beat_s2c(Msg, [MsgName], TrUserData);
@@ -834,9 +933,31 @@ v_msg_avatar_info_change_s2c(#avatar_info_change_s2c{name = F1, id = F2, head_id
     ok;
 v_msg_avatar_info_change_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, avatar_info_change_s2c}, X, Path).
 
+-compile({nowarn_unused_function,v_msg_avatar_head_change_c2s/3}).
+-dialyzer({nowarn_function,v_msg_avatar_head_change_c2s/3}).
+v_msg_avatar_head_change_c2s(#avatar_head_change_c2s{head_id = F1, head_border = F2}, Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_int32(F1, [head_id | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_int32(F2, [head_border | Path], TrUserData)
+    end,
+    ok;
+v_msg_avatar_head_change_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, avatar_head_change_c2s}, X, Path).
+
 -compile({nowarn_unused_function,v_msg_avatar_head_change_s2c/3}).
 -dialyzer({nowarn_function,v_msg_avatar_head_change_s2c/3}).
-v_msg_avatar_head_change_s2c(#avatar_head_change_s2c{head_id = F1, head_border = F2}, Path, TrUserData) -> v_type_int32(F1, [head_id | Path], TrUserData), v_type_int32(F2, [head_border | Path], TrUserData), ok;
+v_msg_avatar_head_change_s2c(#avatar_head_change_s2c{result = F1, head_id = F2, head_border = F3}, Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_int32(F1, [result | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_int32(F2, [head_id | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_int32(F3, [head_border | Path], TrUserData)
+    end,
+    ok;
 v_msg_avatar_head_change_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, avatar_head_change_s2c}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_avatar_heart_beat_c2s/3}).
@@ -928,19 +1049,22 @@ get_msg_defs() ->
        #field{name = head_id, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}, #field{name = head_border, fnum = 4, rnum = 5, type = int32, occurrence = optional, opts = []},
        #field{name = level, fnum = 5, rnum = 6, type = int32, occurrence = optional, opts = []}, #field{name = exp, fnum = 6, rnum = 7, type = int32, occurrence = optional, opts = []},
        #field{name = vip, fnum = 7, rnum = 8, type = int32, occurrence = optional, opts = []}]},
-     {{msg, avatar_head_change_s2c}, [#field{name = head_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = head_border, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}]},
+     {{msg, avatar_head_change_c2s}, [#field{name = head_id, fnum = 1, rnum = 2, type = int32, occurrence = optional, opts = []}, #field{name = head_border, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []}]},
+     {{msg, avatar_head_change_s2c},
+      [#field{name = result, fnum = 1, rnum = 2, type = int32, occurrence = optional, opts = []}, #field{name = head_id, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []},
+       #field{name = head_border, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}]},
      {{msg, avatar_heart_beat_c2s}, [#field{name = svr_time, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}]},
      {{msg, avatar_heart_beat_s2c}, [#field{name = svr_time, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}]}, {{msg, svr_open_time_c2s}, []},
      {{msg, svr_open_time_s2c}, [#field{name = open_time, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}]}].
 
 
-get_msg_names() -> [avatar_info_s2c, avatar_info_change_s2c, avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, svr_open_time_c2s, svr_open_time_s2c].
+get_msg_names() -> [avatar_info_s2c, avatar_info_change_s2c, avatar_head_change_c2s, avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, svr_open_time_c2s, svr_open_time_s2c].
 
 
 get_group_names() -> [].
 
 
-get_msg_or_group_names() -> [avatar_info_s2c, avatar_info_change_s2c, avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, svr_open_time_c2s, svr_open_time_s2c].
+get_msg_or_group_names() -> [avatar_info_s2c, avatar_info_change_s2c, avatar_head_change_c2s, avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, svr_open_time_c2s, svr_open_time_s2c].
 
 
 get_enum_names() -> [].
@@ -967,7 +1091,10 @@ find_msg_def(avatar_info_change_s2c) ->
      #field{name = head_id, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}, #field{name = head_border, fnum = 4, rnum = 5, type = int32, occurrence = optional, opts = []},
      #field{name = level, fnum = 5, rnum = 6, type = int32, occurrence = optional, opts = []}, #field{name = exp, fnum = 6, rnum = 7, type = int32, occurrence = optional, opts = []},
      #field{name = vip, fnum = 7, rnum = 8, type = int32, occurrence = optional, opts = []}];
-find_msg_def(avatar_head_change_s2c) -> [#field{name = head_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = head_border, fnum = 2, rnum = 3, type = int32, occurrence = required, opts = []}];
+find_msg_def(avatar_head_change_c2s) -> [#field{name = head_id, fnum = 1, rnum = 2, type = int32, occurrence = optional, opts = []}, #field{name = head_border, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []}];
+find_msg_def(avatar_head_change_s2c) ->
+    [#field{name = result, fnum = 1, rnum = 2, type = int32, occurrence = optional, opts = []}, #field{name = head_id, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []},
+     #field{name = head_border, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}];
 find_msg_def(avatar_heart_beat_c2s) -> [#field{name = svr_time, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}];
 find_msg_def(avatar_heart_beat_s2c) -> [#field{name = svr_time, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}];
 find_msg_def(svr_open_time_c2s) -> [];
@@ -1032,6 +1159,7 @@ service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 
 fqbin_to_msg_name(<<"avatar_info_s2c">>) -> avatar_info_s2c;
 fqbin_to_msg_name(<<"avatar_info_change_s2c">>) -> avatar_info_change_s2c;
+fqbin_to_msg_name(<<"avatar_head_change_c2s">>) -> avatar_head_change_c2s;
 fqbin_to_msg_name(<<"avatar_head_change_s2c">>) -> avatar_head_change_s2c;
 fqbin_to_msg_name(<<"avatar_heart_beat_c2s">>) -> avatar_heart_beat_c2s;
 fqbin_to_msg_name(<<"avatar_heart_beat_s2c">>) -> avatar_heart_beat_s2c;
@@ -1042,6 +1170,7 @@ fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 msg_name_to_fqbin(avatar_info_s2c) -> <<"avatar_info_s2c">>;
 msg_name_to_fqbin(avatar_info_change_s2c) -> <<"avatar_info_change_s2c">>;
+msg_name_to_fqbin(avatar_head_change_c2s) -> <<"avatar_head_change_c2s">>;
 msg_name_to_fqbin(avatar_head_change_s2c) -> <<"avatar_head_change_s2c">>;
 msg_name_to_fqbin(avatar_heart_beat_c2s) -> <<"avatar_heart_beat_c2s">>;
 msg_name_to_fqbin(avatar_heart_beat_s2c) -> <<"avatar_heart_beat_s2c">>;
@@ -1085,7 +1214,7 @@ get_all_source_basenames() -> ["avatar.proto"].
 get_all_proto_names() -> ["avatar"].
 
 
-get_msg_containment("avatar") -> [avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, avatar_info_change_s2c, avatar_info_s2c, svr_open_time_c2s, svr_open_time_s2c];
+get_msg_containment("avatar") -> [avatar_head_change_c2s, avatar_head_change_s2c, avatar_heart_beat_c2s, avatar_heart_beat_s2c, avatar_info_change_s2c, avatar_info_s2c, svr_open_time_c2s, svr_open_time_s2c];
 get_msg_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
@@ -1112,6 +1241,7 @@ get_proto_by_msg_name_as_fqbin(<<"avatar_info_change_s2c">>) -> "avatar";
 get_proto_by_msg_name_as_fqbin(<<"avatar_heart_beat_s2c">>) -> "avatar";
 get_proto_by_msg_name_as_fqbin(<<"avatar_heart_beat_c2s">>) -> "avatar";
 get_proto_by_msg_name_as_fqbin(<<"avatar_head_change_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"avatar_head_change_c2s">>) -> "avatar";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

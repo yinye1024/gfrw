@@ -21,9 +21,14 @@ message avatar_info_change_s2c{
   optional int32 vip = 7;
 }
 
+message avatar_head_change_c2s{
+  optional int32 head_id = 1;
+  optional int32 head_border = 2;
+}
 message avatar_head_change_s2c{
-  required int32 head_id = 1;
-  required int32 head_border = 2;
+  optional int32 result = 1;
+  optional int32 head_id = 2;
+  optional int32 head_border = 3;
 }
 
 message avatar_heart_beat_c2s{

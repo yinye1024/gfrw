@@ -32,7 +32,7 @@ send_login_success(ExistRole) when is_boolean(ExistRole)->
   RoleLoginS2C = #role_login_s2c{
     result_code = 0,
     exist_role = ExistRole,
-    main_svr_id = game_config:get_svrId()
+    main_svr_id = game_cfg:get_svrId()
   },
   {S2CId, PBufBin} = cmd_map:encode_s2c(RoleLoginS2C),
   Mid = ?Svr_Side_MID,
@@ -42,7 +42,7 @@ send_login_success(ExistRole) when is_boolean(ExistRole)->
 send_login_fail(ErrorCode)->
   RoleLoginS2C = #role_login_s2c{
     result_code = ErrorCode,
-    main_svr_id = game_config:get_svrId()
+    main_svr_id = game_cfg:get_svrId()
   },
   {S2CId, PBufBin} = cmd_map:encode_s2c(RoleLoginS2C),
   Mid = ?Svr_Side_MID,

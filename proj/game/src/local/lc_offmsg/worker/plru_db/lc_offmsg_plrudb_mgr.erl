@@ -61,7 +61,5 @@ priv_get_data(RoleId)->
 priv_update_offmsg(Offmsg)->
   NewOffmsg = lc_offmsg_pojo:incr_ver(Offmsg),
   lc_offmsg_plrudb_holder:put_data(NewOffmsg),
-  %% 每次更新要同时更新ets缓存
-  s2s_lc_offmsg_adm_mgr:put_data(NewOffmsg),
   ?OK.
 

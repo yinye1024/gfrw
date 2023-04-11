@@ -32,6 +32,6 @@ priv_transfer_field({field,FieldName,_,_,{msg,RecordName},_,_},{FiledData,PBufPb
   FieldMap = to_map(RecordName,FiledData, PBufPbMod),
   AccMap_1 = yyu_map:put_value(FieldName,FieldMap,AccMap),
   AccMap_1;
-priv_transfer_field({field,FieldName,_,_,_,_,_},{FiledData,PBufPbMod},AccMap)->
+priv_transfer_field({field,FieldName,_,_,_,_,_},{FiledData,_PBufPbMod},AccMap)->
   AccMap_1 = yyu_map:put_value(FieldName,FiledData,AccMap),
   AccMap_1.

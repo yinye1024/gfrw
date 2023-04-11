@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+message friend_apply_list_c2s{
+}
+message friend_apply_list_s2c{
+  repeated p_applyInfo apply_list = 1;
+}
+message p_applyInfo{
+  required int64 role_id = 1;
+  optional string name = 2;
+  optional int32 gender = 3;
+}
+
+message friend_new_apply_c2s{
+  required int64 role_id = 1;
+}
+message friend_new_apply_s2c{
+  required bool success = 1;
+}
+
+message friend_handle_apply_c2s{
+  required int64 apply_id = 1;
+  required bool is_accept = 2;
+}
+message friend_handle_apply_s2c{
+  required bool success = 1;
+}

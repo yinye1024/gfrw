@@ -33,11 +33,20 @@
         }).
 -endif.
 
+-ifndef('AVATAR_HEAD_CHANGE_C2S_PB_H').
+-define('AVATAR_HEAD_CHANGE_C2S_PB_H', true).
+-record(avatar_head_change_c2s,
+        {head_id                :: integer() | undefined, % = 1, optional, 32 bits
+         head_border            :: integer() | undefined % = 2, optional, 32 bits
+        }).
+-endif.
+
 -ifndef('AVATAR_HEAD_CHANGE_S2C_PB_H').
 -define('AVATAR_HEAD_CHANGE_S2C_PB_H', true).
 -record(avatar_head_change_s2c,
-        {head_id                :: integer() | undefined, % = 1, required, 32 bits
-         head_border            :: integer() | undefined % = 2, required, 32 bits
+        {result                 :: integer() | undefined, % = 1, optional, 32 bits
+         head_id                :: integer() | undefined, % = 2, optional, 32 bits
+         head_border            :: integer() | undefined % = 3, optional, 32 bits
         }).
 -endif.
 

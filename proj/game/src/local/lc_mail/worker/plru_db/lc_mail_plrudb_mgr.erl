@@ -61,7 +61,5 @@ priv_get_data(RoleId)->
 priv_update_mail(Mail)->
   NewMail = lc_mail_pojo:incr_ver(Mail),
   lc_mail_plrudb_holder:put_data(NewMail),
-  %% 每次更新要同时更新ets缓存
-  s2s_lc_mail_adm_mgr:put_data(NewMail),
   ?OK.
 

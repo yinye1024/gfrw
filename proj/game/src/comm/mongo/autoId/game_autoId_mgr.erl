@@ -17,7 +17,7 @@ get_role_autoId()->
   priv_get_autoId(role).
 
 priv_get_autoId(Key)->
-  SvrId = game_config:get_svrId(),
+  SvrId = game_cfg:get_svrId(),
   AutoIdName =   yyu_misc:to_atom((yyu_misc:to_list(Key)++"_"++yyu_misc:to_list(SvrId))),
   ?LOG_INFO({autoId_name,AutoIdName}),
   NewAutoId = game_mongo_dao:incr_and_get_autoId(AutoIdName),
