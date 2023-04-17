@@ -19,6 +19,7 @@
 %% API functions implements
 %% ===================================================================================
 callback_from_lc_friend(LocalPid,{LocalParam,CbParam})->
+  ?LOG_ERROR({"ddddddddddddddd",{LocalParam,CbParam}}),
   {CastFun,ParamList} = {fun role_friend_cb_handler:handle_callback/1,[{LocalParam,CbParam}]},
   gs_role_online_mgr:route_s2s(LocalPid,{CastFun,ParamList}),
   ?OK.

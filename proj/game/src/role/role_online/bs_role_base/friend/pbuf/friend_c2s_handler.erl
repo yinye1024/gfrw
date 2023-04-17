@@ -12,11 +12,31 @@
 -include_lib("protobuf/include/friend_pb.hrl").
 
 %% API
--export([friend_apply_list_c2s/1]).
+-export([friend_apply_list_c2s/1,friend_new_apply_c2s/1,friend_handle_apply_c2s/1,friend_list_c2s/1]).
 
 friend_apply_list_c2s(C2SRD = #friend_apply_list_c2s{})->
-  ?LOG_INFO({"friend_head_change_c2s,",C2SRD}),
+  ?LOG_INFO({"friend_apply_list_c2s,",C2SRD}),
 
-  {IsSuccess,HeadId_1,HeadBorder_1} = role_friend_mgr:do_head_change(HeadId,HeadBorder),
-  friend_s2c_handler:friend_head_change_s2c(IsSuccess,{HeadId_1,HeadBorder_1}),
+  ApplyList = role_friend_mgr:get_all_apply(),
+  PApplyInfoList = friend_pbuf_helper:to_p_applyInfo_list(ApplyList),
+  friend_s2c_handler:friend_apply_list_s2c(PApplyInfoList),
+  ?OK.
+
+friend_new_apply_c2s(C2SRD = #friend_new_apply_c2s{friend_uid = FriendRoleId})->
+  ?LOG_INFO({"friend_new_apply_c2s,",C2SRD}),
+  ?OK = role_friend_mgr:new_apply(FriendRoleId),
+  friend_s2c_handler:friend_new_apply_s2c(?TRUE),
+  ?OK.
+
+friend_handle_apply_c2s(C2SRD = #friend_handle_apply_c2s{apply_id = ApplyId,is_accept = IsAccept})->
+  ?LOG_INFO({"friend_handle_apply_c2s,",C2SRD}),
+  ?OK = role_friend_mgr:handle_apply(ApplyId,IsAccept),
+  friend_s2c_handler:friend_handle_apply_s2c(?TRUE),
+  ?OK.
+
+friend_list_c2s(C2SRD = #friend_list_c2s{})->
+  ?LOG_INFO({"friend_list_c2s,",C2SRD}),
+  LcRoleList = role_friend_mgr:get_friendList(),
+  PFriendInfoList = friend_pbuf_helper:to_p_friendInfo_list(LcRoleList),
+  friend_s2c_handler:friend_list_s2c(PFriendInfoList),
   ?OK.

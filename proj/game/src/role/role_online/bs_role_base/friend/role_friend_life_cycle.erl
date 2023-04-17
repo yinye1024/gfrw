@@ -25,7 +25,8 @@ get_mod()->?MODULE.
 role_init(_RoleId)->
   ?OK.
 %% 角色进程初始化的时候执行
-data_load(_RoleId)->
+data_load(RoleId)->
+  role_friend_mgr:proc_init(RoleId),
   ?OK.
 %% 角色进程初始化，data_load 后执行
 after_data_load(_RoleId)->

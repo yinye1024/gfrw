@@ -20,6 +20,7 @@
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
+%% 新建gw进程，此时clientmid 为 notset，不需要检查clientmid
 route_c2s({gw_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({"role_reconnect_c2s",C2SRD}),
   #role_reconnect_c2s{client_mid=ClientMid,svr_mid = SvrMid,svr_id = SvrId,uid = UserId} = C2SRD,
@@ -42,6 +43,7 @@ route_c2s({gw_c2s_handler,role_reconnect_c2s,C2SRD},_MsgId,ContextItem)->
       ContextItem
   end,
   ContextItem_1;
+%% 新建gw进程，此时clientmid 为 notset，不需要检查clientmid
 route_c2s({gw_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({role_login_c2s,{C2SRD}}),
   #role_login_c2s{uid = UserId,uname = UserName,svrId = SvrId,
@@ -67,6 +69,7 @@ route_c2s({gw_c2s_handler,role_login_c2s,C2SRD},_MsgId,ContextItem)->
         ContextItem
     end,
   ContextItem_1;
+%% 此时clientmid依旧 为 notset，不需要检查clientmid
 route_c2s({gw_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
   ?LOG_INFO({create_role_c2s,{C2SRD}}),
 %%  #create_role_c2s{name = _Name,gender = _Gender} = C2SRD,
@@ -88,26 +91,40 @@ route_c2s({gw_c2s_handler,create_role_c2s,C2SRD},_MsgId,ContextItem)->
         ContextItem
     end,
   ContextItem_1;
-route_c2s({gw_c2s_handler,avatar_heart_beat_c2s,_C2SRD},_MsgId,ContextItem)->
-  ?LOG_INFO({"gw_c2s_handler ,avatar_heart_beat_c2s:"}),
-  role_gw_pc_mgr:on_receive_heartbeat(),
-  ContextItem;
+
+%% 重连成功后，要重置clientmid，保持前后端一致，
+%% 这个mid是后端发给前端的，后端收到的，最后一次有效的mid
 route_c2s({gw_c2s_handler,reset_gw_mid_c2s,C2SRD},_MsgId,ContextItem)->
-  MsgId = C2SRD#reset_gw_mid_c2s.mid,
-  ?LOG_INFO({"gw_c2s_handler,reset_gw_mid_c2s,MsgId:",MsgId}),
-  role_gw_pc_mgr:set_client_mid(MsgId),
+  %% 要用reset_gw_mid_c2s协议里的mid，才是正确的需要同步的 mid
+  SynClientMsgId = C2SRD#reset_gw_mid_c2s.mid,
+  ?LOG_INFO({"gw_c2s_handler,reset_gw_mid_c2s,MsgId:", SynClientMsgId}),
+  role_gw_pc_mgr:set_client_mid(SynClientMsgId),
   ContextItem;
 route_c2s({unknown_c2s_handler,C2SId,C2SBinData},_MsgId,ContextItem)->
   ?LOG_INFO({"unknown_c2s_handler,C2SId,C2SBinData:",C2SId,C2SBinData}),
   ContextItem;
-route_c2s({MsgHandlerMod,MsgHandlerMethod,C2SRD},MsgId,ContextItem)->
-  %% 发到玩家online进程的消息才需要检查mid，别的情况不需要，因为别的情况都会新建tcp链接
-  case role_gw_pc_mgr:check_client_mid(MsgId) of
+
+%% 心跳包和业务包一样，加入clientmid 的计数，这样客户端就可以统一，发送给服务端的所有包都加clientmid
+route_c2s({gw_c2s_handler,avatar_heart_beat_c2s,_C2SRD},ClientMid,ContextItem)->
+%%  ?LOG_INFO({"gw_c2s_handler ,avatar_heart_beat_c2s:"}),
+  case role_gw_pc_mgr:check_client_mid(ClientMid) of
     ?TRUE ->
-      role_gw_pc_mgr:set_client_mid(MsgId),
+      role_gw_pc_mgr:set_client_mid(ClientMid),
+      role_gw_pc_mgr:on_receive_heartbeat(),
+      ?OK;
+    _->
+      role_gw_helper:cast_stop(?Logout_Mid_Error),
+      ?OK
+  end,
+  ContextItem;
+%% 业务包，需要检查 clientmid
+route_c2s({MsgHandlerMod,MsgHandlerMethod,C2SRD}, ClientMid,ContextItem)->
+  case role_gw_pc_mgr:check_client_mid(ClientMid) of
+    ?TRUE ->
+      role_gw_pc_mgr:set_client_mid(ClientMid),
       case role_gw_pc_mgr:get_role_gen() of
         RolePid when is_pid(RolePid) ->
-          gs_role_online_mgr:route_c2s(RolePid,{MsgId,MsgHandlerMod,MsgHandlerMethod,C2SRD}),
+          gs_role_online_mgr:route_c2s(RolePid,{ClientMid,MsgHandlerMod,MsgHandlerMethod,C2SRD}),
           ?OK;
         _Other ->
           role_gw_helper:cast_stop(?Logout_C2S_No_Role_Gen),

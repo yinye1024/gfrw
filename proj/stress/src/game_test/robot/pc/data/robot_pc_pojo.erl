@@ -20,6 +20,7 @@
 -export([set_client_mid/2,get_and_incr_msgId/1,get_client_mid/1]).
 -export([get_svr_mid/1,set_svr_mid/2]).
 -export([is_miss_client_pack/1, set_is_miss_client_pack/2]).
+-export([get_bs_data/2,put_bs_data/3]).
 
 %% ===================================================================================
 %% API functions implements
@@ -35,7 +36,8 @@ new_pojo(UserId)->
     client_mid => 1,            %% 发信息自增id
     svr_mid => ?NOT_SET,         %% 收到的服务端mid 补包需要用到
 
-    is_miss_client_pack => ?FALSE    %% 是否开始丢前端包
+    is_miss_client_pack => ?FALSE,    %% 是否开始丢前端包
+    bs_data_map => yyu_map:new_map()  %% 业务数据缓存，统一接口。
   }.
 
 get_id(ItemMap) ->
@@ -91,4 +93,20 @@ is_miss_client_pack(ItemMap) ->
 
 set_is_miss_client_pack(Value, ItemMap) ->
   yyu_map:put_value(is_miss_client_pack, Value, ItemMap).
+
+get_bs_data(BsKey,ItemMap)->
+  DataMap = priv_get_bs_data_map(ItemMap),
+  BsData = yyu_map:get_value(BsKey,DataMap),
+  BsData.
+
+put_bs_data(BsKey,BsData,ItemMap)->
+  DataMap = priv_get_bs_data_map(ItemMap),
+  DataMap_1 = yyu_map:put_value(BsKey,BsData,DataMap),
+  priv_set_bs_data_map(DataMap_1,ItemMap).
+
+priv_get_bs_data_map(ItemMap) ->
+  yyu_map:get_value(bs_data_map, ItemMap).
+
+priv_set_bs_data_map(BsDataMap, ItemMap) ->
+  yyu_map:put_value(bs_data_map, BsDataMap, ItemMap).
 

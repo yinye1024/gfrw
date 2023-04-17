@@ -12,14 +12,14 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API functions defined
--export([proc_init/0, check_and_clean_expired/0]).
--export([get_data/1, update_if_in_cache/1]).
+-export([ets_init/0, check_and_clean_expired/0]).
+-export([get_data/1, put_to_ets_time_cache/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-proc_init()->
-  lc_friend_ets_time_cache_dao:proc_init(),
+ets_init()->
+  lc_friend_ets_time_cache_dao:ets_init(),
   ?OK.
 
 check_and_clean_expired()->
@@ -43,13 +43,7 @@ get_data(RoleId)->
   Data.
 
 
-update_if_in_cache(FriendPdbPojo)->
-  RoleId = lc_friend_pdb_pojo:get_id(FriendPdbPojo),
-  case lc_friend_ets_time_cache_dao:get_data(RoleId) of
-    ?NOT_SET ->?OK;
-    _DataTmp ->
-      lc_friend_ets_time_cache_dao:put_data(FriendPdbPojo),
-      ?OK
-  end,
+put_to_ets_time_cache(FriendPdbPojo)->
+  lc_friend_ets_time_cache_dao:put_data(FriendPdbPojo),
   ?OK.
 

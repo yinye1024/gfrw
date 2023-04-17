@@ -14,19 +14,16 @@
 
 %% API functions defined
 -export([init/1, loop_1_sec/0,terminate/1,persistent/0]).
-
-
+-export([add_once/1,add_loop/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
 init({UserId} = _GenArgs)->
   robot_pc_mgr:init(UserId),
   robot_gen_mgr:reg(UserId,self()),
-
   robot_ticker_mgr:init(),
+  ?LOG_INFO({"new robot gen init,UserId = ",UserId}),
 
-  robot_test_fun:test_reLogin(),
-%%  robot_test_fun:test_reconnect(),
   ?OK.
 
 loop_1_sec()->
@@ -40,4 +37,10 @@ terminate(UserId)->
   robot_gen_mgr:un_reg(UserId),
   ?OK.
 
+add_once({TickId,DelayInSec,TickFun}) when is_function(TickFun,0)->
+  robot_ticker_mgr:add_once(TickId,DelayInSec,TickFun),
+  ?OK.
 
+add_loop({TickId,TickCdInSec,TickFun}) when is_function(TickFun,0)->
+  robot_ticker_mgr:add_loop(TickId,{TickCdInSec,TickFun}),
+  ?OK.

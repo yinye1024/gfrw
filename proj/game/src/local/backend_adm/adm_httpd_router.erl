@@ -36,8 +36,8 @@ route_request(Req,DocRoot)->
       ?LOG_ERROR({STK}),
       ErrorResp = adm_httpd_resp_restful:new_fail(Tips),
       yynw_http_utils:resp_ok(ErrorResp,Req);
-    Error:Reason  ->
-      ?LOG_ERROR({Error,Reason,erlang:get_stacktrace()}),
+    Error:Reason:STK  ->
+      ?LOG_ERROR({Error,Reason,STK}),
       ErrorResp = adm_httpd_resp_restful:new_fail("内部错误，请稍后重试。"),
       yynw_http_utils:resp_ok(ErrorResp,Req)
   end.

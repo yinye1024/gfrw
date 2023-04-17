@@ -30,6 +30,8 @@ priv_route_s2c(?CONNECT_ACTIVE_S2C, _BinData)->
   ?LOG_INFO({"tcp actived +++++++++++++++"}),
   robot_pc_mgr:on_gw_active(),
   ?OK;
+
+%%login.proto
 priv_route_s2c(?CREATE_ROLE_S2C, BinData)->
   robot_login_s2c_handler:create_role_s2c(BinData),
   ?OK;
@@ -45,6 +47,21 @@ priv_route_s2c(?ROLE_INFO_S2C, BinData)->
 priv_route_s2c(?ROLE_RECONNECT_S2C, BinData)->
   robot_login_s2c_handler:role_reconnect_s2c(BinData),
   ?OK;
+
+%%friend.proto
+priv_route_s2c(?FRIEND_APPLY_LIST_S2C, BinData)->
+  robot_friend_mgr:friend_apply_list_s2c(BinData),
+  ?OK;
+priv_route_s2c(?FRIEND_NEW_APPLY_S2C, BinData)->
+  robot_friend_mgr:friend_new_apply_s2c(BinData),
+  ?OK;
+priv_route_s2c(?FRIEND_HANDLE_APPLY_S2C, BinData)->
+  robot_friend_mgr:friend_handle_apply_s2c(BinData),
+  ?OK;
+priv_route_s2c(?FRIEND_LIST_S2C, BinData)->
+  robot_friend_mgr:friend_list_s2c(BinData),
+  ?OK;
+
 priv_route_s2c(S2CId, BinData)->
   ?LOG_INFO({"unhandle msg ",{S2CId,BinData}}),
   ?OK.

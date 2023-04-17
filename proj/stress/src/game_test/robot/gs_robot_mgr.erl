@@ -13,18 +13,25 @@
 
 
 %% API functions defined
--export([init/0,new_child/1,close/1]).
+-export([start_link/0,has_child/1,new_child/1,close/1]).
 -export([route_s2c/2]).
+-export([cast_fun/2,call_fun/2]).
 
 -define(MAX_IDLE_TIME, 30).   %% 最大闲置时间30秒，超过就退出进程，回收cursor。
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-init()->
+start_link()->
   robot_sup:start_link(),
-  robot_gen_mgr:init(),
+  robot_gen_mgr:ets_init(),
   ?OK.
+has_child(UserId)->
+  case robot_gen_mgr:get_pid(UserId)of
+    ?NOT_SET -> {?FALSE};
+    Gen ->
+      {?TRUE,Gen}
+  end.
 
 %% gs_robot_mgr:new_child(1003).
 new_child(UserId)->
@@ -53,16 +60,32 @@ close(UserId)->
   ?OK.
 
 route_s2c(UserId,{SvrMsgId, S2CId,BinData})->
-  priv_cast_fun(UserId,{fun robot_route_s2c:route_s2c/1,[{SvrMsgId, S2CId,BinData}]}),
+  cast_fun(UserId,{fun robot_route_s2c:route_s2c/1,[{SvrMsgId, S2CId,BinData}]}),
   ?OK.
 
-priv_cast_fun(UserId,{CastFun,Param})->
+cast_fun(RobotPid,{CastFun, ParamList}) when is_pid(RobotPid)->
+  robot_gen:cast_fun(RobotPid,{CastFun, ParamList}),
+  ?OK;
+cast_fun(UserId,{CastFun, ParamList}) when is_list(ParamList)->
   case robot_gen_mgr:get_pid(UserId) of
     ?NOT_SET ->
       ?LOG_INFO({"robot gen not found, id:",UserId}),
       ?FAIL;
     RobotPid ->
-      robot_gen:cast_fun(RobotPid,{CastFun,Param}),
+      robot_gen:cast_fun(RobotPid,{CastFun, ParamList}),
       ?OK
+  end.
+
+call_fun(RobotPid,{CastFun, ParamList}) when is_pid(RobotPid)->
+  Result = robot_gen:call_fun(RobotPid,{CastFun, ParamList}),
+  Result;
+call_fun(UserId,{CallFun, ParamList}) when is_list(ParamList)->
+  case robot_gen_mgr:get_pid(UserId) of
+    ?NOT_SET ->
+      ?LOG_INFO({"robot gen not found, id:",UserId}),
+      ?FAIL;
+    RobotPid ->
+      Result = robot_gen:call_fun(RobotPid,{CallFun, ParamList}),
+      Result
   end.
 

@@ -13,13 +13,17 @@
 
 
 %% API functions defined
--export([start_sup_link/0, stop/0]).
--export([get_data/1,update_if_in_cache/1]).
+-export([ets_init/0,start_sup_link/0, stop/0]).
+-export([get_data/1, put_to_ets_time_cache/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
 %%
+ets_init()->
+  lc_friend_adm_mgr:ets_init(),
+  ?OK.
+
 start_sup_link()->
   gs_lc_friend_adm_mgr:start_sup_link(),
   ?OK.
@@ -32,8 +36,10 @@ get_data(RoleId)->
   FriendPdbPojo = lc_friend_adm_mgr:get_data(RoleId),
   FriendPdbPojo.
 
-update_if_in_cache(FriendPdbPojo)->
-  lc_friend_adm_mgr:update_if_in_cache(FriendPdbPojo),
+
+put_to_ets_time_cache(FriendPdbPojo)->
+  ?LOG_INFO({put_to_ets_time_cache,FriendPdbPojo}),
+  lc_friend_adm_mgr:put_to_ets_time_cache(FriendPdbPojo),
   ?OK.
 
 %%priv_call_fun(CursorPid,{WorkFun,Param})->

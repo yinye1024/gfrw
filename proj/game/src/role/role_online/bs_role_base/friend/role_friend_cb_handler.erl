@@ -20,7 +20,7 @@
 %% API functions implements
 %% ===================================================================================
 handle_callback({?Get_All_Apply,CbParam})->
-  role_friend_mgr:cb_on_get_all_apply(CbParam),
+  role_friend_mgr:cbk_on_get_all_apply(CbParam),
   ?OK;
 handle_callback({LocalParam,CbParam})->
   ?LOG_ERROR({"unknow callback:",LocalParam,CbParam}),

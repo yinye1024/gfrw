@@ -10,13 +10,13 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--define(MaxGenCount,10). %% 最大进程数，按最大进程数取模分配给对应的进程
+-define(MaxGenCount,1). %% 最大进程数，按最大进程数取模分配给对应的进程
 
 %% API functions defined
 -export([ets_init/0,start_sup_link/0,gen_init/0, stop_all/0]).
 -export([add_blackId/2,rm_blackId/2]).
 -export([add_friendId/2,rm_friendId/2]).
--export([add_apply/2,rm_apply_byIndex/2]).
+-export([get_all_apply/2,add_apply/2,rm_apply_byIndex/2]).
 
 %% ===================================================================================
 %% API functions implements

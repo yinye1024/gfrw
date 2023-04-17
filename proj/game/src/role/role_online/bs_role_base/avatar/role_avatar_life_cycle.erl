@@ -25,7 +25,8 @@ get_mod()->?MODULE.
 role_init(_RoleId)->
   ?OK.
 %% 角色进程初始化的时候执行
-data_load(_RoleId)->
+data_load(RoleId)->
+  role_avatar_mgr:proc_init(RoleId),
   ?OK.
 %% 角色进程初始化，data_load 后执行
 after_data_load(_RoleId)->
@@ -41,7 +42,7 @@ clean_week(_RoleId,_LastCleanTime)->
   ?OK.
 %% 玩家登陆的时候执行
 on_login(_RoleId)->
-  role_avatar_mgr:get_all_avartar(),
+  role_avatar_mgr:update_or_new_lc_role(),
   ?OK.
 
 

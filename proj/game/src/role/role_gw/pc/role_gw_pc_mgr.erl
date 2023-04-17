@@ -26,27 +26,27 @@ init()->
   role_gw_pc_dao:init(),
   ?OK.
 
-check_client_mid(MidInput)->
+check_client_mid(ClientMid)->
   Data = priv_get_data(),
-  Mid = role_gw_pc_pojo:get_mid(Data),
+  Mid = role_gw_pc_pojo:get_client_mid(Data),
 %%  ?LOG_INFO({"route msg old Mid ++++++++++++ ",Mid}),
   IsSuccess =
   case Mid of
     ?NOT_SET -> ?TRUE;
-    MidInput -> ?TRUE;
+    ClientMid -> ?TRUE;
     _Other -> ?FALSE
   end,
   IsSuccess.
 
-set_client_mid(MidInput)->
+set_client_mid(ClientMid)->
   NewMid =
-    case MidInput < ?MAX_SHORT of %% 与前端对好mid循环使用的规则
-      ?TRUE -> MidInput+1;
+    case ClientMid < ?MAX_SHORT of %% 与前端对好mid循环使用的规则
+      ?TRUE -> ClientMid +1;
       ?FALSE -> 1
     end,
 
   Data = role_gw_pc_dao:get_data(),
-  NewData = role_gw_pc_pojo:set_mid(NewMid,Data),
+  NewData = role_gw_pc_pojo:set_client_mid(NewMid,Data),
   priv_update(NewData).
 
 get_role_gen()->

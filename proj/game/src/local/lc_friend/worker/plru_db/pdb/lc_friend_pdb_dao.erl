@@ -21,18 +21,18 @@
 %% API functions implements
 %% ===================================================================================
 create(FriendPdbPojo)->
-  yymg_mongo_dao:insert(?Collection, FriendPdbPojo),
+  game_mongo_dao:insert(?Collection, FriendPdbPojo),
   ?OK.
 
 update(UpdateData)->
-  yymg_mongo_dao:update(?Collection, UpdateData),
+  game_mongo_dao:update(?Collection, UpdateData),
   ?OK.
 
 get_data(GenId)->
-  Data = yymg_mongo_dao:get_by_id(?Collection, GenId),
+  Data = game_mongo_dao:get_by_id(?Collection, GenId),
   Data.
 
 delete(GenId)->
-  yymg_mongo_dao:delete(?Collection, GenId),
+  game_mongo_dao:delete(?Collection, GenId),
   ?OK.
 

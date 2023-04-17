@@ -43,7 +43,8 @@ priv_c2s(?SVR_OPEN_TIME_C2S)->{avatar_c2s_handler,avatar_pb,svr_open_time_c2s};
 %%friend.proto
 priv_c2s(?FRIEND_APPLY_LIST_C2S)->{friend_c2s_handler,friend_pb,friend_apply_list_c2s};
 priv_c2s(?FRIEND_NEW_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_new_apply_c2s};
-priv_c2s(?FRIEND_NEW_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_handle_apply_c2s};
+priv_c2s(?FRIEND_HANDLE_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_handle_apply_c2s};
+priv_c2s(?FRIEND_LIST_C2S)->{friend_c2s_handler,friend_pb,friend_list_c2s};
 
 
 
@@ -56,7 +57,7 @@ encode_s2c(RecordS2C) when is_tuple(RecordS2C)->
   PBufBin = EncodeMod:encode_msg(RecordS2C),
   {S2CId, PBufBin}.
 
-priv_s2c(connect_active_s2c)->{1,login_pb};
+priv_s2c(connect_active_s2c)->{?CONNECT_ACTIVE_S2C,login_pb};
 
 %%login.proto
 priv_s2c(create_role_s2c)->{?CREATE_ROLE_S2C,login_pb};
@@ -73,5 +74,6 @@ priv_s2c(svr_open_time_s2c)->{?SVR_OPEN_TIME_S2C,avatar_pb};
 priv_s2c(friend_apply_list_s2c)->{?FRIEND_APPLY_LIST_S2C,friend_pb};
 priv_s2c(friend_new_apply_s2c)->{?FRIEND_NEW_APPLY_S2C,friend_pb};
 priv_s2c(friend_handle_apply_s2c)->{?FRIEND_HANDLE_APPLY_S2C,friend_pb};
+priv_s2c(friend_list_s2c)->{?FRIEND_LIST_S2C,friend_pb};
 
 priv_s2c(UnknownRecord)->yyu_error:throw_error({unknown_s2c_record,UnknownRecord}).

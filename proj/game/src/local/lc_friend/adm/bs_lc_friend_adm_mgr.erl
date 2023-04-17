@@ -18,8 +18,6 @@
 %% API functions implements
 %% ===================================================================================
 init()->
-  lc_friend_adm_mgr:proc_init(),
-
   lc_friend_adm_ticker_mgr:init(),
   lc_friend_adm_ticker_mgr:add_loop(1,{3600,fun lc_friend_adm_mgr:check_and_clean_expired/0}),
 

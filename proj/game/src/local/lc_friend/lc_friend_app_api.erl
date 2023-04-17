@@ -24,7 +24,7 @@
 
 %% API functions defined
 -export([ets_init/0, start_svr/0, stop_svr/0]).
--export([get_data/1,update_if_in_cache/1]).
+-export([get_data/1]).
 -export([add_blackId/2,rm_blackId/2]).
 -export([add_friendId/2,rm_friendId/2]).
 -export([get_all_apply/2,add_apply/2,rm_apply_byIndex/2]).
@@ -34,6 +34,7 @@
 %% ===================================================================================
 %%
 ets_init()->
+  s2s_lc_friend_adm_mgr:ets_init(),
   s2s_lc_friend_worker_mgr:ets_init(),
   ?OK.
 
@@ -48,9 +49,6 @@ stop_svr()->
 
 get_data(RoleId)->
   FriendPdbPojo = s2s_lc_friend_adm_mgr:get_data(RoleId),
-  FriendPdbPojo.
-update_if_in_cache(FriendPdbPojo)->
-  FriendPdbPojo = s2s_lc_friend_adm_mgr:update_if_in_cache(FriendPdbPojo),
   FriendPdbPojo.
 
 get_all_apply(RoleId,LocalCbPojo)->

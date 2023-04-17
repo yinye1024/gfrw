@@ -6,13 +6,14 @@ message friend_apply_list_s2c{
   repeated p_applyInfo apply_list = 1;
 }
 message p_applyInfo{
-  required int64 role_id = 1;
-  optional string name = 2;
-  optional int32 gender = 3;
+  required int64 id = 1;
+  required int64 role_id = 2;
+  optional string name = 3;
+  optional int32 gender = 4;
 }
 
 message friend_new_apply_c2s{
-  required int64 role_id = 1;
+  required int64 friend_uid = 1;
 }
 message friend_new_apply_s2c{
   required bool success = 1;
@@ -24,4 +25,15 @@ message friend_handle_apply_c2s{
 }
 message friend_handle_apply_s2c{
   required bool success = 1;
+}
+
+message friend_list_c2s{
+}
+message friend_list_s2c{
+  repeated p_friendInfo friend_list = 1;
+}
+message p_friendInfo{
+  required int64 role_id = 1;
+  optional string name = 2;
+  optional int32 gender = 3;
 }

@@ -15,13 +15,14 @@
 %% API functions defined
 -export([init/1]).
 -export([get_tcp_client_gen/0, set_tcp_client_gen/1]).
--export([get_userId/0]).
+-export([get_userId/0,get_roleId/0]).
 -export([get_client_role_info/0, update_client_role_info/1]).
 -export([get_svr_role_info/0,update_svr_role_info/1]).
 -export([on_gw_active/0, is_gw_active/0]).
 -export([get_svr_mid/0,set_svr_mid/1]).
 -export([set_is_miss_client_pack/1]).
--export([send_msg/1,reset_client_mid/1,get_client_mid/0]).
+-export([send_no_mid_msg/1,send_msg/1,reset_client_mid/1,get_client_mid/0]).
+-export([get_bs_data/1,put_bs_data/2]).
 
 %% ===================================================================================
 %% API functions implements
@@ -42,6 +43,10 @@ update_client_role_info(ClientRoleInfoItem)->
   NewData = robot_pc_pojo:set_client_role_info(ClientRoleInfoItem,Data),
   priv_update(NewData).
 
+get_roleId()->
+  SvrRoleInfo=get_svr_role_info(),
+  robot_svr_role_item:get_role_id(SvrRoleInfo).
+
 get_svr_role_info()->
   Data = priv_get_data(),
   robot_pc_pojo:get_svr_role_info(Data).
@@ -59,10 +64,6 @@ set_svr_mid(SvrMid)->
   priv_update(NewData).
 
 
-
-
-
-
 get_tcp_client_gen()->
   Data = priv_get_data(),
   ClientGen = robot_pc_pojo:get_tcp_client_gen(Data),
@@ -74,6 +75,11 @@ set_tcp_client_gen(TcpClientGen)->
   priv_update(NewData),
   ?OK.
 
+send_no_mid_msg({C2SId,BinData})->
+  MsgId = 0,
+  ClientGen = get_tcp_client_gen(),
+  yynw_tcp_client_api:send(ClientGen,{MsgId,C2SId,BinData}),
+  ?OK.
 send_msg({C2SId,BinData})->
   MsgId = priv_get_and_incr_msgId(),
 %%  ?LOG_INFO({"client send msg:",{MsgId,C2SId,BinData}}),
@@ -88,6 +94,7 @@ send_msg({C2SId,BinData})->
 %%      ?OK
 %%  end,
   ?OK.
+
 
 priv_get_and_incr_msgId()->
   Data = priv_get_data(),
@@ -107,7 +114,6 @@ priv_is_miss_client_pack()->
   Data = priv_get_data(),
   robot_pc_pojo:is_miss_client_pack(Data).
 
-
 reset_client_mid(ClientMid)->
   Data = priv_get_data(),
   Data_1= robot_pc_pojo:set_client_mid(ClientMid,Data),
@@ -122,6 +128,17 @@ is_gw_active() ->
 on_gw_active() ->
   Data = priv_get_data(),
   NewData = robot_pc_pojo:set_is_active(?TRUE,Data),
+  priv_update(NewData),
+  ?OK.
+
+get_bs_data(BsKey)->
+  Data = priv_get_data(),
+  BsData = robot_pc_pojo:get_bs_data(BsKey,Data),
+  BsData.
+
+put_bs_data(BsKey,BsData)->
+  Data = priv_get_data(),
+  NewData = robot_pc_pojo:put_bs_data(BsKey,BsData,Data),
   priv_update(NewData),
   ?OK.
 

@@ -23,8 +23,8 @@
 new_pojo(RoleId)->
   #{
     '_id' => RoleId,ver=>0,class=>?MODULE,
-    headId=>?NOT_SET,
-    head_border => ?NOT_SET
+    headId=>?NOT_SET,   %% 头像
+    head_border => ?NOT_SET  %% 边框
   }.
 
 is_class(ItemMap)->

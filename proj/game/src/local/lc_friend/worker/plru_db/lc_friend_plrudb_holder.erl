@@ -14,7 +14,7 @@
 
 %% API functions defined
 -export([proc_init/0,update_to_db/0,do_lru/0]).
--export([get_data/1, put_data/1]).
+-export([get_data/1, create/1,update/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -56,8 +56,13 @@ get_data(RoleId)->
     end,
   Data.
 
-put_data(Data)->
+create(Data)->
+  lc_friend_pdb_holder:create(Data),
+  ?OK.
+
+
+update(Data)->
   NewData = lc_friend_pdb_pojo:incr_ver(Data),
-  lc_friend_pdb_holder:put_data(NewData),
+  lc_friend_pdb_holder:update(NewData),
   lc_friend_plrudb_cache_dao:put_lru_data(NewData),
   ?OK.

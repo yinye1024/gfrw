@@ -14,12 +14,12 @@
 -define(ETS_CACHE_ID,?MODULE).
 
 %% API functions defined
--export([init/0,reg/2,un_reg/1,get_pid/1]).
+-export([ets_init/0,reg/2,un_reg/1,get_pid/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-init()->
+ets_init()->
   case yyu_ets_cache_dao:is_inited(?ETS_CACHE_ID) of
     ?FALSE ->
       yyu_ets_cache_dao:init(?ETS_CACHE_ID),

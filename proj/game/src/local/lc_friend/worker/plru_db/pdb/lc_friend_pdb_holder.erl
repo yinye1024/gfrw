@@ -14,7 +14,8 @@
 -define(DATA_TYPE,?MODULE).
 
 %% API functions defined
--export([proc_init/0,get_data/1,put_data/1, update_func/1]).
+-export([proc_init/0,get_data/1, priv_put_to_pc/1, update_func/1]).
+-export([create/1,update/1]).
 -export([is_data_dirty/1,remove_data/1]).
 
 %% ===================================================================================
@@ -30,14 +31,22 @@ get_data(FriendId)->
       case lc_friend_pdb_dao:get_data(FriendId) of
         ?NOT_SET ->?NOT_SET;
         DataTmp ->
-          put_data(DataTmp),
+          priv_put_to_pc(DataTmp),
           DataTmp
       end;
     DataTmp->DataTmp
   end,
   Data.
+create(Data)->
+  lc_friend_pdb_dao:create(Data),
+  ?OK.
 
-put_data(Data)->
+update(Data)->
+  priv_put_to_pc(Data),
+  ?OK.
+
+
+priv_put_to_pc(Data)->
   FriendId = lc_friend_pdb_pojo:get_id(Data),
   UpdateFun = fun ?MODULE:update_func/1,
   Ver = lc_friend_pdb_pojo:get_ver(Data),

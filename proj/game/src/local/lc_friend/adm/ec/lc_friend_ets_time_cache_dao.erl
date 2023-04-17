@@ -11,14 +11,14 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API functions defined
--export([proc_init/0,is_inited/0]).
+-export([ets_init/0,is_inited/0]).
 -export([get_data/1,put_data/1,remove/1]).
 -export([check_and_clean_expired/0]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
 %% 一般使用这个就可以了，单进程写，多进程读，针对写少读多的情况。
-proc_init() ->
+ets_init() ->
   yyu_ets_time_cache_dao:init(?MODULE),
   ?OK.
 
@@ -30,14 +30,13 @@ get_data(FriendId)->
   case yyu_ets_time_cache_dao:get_data(?MODULE,FriendId) of
     ?NOT_SET ->?NOT_SET;
     {ExpiredTime, DataTmp}->
-      %% 离过期时间5分钟，才考虑重新计算过期时间。
-      RefreshTimeInSecond = 300,
-      case ExpiredTime < yyu_time:now_seconds()+RefreshTimeInSecond of
-        ?TRUE ->
-          put_data(DataTmp);
-        ?FALSE ->?OK
-      end,
-      DataTmp
+      DataTmp_1 =
+        case ExpiredTime < yyu_time:now_seconds()of
+          ?TRUE ->
+            ?NOT_SET;
+          ?FALSE ->DataTmp
+        end,
+      DataTmp_1
   end,
   Data.
 

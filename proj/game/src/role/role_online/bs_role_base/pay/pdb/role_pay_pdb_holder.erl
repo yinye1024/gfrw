@@ -22,7 +22,8 @@
 init(DataId)->
   case role_pay_pdb_dao:get_by_id(DataId) of
     ?NOT_SET ->
-      Data = role_pay_pdb_dao:create(DataId),
+      Data = role_pay_pdb_pojo:new_pojo(DataId),
+      role_pay_pdb_dao:create(Data),
       put_data(Data),
       ?OK;
     Data->

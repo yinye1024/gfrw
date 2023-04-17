@@ -68,9 +68,15 @@
 
 -type friend_handle_apply_s2c() :: #friend_handle_apply_s2c{}.
 
--export_type(['friend_apply_list_c2s'/0, 'friend_apply_list_s2c'/0, 'p_applyInfo'/0, 'friend_new_apply_c2s'/0, 'friend_new_apply_s2c'/0, 'friend_handle_apply_c2s'/0, 'friend_handle_apply_s2c'/0]).
--type '$msg_name'() :: friend_apply_list_c2s | friend_apply_list_s2c | p_applyInfo | friend_new_apply_c2s | friend_new_apply_s2c | friend_handle_apply_c2s | friend_handle_apply_s2c.
--type '$msg'() :: friend_apply_list_c2s() | friend_apply_list_s2c() | p_applyInfo() | friend_new_apply_c2s() | friend_new_apply_s2c() | friend_handle_apply_c2s() | friend_handle_apply_s2c().
+-type friend_list_c2s() :: #friend_list_c2s{}.
+
+-type friend_list_s2c() :: #friend_list_s2c{}.
+
+-type p_friendInfo() :: #p_friendInfo{}.
+
+-export_type(['friend_apply_list_c2s'/0, 'friend_apply_list_s2c'/0, 'p_applyInfo'/0, 'friend_new_apply_c2s'/0, 'friend_new_apply_s2c'/0, 'friend_handle_apply_c2s'/0, 'friend_handle_apply_s2c'/0, 'friend_list_c2s'/0, 'friend_list_s2c'/0, 'p_friendInfo'/0]).
+-type '$msg_name'() :: friend_apply_list_c2s | friend_apply_list_s2c | p_applyInfo | friend_new_apply_c2s | friend_new_apply_s2c | friend_handle_apply_c2s | friend_handle_apply_s2c | friend_list_c2s | friend_list_s2c | p_friendInfo.
+-type '$msg'() :: friend_apply_list_c2s() | friend_apply_list_s2c() | p_applyInfo() | friend_new_apply_c2s() | friend_new_apply_s2c() | friend_handle_apply_c2s() | friend_handle_apply_s2c() | friend_list_c2s() | friend_list_s2c() | p_friendInfo().
 -export_type(['$msg_name'/0, '$msg'/0]).
 
 -spec encode_msg('$msg'()) -> binary().
@@ -94,7 +100,10 @@ encode_msg(Msg, MsgName, Opts) ->
       friend_new_apply_c2s -> encode_msg_friend_new_apply_c2s(id(Msg, TrUserData), TrUserData);
       friend_new_apply_s2c -> encode_msg_friend_new_apply_s2c(id(Msg, TrUserData), TrUserData);
       friend_handle_apply_c2s -> encode_msg_friend_handle_apply_c2s(id(Msg, TrUserData), TrUserData);
-      friend_handle_apply_s2c -> encode_msg_friend_handle_apply_s2c(id(Msg, TrUserData), TrUserData)
+      friend_handle_apply_s2c -> encode_msg_friend_handle_apply_s2c(id(Msg, TrUserData), TrUserData);
+      friend_list_c2s -> encode_msg_friend_list_c2s(id(Msg, TrUserData), TrUserData);
+      friend_list_s2c -> encode_msg_friend_list_s2c(id(Msg, TrUserData), TrUserData);
+      p_friendInfo -> encode_msg_p_friendInfo(id(Msg, TrUserData), TrUserData)
     end.
 
 
@@ -114,19 +123,20 @@ encode_msg_friend_apply_list_s2c(#friend_apply_list_s2c{apply_list = F1}, Bin, T
 encode_msg_p_applyInfo(Msg, TrUserData) -> encode_msg_p_applyInfo(Msg, <<>>, TrUserData).
 
 
-encode_msg_p_applyInfo(#p_applyInfo{role_id = F1, name = F2, gender = F3}, Bin, TrUserData) ->
+encode_msg_p_applyInfo(#p_applyInfo{id = F1, role_id = F2, name = F3, gender = F4}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end,
-    B2 = if F2 == undefined -> B1;
-	    true -> begin TrF2 = id(F2, TrUserData), e_type_string(TrF2, <<B1/binary, 18>>, TrUserData) end
+    B2 = begin TrF2 = id(F2, TrUserData), e_type_int64(TrF2, <<B1/binary, 16>>, TrUserData) end,
+    B3 = if F3 == undefined -> B2;
+	    true -> begin TrF3 = id(F3, TrUserData), e_type_string(TrF3, <<B2/binary, 26>>, TrUserData) end
 	 end,
-    if F3 == undefined -> B2;
-       true -> begin TrF3 = id(F3, TrUserData), e_type_int32(TrF3, <<B2/binary, 24>>, TrUserData) end
+    if F4 == undefined -> B3;
+       true -> begin TrF4 = id(F4, TrUserData), e_type_int32(TrF4, <<B3/binary, 32>>, TrUserData) end
     end.
 
 encode_msg_friend_new_apply_c2s(Msg, TrUserData) -> encode_msg_friend_new_apply_c2s(Msg, <<>>, TrUserData).
 
 
-encode_msg_friend_new_apply_c2s(#friend_new_apply_c2s{role_id = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end.
+encode_msg_friend_new_apply_c2s(#friend_new_apply_c2s{friend_uid = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end.
 
 encode_msg_friend_new_apply_s2c(Msg, TrUserData) -> encode_msg_friend_new_apply_s2c(Msg, <<>>, TrUserData).
 
@@ -144,11 +154,41 @@ encode_msg_friend_handle_apply_s2c(Msg, TrUserData) -> encode_msg_friend_handle_
 
 encode_msg_friend_handle_apply_s2c(#friend_handle_apply_s2c{success = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end.
 
+encode_msg_friend_list_c2s(_Msg, _TrUserData) -> <<>>.
+
+encode_msg_friend_list_s2c(Msg, TrUserData) -> encode_msg_friend_list_s2c(Msg, <<>>, TrUserData).
+
+
+encode_msg_friend_list_s2c(#friend_list_s2c{friend_list = F1}, Bin, TrUserData) ->
+    begin
+      TrF1 = id(F1, TrUserData),
+      if TrF1 == [] -> Bin;
+	 true -> e_field_friend_list_s2c_friend_list(TrF1, Bin, TrUserData)
+      end
+    end.
+
+encode_msg_p_friendInfo(Msg, TrUserData) -> encode_msg_p_friendInfo(Msg, <<>>, TrUserData).
+
+
+encode_msg_p_friendInfo(#p_friendInfo{role_id = F1, name = F2, gender = F3}, Bin, TrUserData) ->
+    B1 = begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end,
+    B2 = if F2 == undefined -> B1;
+	    true -> begin TrF2 = id(F2, TrUserData), e_type_string(TrF2, <<B1/binary, 18>>, TrUserData) end
+	 end,
+    if F3 == undefined -> B2;
+       true -> begin TrF3 = id(F3, TrUserData), e_type_int32(TrF3, <<B2/binary, 24>>, TrUserData) end
+    end.
+
 e_mfield_friend_apply_list_s2c_apply_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_applyInfo(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
 
 e_field_friend_apply_list_s2c_apply_list([Elem | Rest], Bin, TrUserData) ->
     Bin2 = <<Bin/binary, 10>>, Bin3 = e_mfield_friend_apply_list_s2c_apply_list(id(Elem, TrUserData), Bin2, TrUserData), e_field_friend_apply_list_s2c_apply_list(Rest, Bin3, TrUserData);
 e_field_friend_apply_list_s2c_apply_list([], Bin, _TrUserData) -> Bin.
+
+e_mfield_friend_list_s2c_friend_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_friendInfo(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
+
+e_field_friend_list_s2c_friend_list([Elem | Rest], Bin, TrUserData) -> Bin2 = <<Bin/binary, 10>>, Bin3 = e_mfield_friend_list_s2c_friend_list(id(Elem, TrUserData), Bin2, TrUserData), e_field_friend_list_s2c_friend_list(Rest, Bin3, TrUserData);
+e_field_friend_list_s2c_friend_list([], Bin, _TrUserData) -> Bin.
 
 -compile({nowarn_unused_function,e_type_sint/3}).
 e_type_sint(Value, Bin, _TrUserData) when Value >= 0 -> e_varint(Value * 2, Bin);
@@ -250,7 +290,10 @@ decode_msg_2_doit(p_applyInfo, Bin, TrUserData) -> id(decode_msg_p_applyInfo(Bin
 decode_msg_2_doit(friend_new_apply_c2s, Bin, TrUserData) -> id(decode_msg_friend_new_apply_c2s(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(friend_new_apply_s2c, Bin, TrUserData) -> id(decode_msg_friend_new_apply_s2c(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(friend_handle_apply_c2s, Bin, TrUserData) -> id(decode_msg_friend_handle_apply_c2s(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(friend_handle_apply_s2c, Bin, TrUserData) -> id(decode_msg_friend_handle_apply_s2c(Bin, TrUserData), TrUserData).
+decode_msg_2_doit(friend_handle_apply_s2c, Bin, TrUserData) -> id(decode_msg_friend_handle_apply_s2c(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(friend_list_c2s, Bin, TrUserData) -> id(decode_msg_friend_list_c2s(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(friend_list_s2c, Bin, TrUserData) -> id(decode_msg_friend_list_s2c(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(p_friendInfo, Bin, TrUserData) -> id(decode_msg_p_friendInfo(Bin, TrUserData), TrUserData).
 
 
 
@@ -322,67 +365,74 @@ skip_32_friend_apply_list_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData
 
 skip_64_friend_apply_list_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_friend_apply_list_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-decode_msg_p_applyInfo(Bin, TrUserData) -> dfp_read_field_def_p_applyInfo(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_p_applyInfo(Bin, TrUserData) -> dfp_read_field_def_p_applyInfo(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_p_applyInfo(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_applyInfo_role_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_applyInfo(<<18, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_applyInfo_name(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_applyInfo(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_applyInfo_gender(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_applyInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_applyInfo{role_id = F@_1, name = F@_2, gender = F@_3};
-dfp_read_field_def_p_applyInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_p_applyInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+dfp_read_field_def_p_applyInfo(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_p_applyInfo_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_p_applyInfo(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_p_applyInfo_role_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_p_applyInfo(<<26, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_p_applyInfo_name(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_p_applyInfo(<<32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> d_field_p_applyInfo_gender(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_p_applyInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #p_applyInfo{id = F@_1, role_id = F@_2, name = F@_3, gender = F@_4};
+dfp_read_field_def_p_applyInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dg_read_field_def_p_applyInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
-dg_read_field_def_p_applyInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_applyInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-dg_read_field_def_p_applyInfo(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
+dg_read_field_def_p_applyInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_applyInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+dg_read_field_def_p_applyInfo(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_p_applyInfo_role_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
-      18 -> d_field_p_applyInfo_name(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
-      24 -> d_field_p_applyInfo_gender(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      8 -> d_field_p_applyInfo_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      16 -> d_field_p_applyInfo_role_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      26 -> d_field_p_applyInfo_name(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
+      32 -> d_field_p_applyInfo_gender(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    1 -> skip_64_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    2 -> skip_length_delimited_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    3 -> skip_group_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    5 -> skip_32_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
+	    0 -> skip_varint_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData);
+	    1 -> skip_64_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData);
+	    2 -> skip_length_delimited_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData);
+	    3 -> skip_group_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData);
+	    5 -> skip_32_p_applyInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, TrUserData)
 	  end
     end;
-dg_read_field_def_p_applyInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_applyInfo{role_id = F@_1, name = F@_2, gender = F@_3}.
+dg_read_field_def_p_applyInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, _) -> #p_applyInfo{id = F@_1, role_id = F@_2, name = F@_3, gender = F@_4}.
 
-d_field_p_applyInfo_role_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_applyInfo_role_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_applyInfo_role_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
+d_field_p_applyInfo_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_p_applyInfo_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_p_applyInfo_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, NewFValue, F@_2, F@_3, F@_4, TrUserData).
 
-d_field_p_applyInfo_name(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_applyInfo_name(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_applyInfo_name(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
-    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bytes:Len/binary, Rest2/binary>> = Rest, Bytes2 = binary:copy(Bytes), {id(Bytes2, TrUserData), Rest2} end, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
+d_field_p_applyInfo_role_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_p_applyInfo_role_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_p_applyInfo_role_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, F@_1, NewFValue, F@_3, F@_4, TrUserData).
 
-d_field_p_applyInfo_gender(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_applyInfo_gender(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_applyInfo_gender(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
+d_field_p_applyInfo_name(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_p_applyInfo_name(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_p_applyInfo_name(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bytes:Len/binary, Rest2/binary>> = Rest, Bytes2 = binary:copy(Bytes), {id(Bytes2, TrUserData), Rest2} end, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, F@_1, F@_2, NewFValue, F@_4, TrUserData).
 
-skip_varint_p_applyInfo(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-skip_varint_p_applyInfo(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+d_field_p_applyInfo_gender(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> d_field_p_applyInfo_gender(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_p_applyInfo_gender(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_applyInfo(RestF, 0, 0, F, F@_1, F@_2, F@_3, NewFValue, TrUserData).
 
-skip_length_delimited_p_applyInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_p_applyInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-skip_length_delimited_p_applyInfo(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_applyInfo(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
+skip_varint_p_applyInfo(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> skip_varint_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+skip_varint_p_applyInfo(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
-skip_group_p_applyInfo(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_applyInfo(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
+skip_length_delimited_p_applyInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) when N < 57 -> skip_length_delimited_p_applyInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData);
+skip_length_delimited_p_applyInfo(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_applyInfo(Rest2, 0, 0, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
-skip_32_p_applyInfo(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+skip_group_p_applyInfo(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, F@_4, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_applyInfo(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
-skip_64_p_applyInfo(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+skip_32_p_applyInfo(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
+
+skip_64_p_applyInfo(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData) -> dfp_read_field_def_p_applyInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, TrUserData).
 
 decode_msg_friend_new_apply_c2s(Bin, TrUserData) -> dfp_read_field_def_friend_new_apply_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_friend_new_apply_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_friend_new_apply_c2s_role_id(Rest, Z1, Z2, F, F@_1, TrUserData);
-dfp_read_field_def_friend_new_apply_c2s(<<>>, 0, 0, _, F@_1, _) -> #friend_new_apply_c2s{role_id = F@_1};
+dfp_read_field_def_friend_new_apply_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_friend_new_apply_c2s_friend_uid(Rest, Z1, Z2, F, F@_1, TrUserData);
+dfp_read_field_def_friend_new_apply_c2s(<<>>, 0, 0, _, F@_1, _) -> #friend_new_apply_c2s{friend_uid = F@_1};
 dfp_read_field_def_friend_new_apply_c2s(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_friend_new_apply_c2s(Other, Z1, Z2, F, F@_1, TrUserData).
 
 dg_read_field_def_friend_new_apply_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_friend_new_apply_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
 dg_read_field_def_friend_new_apply_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_friend_new_apply_c2s_role_id(Rest, 0, 0, 0, F@_1, TrUserData);
+      8 -> d_field_friend_new_apply_c2s_friend_uid(Rest, 0, 0, 0, F@_1, TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 -> skip_varint_friend_new_apply_c2s(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
@@ -392,10 +442,10 @@ dg_read_field_def_friend_new_apply_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_
 	    5 -> skip_32_friend_new_apply_c2s(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
 	  end
     end;
-dg_read_field_def_friend_new_apply_c2s(<<>>, 0, 0, _, F@_1, _) -> #friend_new_apply_c2s{role_id = F@_1}.
+dg_read_field_def_friend_new_apply_c2s(<<>>, 0, 0, _, F@_1, _) -> #friend_new_apply_c2s{friend_uid = F@_1}.
 
-d_field_friend_new_apply_c2s_role_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_friend_new_apply_c2s_role_id(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-d_field_friend_new_apply_c2s_role_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) ->
+d_field_friend_new_apply_c2s_friend_uid(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_friend_new_apply_c2s_friend_uid(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+d_field_friend_new_apply_c2s_friend_uid(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) ->
     {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_friend_new_apply_c2s(RestF, 0, 0, F, NewFValue, TrUserData).
 
 skip_varint_friend_new_apply_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_friend_new_apply_c2s(Rest, Z1, Z2, F, F@_1, TrUserData);
@@ -529,6 +579,124 @@ skip_32_friend_handle_apply_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserDa
 
 skip_64_friend_handle_apply_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_friend_handle_apply_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
+decode_msg_friend_list_c2s(Bin, TrUserData) -> dfp_read_field_def_friend_list_c2s(Bin, 0, 0, 0, TrUserData).
+
+dfp_read_field_def_friend_list_c2s(<<>>, 0, 0, _, _) -> #friend_list_c2s{};
+dfp_read_field_def_friend_list_c2s(Other, Z1, Z2, F, TrUserData) -> dg_read_field_def_friend_list_c2s(Other, Z1, Z2, F, TrUserData).
+
+dg_read_field_def_friend_list_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, TrUserData) when N < 32 - 7 -> dg_read_field_def_friend_list_c2s(Rest, N + 7, X bsl N + Acc, F, TrUserData);
+dg_read_field_def_friend_list_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key band 7 of
+      0 -> skip_varint_friend_list_c2s(Rest, 0, 0, Key bsr 3, TrUserData);
+      1 -> skip_64_friend_list_c2s(Rest, 0, 0, Key bsr 3, TrUserData);
+      2 -> skip_length_delimited_friend_list_c2s(Rest, 0, 0, Key bsr 3, TrUserData);
+      3 -> skip_group_friend_list_c2s(Rest, 0, 0, Key bsr 3, TrUserData);
+      5 -> skip_32_friend_list_c2s(Rest, 0, 0, Key bsr 3, TrUserData)
+    end;
+dg_read_field_def_friend_list_c2s(<<>>, 0, 0, _, _) -> #friend_list_c2s{}.
+
+skip_varint_friend_list_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, TrUserData) -> skip_varint_friend_list_c2s(Rest, Z1, Z2, F, TrUserData);
+skip_varint_friend_list_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, TrUserData) -> dfp_read_field_def_friend_list_c2s(Rest, Z1, Z2, F, TrUserData).
+
+skip_length_delimited_friend_list_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, TrUserData) when N < 57 -> skip_length_delimited_friend_list_c2s(Rest, N + 7, X bsl N + Acc, F, TrUserData);
+skip_length_delimited_friend_list_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_friend_list_c2s(Rest2, 0, 0, F, TrUserData).
+
+skip_group_friend_list_c2s(Bin, _, Z2, FNum, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_friend_list_c2s(Rest, 0, Z2, FNum, TrUserData).
+
+skip_32_friend_list_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, TrUserData) -> dfp_read_field_def_friend_list_c2s(Rest, Z1, Z2, F, TrUserData).
+
+skip_64_friend_list_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, TrUserData) -> dfp_read_field_def_friend_list_c2s(Rest, Z1, Z2, F, TrUserData).
+
+decode_msg_friend_list_s2c(Bin, TrUserData) -> dfp_read_field_def_friend_list_s2c(Bin, 0, 0, 0, id([], TrUserData), TrUserData).
+
+dfp_read_field_def_friend_list_s2c(<<10, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_friend_list_s2c_friend_list(Rest, Z1, Z2, F, F@_1, TrUserData);
+dfp_read_field_def_friend_list_s2c(<<>>, 0, 0, _, R1, TrUserData) -> #friend_list_s2c{friend_list = lists_reverse(R1, TrUserData)};
+dfp_read_field_def_friend_list_s2c(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_friend_list_s2c(Other, Z1, Z2, F, F@_1, TrUserData).
+
+dg_read_field_def_friend_list_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_friend_list_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+dg_read_field_def_friend_list_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 -> d_field_friend_list_s2c_friend_list(Rest, 0, 0, 0, F@_1, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 -> skip_varint_friend_list_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    1 -> skip_64_friend_list_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    2 -> skip_length_delimited_friend_list_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    3 -> skip_group_friend_list_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    5 -> skip_32_friend_list_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
+	  end
+    end;
+dg_read_field_def_friend_list_s2c(<<>>, 0, 0, _, R1, TrUserData) -> #friend_list_s2c{friend_list = lists_reverse(R1, TrUserData)}.
+
+d_field_friend_list_s2c_friend_list(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_friend_list_s2c_friend_list(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+d_field_friend_list_s2c_friend_list(<<0:1, X:7, Rest/binary>>, N, Acc, F, Prev, TrUserData) ->
+    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bs:Len/binary, Rest2/binary>> = Rest, {id(decode_msg_p_friendInfo(Bs, TrUserData), TrUserData), Rest2} end,
+    dfp_read_field_def_friend_list_s2c(RestF, 0, 0, F, cons(NewFValue, Prev, TrUserData), TrUserData).
+
+skip_varint_friend_list_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_friend_list_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
+skip_varint_friend_list_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_friend_list_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+
+skip_length_delimited_friend_list_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> skip_length_delimited_friend_list_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+skip_length_delimited_friend_list_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_friend_list_s2c(Rest2, 0, 0, F, F@_1, TrUserData).
+
+skip_group_friend_list_s2c(Bin, _, Z2, FNum, F@_1, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_friend_list_s2c(Rest, 0, Z2, FNum, F@_1, TrUserData).
+
+skip_32_friend_list_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_friend_list_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+
+skip_64_friend_list_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_friend_list_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+
+decode_msg_p_friendInfo(Bin, TrUserData) -> dfp_read_field_def_p_friendInfo(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+
+dfp_read_field_def_p_friendInfo(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_friendInfo_role_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_friendInfo(<<18, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_friendInfo_name(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_friendInfo(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_friendInfo_gender(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_friendInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_friendInfo{role_id = F@_1, name = F@_2, gender = F@_3};
+dfp_read_field_def_p_friendInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_p_friendInfo(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+dg_read_field_def_p_friendInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_friendInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+dg_read_field_def_p_friendInfo(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      8 -> d_field_p_friendInfo_role_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      18 -> d_field_p_friendInfo_name(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      24 -> d_field_p_friendInfo_gender(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 -> skip_varint_p_friendInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    1 -> skip_64_p_friendInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    2 -> skip_length_delimited_p_friendInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    3 -> skip_group_p_friendInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    5 -> skip_32_p_friendInfo(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
+	  end
+    end;
+dg_read_field_def_p_friendInfo(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_friendInfo{role_id = F@_1, name = F@_2, gender = F@_3}.
+
+d_field_p_friendInfo_role_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_friendInfo_role_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_friendInfo_role_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_friendInfo(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
+
+d_field_p_friendInfo_name(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_friendInfo_name(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_friendInfo_name(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bytes:Len/binary, Rest2/binary>> = Rest, Bytes2 = binary:copy(Bytes), {id(Bytes2, TrUserData), Rest2} end, dfp_read_field_def_p_friendInfo(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
+
+d_field_p_friendInfo_gender(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_friendInfo_gender(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_friendInfo_gender(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_friendInfo(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
+
+skip_varint_p_friendInfo(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_p_friendInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+skip_varint_p_friendInfo(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_friendInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_length_delimited_p_friendInfo(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_p_friendInfo(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+skip_length_delimited_p_friendInfo(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_friendInfo(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_group_p_friendInfo(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_friendInfo(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
+
+skip_32_p_friendInfo(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_friendInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
+skip_64_p_friendInfo(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_friendInfo(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
     <<Group:NumBytes/binary, _:EndTagLen/binary, Rest/binary>> = Bin,
@@ -601,7 +769,10 @@ merge_msgs(Prev, New, MsgName, Opts) ->
       friend_new_apply_c2s -> merge_msg_friend_new_apply_c2s(Prev, New, TrUserData);
       friend_new_apply_s2c -> merge_msg_friend_new_apply_s2c(Prev, New, TrUserData);
       friend_handle_apply_c2s -> merge_msg_friend_handle_apply_c2s(Prev, New, TrUserData);
-      friend_handle_apply_s2c -> merge_msg_friend_handle_apply_s2c(Prev, New, TrUserData)
+      friend_handle_apply_s2c -> merge_msg_friend_handle_apply_s2c(Prev, New, TrUserData);
+      friend_list_c2s -> merge_msg_friend_list_c2s(Prev, New, TrUserData);
+      friend_list_s2c -> merge_msg_friend_list_s2c(Prev, New, TrUserData);
+      p_friendInfo -> merge_msg_p_friendInfo(Prev, New, TrUserData)
     end.
 
 -compile({nowarn_unused_function,merge_msg_friend_apply_list_c2s/3}).
@@ -616,8 +787,8 @@ merge_msg_friend_apply_list_s2c(#friend_apply_list_s2c{apply_list = PFapply_list
 			       end}.
 
 -compile({nowarn_unused_function,merge_msg_p_applyInfo/3}).
-merge_msg_p_applyInfo(#p_applyInfo{name = PFname, gender = PFgender}, #p_applyInfo{role_id = NFrole_id, name = NFname, gender = NFgender}, _) ->
-    #p_applyInfo{role_id = NFrole_id,
+merge_msg_p_applyInfo(#p_applyInfo{name = PFname, gender = PFgender}, #p_applyInfo{id = NFid, role_id = NFrole_id, name = NFname, gender = NFgender}, _) ->
+    #p_applyInfo{id = NFid, role_id = NFrole_id,
 		 name =
 		     if NFname =:= undefined -> PFname;
 			true -> NFname
@@ -628,7 +799,7 @@ merge_msg_p_applyInfo(#p_applyInfo{name = PFname, gender = PFgender}, #p_applyIn
 		     end}.
 
 -compile({nowarn_unused_function,merge_msg_friend_new_apply_c2s/3}).
-merge_msg_friend_new_apply_c2s(#friend_new_apply_c2s{}, #friend_new_apply_c2s{role_id = NFrole_id}, _) -> #friend_new_apply_c2s{role_id = NFrole_id}.
+merge_msg_friend_new_apply_c2s(#friend_new_apply_c2s{}, #friend_new_apply_c2s{friend_uid = NFfriend_uid}, _) -> #friend_new_apply_c2s{friend_uid = NFfriend_uid}.
 
 -compile({nowarn_unused_function,merge_msg_friend_new_apply_s2c/3}).
 merge_msg_friend_new_apply_s2c(#friend_new_apply_s2c{}, #friend_new_apply_s2c{success = NFsuccess}, _) -> #friend_new_apply_s2c{success = NFsuccess}.
@@ -638,6 +809,29 @@ merge_msg_friend_handle_apply_c2s(#friend_handle_apply_c2s{}, #friend_handle_app
 
 -compile({nowarn_unused_function,merge_msg_friend_handle_apply_s2c/3}).
 merge_msg_friend_handle_apply_s2c(#friend_handle_apply_s2c{}, #friend_handle_apply_s2c{success = NFsuccess}, _) -> #friend_handle_apply_s2c{success = NFsuccess}.
+
+-compile({nowarn_unused_function,merge_msg_friend_list_c2s/3}).
+merge_msg_friend_list_c2s(_Prev, New, _TrUserData) -> New.
+
+-compile({nowarn_unused_function,merge_msg_friend_list_s2c/3}).
+merge_msg_friend_list_s2c(#friend_list_s2c{friend_list = PFfriend_list}, #friend_list_s2c{friend_list = NFfriend_list}, TrUserData) ->
+    #friend_list_s2c{friend_list =
+			 if PFfriend_list /= undefined, NFfriend_list /= undefined -> 'erlang_++'(PFfriend_list, NFfriend_list, TrUserData);
+			    PFfriend_list == undefined -> NFfriend_list;
+			    NFfriend_list == undefined -> PFfriend_list
+			 end}.
+
+-compile({nowarn_unused_function,merge_msg_p_friendInfo/3}).
+merge_msg_p_friendInfo(#p_friendInfo{name = PFname, gender = PFgender}, #p_friendInfo{role_id = NFrole_id, name = NFname, gender = NFgender}, _) ->
+    #p_friendInfo{role_id = NFrole_id,
+		  name =
+		      if NFname =:= undefined -> PFname;
+			 true -> NFname
+		      end,
+		  gender =
+		      if NFgender =:= undefined -> PFgender;
+			 true -> NFgender
+		      end}.
 
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 -> verify_msg(Msg, element(1, Msg), []);
@@ -657,6 +851,9 @@ verify_msg(Msg, MsgName, Opts) ->
       friend_new_apply_s2c -> v_msg_friend_new_apply_s2c(Msg, [MsgName], TrUserData);
       friend_handle_apply_c2s -> v_msg_friend_handle_apply_c2s(Msg, [MsgName], TrUserData);
       friend_handle_apply_s2c -> v_msg_friend_handle_apply_s2c(Msg, [MsgName], TrUserData);
+      friend_list_c2s -> v_msg_friend_list_c2s(Msg, [MsgName], TrUserData);
+      friend_list_s2c -> v_msg_friend_list_s2c(Msg, [MsgName], TrUserData);
+      p_friendInfo -> v_msg_p_friendInfo(Msg, [MsgName], TrUserData);
       _ -> mk_type_error(not_a_known_message, Msg, [])
     end.
 
@@ -677,20 +874,21 @@ v_msg_friend_apply_list_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg
 
 -compile({nowarn_unused_function,v_msg_p_applyInfo/3}).
 -dialyzer({nowarn_function,v_msg_p_applyInfo/3}).
-v_msg_p_applyInfo(#p_applyInfo{role_id = F1, name = F2, gender = F3}, Path, TrUserData) ->
-    v_type_int64(F1, [role_id | Path], TrUserData),
-    if F2 == undefined -> ok;
-       true -> v_type_string(F2, [name | Path], TrUserData)
-    end,
+v_msg_p_applyInfo(#p_applyInfo{id = F1, role_id = F2, name = F3, gender = F4}, Path, TrUserData) ->
+    v_type_int64(F1, [id | Path], TrUserData),
+    v_type_int64(F2, [role_id | Path], TrUserData),
     if F3 == undefined -> ok;
-       true -> v_type_int32(F3, [gender | Path], TrUserData)
+       true -> v_type_string(F3, [name | Path], TrUserData)
+    end,
+    if F4 == undefined -> ok;
+       true -> v_type_int32(F4, [gender | Path], TrUserData)
     end,
     ok;
 v_msg_p_applyInfo(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_applyInfo}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_friend_new_apply_c2s/3}).
 -dialyzer({nowarn_function,v_msg_friend_new_apply_c2s/3}).
-v_msg_friend_new_apply_c2s(#friend_new_apply_c2s{role_id = F1}, Path, TrUserData) -> v_type_int64(F1, [role_id | Path], TrUserData), ok;
+v_msg_friend_new_apply_c2s(#friend_new_apply_c2s{friend_uid = F1}, Path, TrUserData) -> v_type_int64(F1, [friend_uid | Path], TrUserData), ok;
 v_msg_friend_new_apply_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, friend_new_apply_c2s}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_friend_new_apply_s2c/3}).
@@ -707,6 +905,33 @@ v_msg_friend_handle_apply_c2s(X, Path, _TrUserData) -> mk_type_error({expected_m
 -dialyzer({nowarn_function,v_msg_friend_handle_apply_s2c/3}).
 v_msg_friend_handle_apply_s2c(#friend_handle_apply_s2c{success = F1}, Path, TrUserData) -> v_type_bool(F1, [success | Path], TrUserData), ok;
 v_msg_friend_handle_apply_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, friend_handle_apply_s2c}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_friend_list_c2s/3}).
+-dialyzer({nowarn_function,v_msg_friend_list_c2s/3}).
+v_msg_friend_list_c2s(#friend_list_c2s{}, _Path, _) -> ok;
+v_msg_friend_list_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, friend_list_c2s}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_friend_list_s2c/3}).
+-dialyzer({nowarn_function,v_msg_friend_list_s2c/3}).
+v_msg_friend_list_s2c(#friend_list_s2c{friend_list = F1}, Path, TrUserData) ->
+    if is_list(F1) -> _ = [v_msg_p_friendInfo(Elem, [friend_list | Path], TrUserData) || Elem <- F1], ok;
+       true -> mk_type_error({invalid_list_of, {msg, p_friendInfo}}, F1, [friend_list | Path])
+    end,
+    ok;
+v_msg_friend_list_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, friend_list_s2c}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_p_friendInfo/3}).
+-dialyzer({nowarn_function,v_msg_p_friendInfo/3}).
+v_msg_p_friendInfo(#p_friendInfo{role_id = F1, name = F2, gender = F3}, Path, TrUserData) ->
+    v_type_int64(F1, [role_id | Path], TrUserData),
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [name | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_int32(F3, [gender | Path], TrUserData)
+    end,
+    ok;
+v_msg_p_friendInfo(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_friendInfo}, X, Path).
 
 -compile({nowarn_unused_function,v_type_int32/3}).
 -dialyzer({nowarn_function,v_type_int32/3}).
@@ -777,20 +1002,25 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 get_msg_defs() ->
     [{{msg, friend_apply_list_c2s}, []}, {{msg, friend_apply_list_s2c}, [#field{name = apply_list, fnum = 1, rnum = 2, type = {msg, p_applyInfo}, occurrence = repeated, opts = []}]},
      {{msg, p_applyInfo},
-      [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = name, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
-       #field{name = gender, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}]},
-     {{msg, friend_new_apply_c2s}, [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}]}, {{msg, friend_new_apply_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]},
+      [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = role_id, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []},
+       #field{name = name, fnum = 3, rnum = 4, type = string, occurrence = optional, opts = []}, #field{name = gender, fnum = 4, rnum = 5, type = int32, occurrence = optional, opts = []}]},
+     {{msg, friend_new_apply_c2s}, [#field{name = friend_uid, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}]},
+     {{msg, friend_new_apply_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]},
      {{msg, friend_handle_apply_c2s}, [#field{name = apply_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = is_accept, fnum = 2, rnum = 3, type = bool, occurrence = required, opts = []}]},
-     {{msg, friend_handle_apply_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]}].
+     {{msg, friend_handle_apply_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]}, {{msg, friend_list_c2s}, []},
+     {{msg, friend_list_s2c}, [#field{name = friend_list, fnum = 1, rnum = 2, type = {msg, p_friendInfo}, occurrence = repeated, opts = []}]},
+     {{msg, p_friendInfo},
+      [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = name, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
+       #field{name = gender, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}]}].
 
 
-get_msg_names() -> [friend_apply_list_c2s, friend_apply_list_s2c, p_applyInfo, friend_new_apply_c2s, friend_new_apply_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c].
+get_msg_names() -> [friend_apply_list_c2s, friend_apply_list_s2c, p_applyInfo, friend_new_apply_c2s, friend_new_apply_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c, friend_list_c2s, friend_list_s2c, p_friendInfo].
 
 
 get_group_names() -> [].
 
 
-get_msg_or_group_names() -> [friend_apply_list_c2s, friend_apply_list_s2c, p_applyInfo, friend_new_apply_c2s, friend_new_apply_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c].
+get_msg_or_group_names() -> [friend_apply_list_c2s, friend_apply_list_s2c, p_applyInfo, friend_new_apply_c2s, friend_new_apply_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c, friend_list_c2s, friend_list_s2c, p_friendInfo].
 
 
 get_enum_names() -> [].
@@ -810,12 +1040,17 @@ fetch_enum_def(EnumName) -> erlang:error({no_such_enum, EnumName}).
 find_msg_def(friend_apply_list_c2s) -> [];
 find_msg_def(friend_apply_list_s2c) -> [#field{name = apply_list, fnum = 1, rnum = 2, type = {msg, p_applyInfo}, occurrence = repeated, opts = []}];
 find_msg_def(p_applyInfo) ->
-    [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = name, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
-     #field{name = gender, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}];
-find_msg_def(friend_new_apply_c2s) -> [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}];
+    [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = role_id, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []},
+     #field{name = name, fnum = 3, rnum = 4, type = string, occurrence = optional, opts = []}, #field{name = gender, fnum = 4, rnum = 5, type = int32, occurrence = optional, opts = []}];
+find_msg_def(friend_new_apply_c2s) -> [#field{name = friend_uid, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}];
 find_msg_def(friend_new_apply_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
 find_msg_def(friend_handle_apply_c2s) -> [#field{name = apply_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = is_accept, fnum = 2, rnum = 3, type = bool, occurrence = required, opts = []}];
 find_msg_def(friend_handle_apply_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
+find_msg_def(friend_list_c2s) -> [];
+find_msg_def(friend_list_s2c) -> [#field{name = friend_list, fnum = 1, rnum = 2, type = {msg, p_friendInfo}, occurrence = repeated, opts = []}];
+find_msg_def(p_friendInfo) ->
+    [#field{name = role_id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = name, fnum = 2, rnum = 3, type = string, occurrence = optional, opts = []},
+     #field{name = gender, fnum = 3, rnum = 4, type = int32, occurrence = optional, opts = []}];
 find_msg_def(_) -> error.
 
 
@@ -881,6 +1116,9 @@ fqbin_to_msg_name(<<"friend_new_apply_c2s">>) -> friend_new_apply_c2s;
 fqbin_to_msg_name(<<"friend_new_apply_s2c">>) -> friend_new_apply_s2c;
 fqbin_to_msg_name(<<"friend_handle_apply_c2s">>) -> friend_handle_apply_c2s;
 fqbin_to_msg_name(<<"friend_handle_apply_s2c">>) -> friend_handle_apply_s2c;
+fqbin_to_msg_name(<<"friend_list_c2s">>) -> friend_list_c2s;
+fqbin_to_msg_name(<<"friend_list_s2c">>) -> friend_list_s2c;
+fqbin_to_msg_name(<<"p_friendInfo">>) -> p_friendInfo;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -891,6 +1129,9 @@ msg_name_to_fqbin(friend_new_apply_c2s) -> <<"friend_new_apply_c2s">>;
 msg_name_to_fqbin(friend_new_apply_s2c) -> <<"friend_new_apply_s2c">>;
 msg_name_to_fqbin(friend_handle_apply_c2s) -> <<"friend_handle_apply_c2s">>;
 msg_name_to_fqbin(friend_handle_apply_s2c) -> <<"friend_handle_apply_s2c">>;
+msg_name_to_fqbin(friend_list_c2s) -> <<"friend_list_c2s">>;
+msg_name_to_fqbin(friend_list_s2c) -> <<"friend_list_s2c">>;
+msg_name_to_fqbin(p_friendInfo) -> <<"p_friendInfo">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -929,7 +1170,7 @@ get_all_source_basenames() -> ["friend.proto"].
 get_all_proto_names() -> ["friend"].
 
 
-get_msg_containment("friend") -> [friend_apply_list_c2s, friend_apply_list_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c, friend_new_apply_c2s, friend_new_apply_s2c, p_applyInfo];
+get_msg_containment("friend") -> [friend_apply_list_c2s, friend_apply_list_s2c, friend_handle_apply_c2s, friend_handle_apply_s2c, friend_list_c2s, friend_list_s2c, friend_new_apply_c2s, friend_new_apply_s2c, p_applyInfo, p_friendInfo];
 get_msg_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
@@ -951,10 +1192,13 @@ get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 get_proto_by_msg_name_as_fqbin(<<"friend_new_apply_s2c">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"friend_new_apply_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"friend_list_s2c">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"friend_list_c2s">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"friend_handle_apply_s2c">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"friend_handle_apply_c2s">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"friend_apply_list_s2c">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"friend_apply_list_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"p_friendInfo">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(<<"p_applyInfo">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 

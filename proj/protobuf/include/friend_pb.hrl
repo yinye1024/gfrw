@@ -24,16 +24,17 @@
 -ifndef('P_APPLYINFO_PB_H').
 -define('P_APPLYINFO_PB_H', true).
 -record(p_applyInfo,
-        {role_id                :: integer() | undefined, % = 1, required, 64 bits
-         name                   :: unicode:chardata() | undefined, % = 2, optional
-         gender                 :: integer() | undefined % = 3, optional, 32 bits
+        {id                     :: integer() | undefined, % = 1, required, 64 bits
+         role_id                :: integer() | undefined, % = 2, required, 64 bits
+         name                   :: unicode:chardata() | undefined, % = 3, optional
+         gender                 :: integer() | undefined % = 4, optional, 32 bits
         }).
 -endif.
 
 -ifndef('FRIEND_NEW_APPLY_C2S_PB_H').
 -define('FRIEND_NEW_APPLY_C2S_PB_H', true).
 -record(friend_new_apply_c2s,
-        {role_id                :: integer() | undefined % = 1, required, 64 bits
+        {friend_uid             :: integer() | undefined % = 1, required, 64 bits
         }).
 -endif.
 
@@ -56,6 +57,29 @@
 -define('FRIEND_HANDLE_APPLY_S2C_PB_H', true).
 -record(friend_handle_apply_s2c,
         {success                :: boolean() | 0 | 1 | undefined % = 1, required
+        }).
+-endif.
+
+-ifndef('FRIEND_LIST_C2S_PB_H').
+-define('FRIEND_LIST_C2S_PB_H', true).
+-record(friend_list_c2s,
+        {
+        }).
+-endif.
+
+-ifndef('FRIEND_LIST_S2C_PB_H').
+-define('FRIEND_LIST_S2C_PB_H', true).
+-record(friend_list_s2c,
+        {friend_list = []       :: [friend_pb:p_friendInfo()] | undefined % = 1, repeated
+        }).
+-endif.
+
+-ifndef('P_FRIENDINFO_PB_H').
+-define('P_FRIENDINFO_PB_H', true).
+-record(p_friendInfo,
+        {role_id                :: integer() | undefined, % = 1, required, 64 bits
+         name                   :: unicode:chardata() | undefined, % = 2, optional
+         gender                 :: integer() | undefined % = 3, optional, 32 bits
         }).
 -endif.
 

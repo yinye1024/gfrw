@@ -15,8 +15,9 @@
 %% API functions defined
 -export([new_pojo/1,is_class/1,has_id/1,get_id/1,get_ver/1,incr_ver/1]).
 -export([add_blackId/2,rm_blackId/2]).
--export([add_friendId/2,rm_friendId/2]).
+-export([get_friendIdList/1,add_friendId/2,rm_friendId/2]).
 -export([get_all_apply/1,add_apply/2,rm_apply_byIndex/2]).
+-export([get_apply_index/1,is_apply_exist/2]).
 
 %% ===================================================================================
 %% API functions implements
@@ -60,6 +61,9 @@ priv_get_blackId_map(ItemMap) ->
 priv_set_blackId_map(Value, ItemMap) ->
   yyu_map:put_value(blackId_map, Value, ItemMap).
 
+get_friendIdList(ItemMap)->
+  Map = priv_get_friendId_map(ItemMap),
+  yyu_map:all_keys(Map).
 
 add_friendId(RoleId,ItemMap)->
   Map = priv_get_friendId_map(ItemMap),
@@ -88,6 +92,11 @@ add_apply(ApplyItem,ItemMap)->
   Map_1 = yyu_map:put_value(RoleId,ApplyItem_1,Map),
   priv_set_apply_map(Map_1,ItemMap_1).
 
+is_apply_exist(RoleId,ItemMap)->
+  Map = priv_get_apply_map(ItemMap),
+  yyu_map:has_key(RoleId,Map).
+
+
 rm_apply_byIndex(Index,ItemMap)->
   Map = priv_get_apply_map(ItemMap),
   FilterFun = fun(_RoleId,ApplyItem) -> lc_friend_apply_item:get_index(ApplyItem)>Index end,
@@ -98,10 +107,10 @@ priv_get_apply_map(ItemMap) ->
 priv_set_apply_map(Value, ItemMap) ->
   yyu_map:put_value(apply_map, Value, ItemMap).
 priv_incr_and_get_apply_index(ItemMap)->
-  NextIndex = priv_get_apply_index(ItemMap)+1,
+  NextIndex = get_apply_index(ItemMap)+1,
   ItemMap_1 = priv_set_apply_index(NextIndex, ItemMap),
   {NextIndex,ItemMap_1}.
-priv_get_apply_index(ItemMap) ->
+get_apply_index(ItemMap) ->
   yyu_map:get_value(apply_index, ItemMap).
 priv_set_apply_index(Value, ItemMap) ->
   yyu_map:put_value(apply_index, Value, ItemMap).

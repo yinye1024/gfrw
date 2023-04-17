@@ -30,14 +30,13 @@ get_data(TplId)->
   case yyu_ets_time_cache_dao:get_data(?MODULE,TplId) of
     ?NOT_SET ->?NOT_SET;
     {ExpiredTime, DataTmp}->
-      %% 离过期时间5分钟，才考虑重新计算过期时间。
-      RefreshTimeInSecond = 300,
-      case ExpiredTime < yyu_time:now_seconds()+RefreshTimeInSecond of
-        ?TRUE ->
-          put_data(DataTmp);
-        ?FALSE ->?OK
-      end,
-      DataTmp
+      DataTmp_1 =
+        case ExpiredTime < yyu_time:now_seconds()of
+          ?TRUE ->
+            ?NOT_SET;
+          ?FALSE ->DataTmp
+        end,
+      DataTmp_1
   end,
   Data.
 

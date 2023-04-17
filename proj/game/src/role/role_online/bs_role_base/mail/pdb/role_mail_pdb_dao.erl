@@ -12,7 +12,7 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 -define(DATA_TYPE,?MODULE).
--define(Collection, yyu_offline_mail:to_binary(?MODULE)).
+-define(Collection, yyu_misc:to_binary(?MODULE)).
 
 %% API functions defined
 -export([create/1,update/1, get_by_id/1,delete/1]).

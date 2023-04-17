@@ -17,6 +17,8 @@
 %%friend.proto
 -define(FRIEND_APPLY_LIST_C2S,301).
 -define(FRIEND_NEW_APPLY_C2S,302).
+-define(FRIEND_HANDLE_APPLY_C2S,303).
+-define(FRIEND_LIST_C2S,304).
 
 
 %% ===========================  c2s 结束 ===========================================================
@@ -40,6 +42,7 @@
 -define(FRIEND_APPLY_LIST_S2C,301).
 -define(FRIEND_NEW_APPLY_S2C,302).
 -define(FRIEND_HANDLE_APPLY_S2C,303).
+-define(FRIEND_LIST_S2C,304).
 
 
 %% ===========================  s2c 结束 ===========================================================

@@ -22,7 +22,8 @@
 init(DataId)->
   case role_mail_pdb_dao:get_by_id(DataId) of
     ?NOT_SET ->
-      Data = role_mail_pdb_dao:create(DataId),
+      Data = role_mail_pdb_pojo:new_pojo(DataId),
+      role_mail_pdb_dao:create(Data),
       put_data(Data),
       ?OK;
     Data->

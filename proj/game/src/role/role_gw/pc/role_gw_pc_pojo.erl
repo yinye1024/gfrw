@@ -13,7 +13,7 @@
 
 %% API functions defined
 -export([new_pojo/1]).
--export([get_id/1, get_mid/1,set_mid/2, get_role_gen/1,set_role_gen/2]).
+-export([get_id/1, get_client_mid/1, set_client_mid/2, get_role_gen/1,set_role_gen/2]).
 -export([is_max_heartbeat_time_out/1,on_heartbeat/2,check_heartbeat/2]).
 -export([get_context/1,set_context/2]).
 
@@ -23,7 +23,7 @@
 new_pojo(DataId)->
   #{
     id => DataId,
-    mid => ?NOT_SET,
+    client_mid => ?NOT_SET,      %% 客户端mid，用来校验
     role_gen => ?NOT_SET,
     context =>role_gw_context:new(),
 
@@ -35,11 +35,11 @@ new_pojo(DataId)->
 get_id(ItemMap) ->
   yyu_map:get_value(id, ItemMap).
 
-get_mid(ItemMap) ->
-  yyu_map:get_value(mid, ItemMap).
+get_client_mid(ItemMap) ->
+  yyu_map:get_value(client_mid, ItemMap).
 
-set_mid(Value, ItemMap) ->
-  yyu_map:put_value(mid, Value, ItemMap).
+set_client_mid(Value, ItemMap) ->
+  yyu_map:put_value(client_mid, Value, ItemMap).
 
 get_role_gen(ItemMap) ->
   yyu_map:get_value(role_gen, ItemMap).
