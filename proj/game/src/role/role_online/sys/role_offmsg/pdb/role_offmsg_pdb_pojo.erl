@@ -25,25 +25,25 @@ new_pojo(RoleId)->
     last_index => 0     %% 最后处理的 index，> index 的msg认为是新的，需要处理的
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  NewVer = get_ver(ItemMap)+1,
-  yyu_map:put_value(ver, NewVer, ItemMap).
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  NewVer = get_ver(SelfMap)+1,
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
 
-get_last_index(ItemMap) ->
-  yyu_map:get_value(last_index, ItemMap).
+get_last_index(SelfMap) ->
+  yyu_map:get_value(last_index, SelfMap).
 
-set_last_index(Value, ItemMap) ->
-  yyu_map:put_value(last_index, Value, ItemMap).
+set_last_index(Value, SelfMap) ->
+  yyu_map:put_value(last_index, Value, SelfMap).
 

@@ -16,6 +16,7 @@
   ,role_res_mgr:get_mod()
   ,role_avatar_life_cycle:get_mod()
   ,role_friend_life_cycle:get_mod()
+  ,role_mail_life_cycle:get_mod()
 ]).
 %% API
 -export([role_init/0,data_load/0,after_data_load/0,loop_5_seconds/0,clean_midnight/1,clean_week/1,on_login/0]).

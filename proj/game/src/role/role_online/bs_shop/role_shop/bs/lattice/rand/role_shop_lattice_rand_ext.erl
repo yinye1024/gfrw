@@ -30,34 +30,34 @@ new_item(MaxRefreshCount,RefreshTimeSpan)->
 
 
 %% ============================= 刷新相关 开始 ========================================================================
-is_refresh_time(NowSec,ItemMap)->
-  priv_get_next_refresh_time(ItemMap) < NowSec.
+is_refresh_time(NowSec,SelfMap)->
+  priv_get_next_refresh_time(SelfMap) < NowSec.
 
-is_can_refresh(ItemMap)->
-  get_refresh_count(ItemMap) < priv_get_max_refresh_count(ItemMap).
+is_can_refresh(SelfMap)->
+  get_refresh_count(SelfMap) < priv_get_max_refresh_count(SelfMap).
 
-on_refresh(NowSec,ItemMap)->
-  RefreshCount = get_refresh_count(ItemMap)+1,
-  ItemMap_1 = priv_set_refresh_count(RefreshCount, ItemMap),
-  NextRefreshTime = NowSec + priv_get_refresh_time_span(ItemMap),
-  ItemMap_2 = priv_set_next_refresh_time(NextRefreshTime,ItemMap_1),
-  ItemMap_2.
+on_refresh(NowSec,SelfMap)->
+  RefreshCount = get_refresh_count(SelfMap)+1,
+  SelfMap_1 = priv_set_refresh_count(RefreshCount, SelfMap),
+  NextRefreshTime = NowSec + priv_get_refresh_time_span(SelfMap),
+  SelfMap_2 = priv_set_next_refresh_time(NextRefreshTime,SelfMap_1),
+  SelfMap_2.
 
-get_refresh_count(ItemMap) ->
-  yyu_map:get_value(refresh_count, ItemMap).
+get_refresh_count(SelfMap) ->
+  yyu_map:get_value(refresh_count, SelfMap).
 
-priv_set_refresh_count(Value, ItemMap) ->
-  yyu_map:put_value(refresh_count, Value, ItemMap).
+priv_set_refresh_count(Value, SelfMap) ->
+  yyu_map:put_value(refresh_count, Value, SelfMap).
 
-priv_get_max_refresh_count(ItemMap) ->
-  yyu_map:get_value(max_refresh_count, ItemMap).
+priv_get_max_refresh_count(SelfMap) ->
+  yyu_map:get_value(max_refresh_count, SelfMap).
 
-priv_get_next_refresh_time(ItemMap) ->
-  yyu_map:get_value(next_refresh_time, ItemMap).
+priv_get_next_refresh_time(SelfMap) ->
+  yyu_map:get_value(next_refresh_time, SelfMap).
 
-priv_set_next_refresh_time(Value, ItemMap) ->
-  yyu_map:put_value(next_refresh_time, Value, ItemMap).
+priv_set_next_refresh_time(Value, SelfMap) ->
+  yyu_map:put_value(next_refresh_time, Value, SelfMap).
 
-priv_get_refresh_time_span(ItemMap) ->
-  yyu_map:get_value(refresh_time_span, ItemMap).
+priv_get_refresh_time_span(SelfMap) ->
+  yyu_map:get_value(refresh_time_span, SelfMap).
 %% ============================= 刷新相关 结束 ========================================================================

@@ -23,15 +23,15 @@ new_pojo(Index,Mail)->
     mail => Mail      %% role_mail_item
   }.
 
-get_index(ItemMap) ->
-  yyu_map:get_value(index, ItemMap).
+get_index(SelfMap) ->
+  yyu_map:get_value(index, SelfMap).
 
-get_mail(ItemMap) ->
-  yyu_map:get_value(mail, ItemMap).
+get_mail(SelfMap) ->
+  yyu_map:get_value(mail, SelfMap).
 
-to_role_mail(ItemMap)->
-  RoleMailItem = get_mail(ItemMap),
-  RoleMailItem_1 = role_mail_item:set_id(get_index(ItemMap),RoleMailItem),
+to_role_mail(SelfMap)->
+  RoleMailItem = get_mail(SelfMap),
+  RoleMailItem_1 = role_mail_item:set_id(get_index(SelfMap),RoleMailItem),
   RoleMailItem_1.
 
 

@@ -61,9 +61,9 @@ set_online(RoleId,IsOnline)->
   priv_cast_fun(GenId,{fun bs_lc_role_worker_mgr:set_online/1,[{RoleId,IsOnline}]}),
   ?OK.
 
-priv_call_fun(GenId,{WorkFun, ParamList}) when is_list(ParamList)->
-  Result = gs_lc_role_worker_mgr:call_fun(GenId,{WorkFun, ParamList}),
-  Result.
+%%priv_call_fun(GenId,{WorkFun, ParamList}) when is_list(ParamList)->
+%%  Result = gs_lc_role_worker_mgr:call_fun(GenId,{WorkFun, ParamList}),
+%%  Result.
 priv_cast_fun(GenId,{WorkFun, ParamList}) when is_list(ParamList)->
   gs_lc_role_worker_mgr:cast_fun(GenId,{WorkFun, ParamList}),
   ?OK.

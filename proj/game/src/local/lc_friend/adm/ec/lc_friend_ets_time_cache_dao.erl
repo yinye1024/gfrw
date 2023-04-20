@@ -29,14 +29,8 @@ get_data(FriendId)->
   Data =
   case yyu_ets_time_cache_dao:get_data(?MODULE,FriendId) of
     ?NOT_SET ->?NOT_SET;
-    {ExpiredTime, DataTmp}->
-      DataTmp_1 =
-        case ExpiredTime < yyu_time:now_seconds()of
-          ?TRUE ->
-            ?NOT_SET;
-          ?FALSE ->DataTmp
-        end,
-      DataTmp_1
+    {_ExpiredTime, DataTmp}->
+      DataTmp
   end,
   Data.
 

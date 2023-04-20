@@ -12,20 +12,24 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API
--export([start_svr/0]).
+-export([ets_init/0,start_svr/0,stop_svr/0]).
 
 
-start_svr()->
-  priv_ets_init(),
-  priv_start_svr(),
-  ?OK.
 
-priv_ets_init()->
+ets_init()->
   lc_role_app_api:ets_init(),
   lc_friend_app_api:ets_init(),
+  lc_mail_app_api:ets_init(),
   ?OK.
 
-priv_start_svr()->
+start_svr()->
   lc_role_app_api:start_svr(),
   lc_friend_app_api:start_svr(),
+  lc_mail_app_api:start_svr(),
+  ?OK.
+
+stop_svr()->
+  lc_role_app_api:stop_svr(),
+  lc_friend_app_api:stop_svr(),
+  lc_mail_app_api:stop_svr(),
   ?OK.

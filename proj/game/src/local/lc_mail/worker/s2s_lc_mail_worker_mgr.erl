@@ -13,9 +13,9 @@
 -define(MaxGenCount,10). %% 最大进程数，按最大进程数取模分配给对应的进程
 
 %% API functions defined
--export([ets_init/0,start_sup_link/0,gen_init/0, stop_all/0]).
+-export([ets_init/0,start_sup_link/0, init_gens/0, stop_all/0]).
 -export([add_mail/2,remove_by_index/2]).
--export([get_all_mail/2]).
+-export([syn_role_mails/2]).
 
 %% ===================================================================================
 %% API functions implements
@@ -27,7 +27,7 @@ start_sup_link()->
   gs_lc_mail_worker_mgr:start_sup_link(),
   ?OK.
 
-gen_init()->
+init_gens()->
   priv_gen_init(0).
 priv_gen_init(GenId) when GenId < ?MaxGenCount->
   priv_new_child(GenId),
@@ -57,8 +57,8 @@ remove_by_index(RoleId,MailIndex)->
   priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:remove_by_index/1,[{RoleId,MailIndex}]}),
   ?OK.
 
-get_all_mail(RoleId,LocalCbPojo)->
-  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:get_all_mail/1,[{RoleId,LocalCbPojo}]}),
+syn_role_mails(RoleId,LocalCbPojo)->
+  priv_cast_fun(RoleId,{fun lc_mail_plrudb_mgr:syn_role_mails/1,[{RoleId,LocalCbPojo}]}),
   ?OK.
 
 %%priv_call_fun(GenId,{WorkFun, ParamList}) when is_list(ParamList)->

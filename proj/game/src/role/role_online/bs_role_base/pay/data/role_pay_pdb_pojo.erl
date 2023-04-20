@@ -27,42 +27,42 @@ new_pojo(RoleId)->
     pay_map => yyu_map:new_map()  %%{index,lc_pay_item}
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  NewVer = get_ver(ItemMap)+1,
-  yyu_map:put_value(ver, NewVer, ItemMap).
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  NewVer = get_ver(SelfMap)+1,
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
 
-get_last_index(ItemMap) ->
-  yyu_map:get_value(last_index, ItemMap).
+get_last_index(SelfMap) ->
+  yyu_map:get_value(last_index, SelfMap).
 
-set_last_index(Value, ItemMap) ->
-  yyu_map:put_value(last_index, Value, ItemMap).
+set_last_index(Value, SelfMap) ->
+  yyu_map:put_value(last_index, Value, SelfMap).
 
-get_pay(PayIndex,ItemMap)->
-  PayMap = priv_get_pay_map(ItemMap),
+get_pay(PayIndex,SelfMap)->
+  PayMap = priv_get_pay_map(SelfMap),
   yyu_map:get_value(PayIndex,PayMap).
 
-update_pay(PayItem,ItemMap)->
-  PayMap = priv_get_pay_map(ItemMap),
+update_pay(PayItem,SelfMap)->
+  PayMap = priv_get_pay_map(SelfMap),
   PayId = lc_pay_item:get_index(PayItem),
   PayMap_1 = yyu_map:put_value(PayId,PayItem,PayMap),
-  priv_set_pay_map(PayMap_1,ItemMap).
+  priv_set_pay_map(PayMap_1,SelfMap).
 
-put_payList(LcPayItemList,ItemMap)->
-  PayMap = priv_get_pay_map(ItemMap),
+put_payList(LcPayItemList,SelfMap)->
+  PayMap = priv_get_pay_map(SelfMap),
   PayMap_1 = priv_put_payList(LcPayItemList,PayMap),
-  priv_set_pay_map(PayMap_1,ItemMap).
+  priv_set_pay_map(PayMap_1,SelfMap).
 
 priv_put_payList([LcPayItem|Less],AccPayMap)->
   AccPayMap_1 = yyu_map:put_value(lc_pay_item:get_index(LcPayItem),LcPayItem,AccPayMap),
@@ -71,9 +71,9 @@ priv_put_payList([],AccPayMap)->
   AccPayMap.
 
 
-priv_get_pay_map(ItemMap) ->
-  yyu_map:get_value(pay_map, ItemMap).
+priv_get_pay_map(SelfMap) ->
+  yyu_map:get_value(pay_map, SelfMap).
 
-priv_set_pay_map(Value, ItemMap) ->
-  yyu_map:put_value(pay_map, Value, ItemMap).
+priv_set_pay_map(Value, SelfMap) ->
+  yyu_map:put_value(pay_map, Value, SelfMap).
 

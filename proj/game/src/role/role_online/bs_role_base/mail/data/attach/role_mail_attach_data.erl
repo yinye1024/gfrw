@@ -26,9 +26,9 @@ new_item(Type,Data)->
   }.
 
 
-get_type(ItemMap) ->
-  yyu_map:get_value(type, ItemMap).
+get_type(SelfMap) ->
+  yyu_map:get_value(type, SelfMap).
 
-get_data(ItemMap) ->
-  yyu_map:get_value(data, ItemMap).
+get_data(SelfMap) ->
+  yyu_map:get_value(data, SelfMap).
 

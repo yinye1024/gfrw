@@ -46,7 +46,12 @@ priv_c2s(?FRIEND_NEW_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_new_apply_
 priv_c2s(?FRIEND_HANDLE_APPLY_C2S)->{friend_c2s_handler,friend_pb,friend_handle_apply_c2s};
 priv_c2s(?FRIEND_LIST_C2S)->{friend_c2s_handler,friend_pb,friend_list_c2s};
 
+%%gm.proto
+priv_c2s(?GM_CMD_C2S)->{gm_c2s_handler,gm_pb,gm_cmd_c2s};
 
+%%mail.proto
+priv_c2s(?MAIL_LIST_C2S)->{mail_c2s_handler,mail_pb,mail_list_c2s};
+priv_c2s(?MAIL_OPEN_C2S)->{mail_c2s_handler,mail_pb,mail_open_c2s};
 
 
 priv_c2s(_)->{unknown_c2s_handler}.
@@ -75,5 +80,9 @@ priv_s2c(friend_apply_list_s2c)->{?FRIEND_APPLY_LIST_S2C,friend_pb};
 priv_s2c(friend_new_apply_s2c)->{?FRIEND_NEW_APPLY_S2C,friend_pb};
 priv_s2c(friend_handle_apply_s2c)->{?FRIEND_HANDLE_APPLY_S2C,friend_pb};
 priv_s2c(friend_list_s2c)->{?FRIEND_LIST_S2C,friend_pb};
+
+%%mail.proto
+priv_s2c(mail_list_s2c)->{?MAIL_LIST_S2C,mail_pb};
+priv_s2c(mail_open_s2c)->{?MAIL_OPEN_S2C,mail_pb};
 
 priv_s2c(UnknownRecord)->yyu_error:throw_error({unknown_s2c_record,UnknownRecord}).

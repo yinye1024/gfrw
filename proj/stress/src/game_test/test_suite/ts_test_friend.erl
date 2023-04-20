@@ -25,7 +25,7 @@ do_test()->
 
 
 priv_add_friend(UserId, FriendUid)->
-
+  yyu_time:sleep(1000),
   UserRoleId = s2s_robot_mgr:get_roleId(UserId),
   FriendRoleId = s2s_robot_mgr:get_roleId(FriendUid),
 

@@ -49,28 +49,27 @@ priv_do_sum_itemList([], {AccBindItemIdList,AccBindCount,AccUnBindItemIdList,Acc
   {AccBindItemIdList,AccBindCount,AccUnBindItemIdList,AccUnBindCount}.
 
 
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
-
-get_bind_item_list(BagItemMap,ItemMap)->
-  ItemIdList  = get_bind_itemId_list(ItemMap),
+get_bind_item_list(BagItemMap,SelfMap)->
+  ItemIdList  = get_bind_itemId_list(SelfMap),
   yyu_map:get_value_list(ItemIdList,BagItemMap).
-get_unbind_item_list(BagItemMap,ItemMap)->
-  ItemIdList  = get_unbind_itemId_list(ItemMap),
+get_unbind_item_list(BagItemMap,SelfMap)->
+  ItemIdList  = get_unbind_itemId_list(SelfMap),
   yyu_map:get_value_list(ItemIdList,BagItemMap).
-get_total_count(ItemMap)->
-  get_bind_count(ItemMap)+get_unbind_count(ItemMap).
+get_total_count(SelfMap)->
+  get_bind_count(SelfMap)+get_unbind_count(SelfMap).
 
-get_bind_itemId_list(ItemMap) ->
-  yyu_map:get_value(bind_itemId_list, ItemMap).
+get_bind_itemId_list(SelfMap) ->
+  yyu_map:get_value(bind_itemId_list, SelfMap).
 
-get_bind_count(ItemMap) ->
-  yyu_map:get_value(bind_count, ItemMap).
+get_bind_count(SelfMap) ->
+  yyu_map:get_value(bind_count, SelfMap).
 
-get_unbind_itemId_list(ItemMap) ->
-  yyu_map:get_value(unbind_itemId_list, ItemMap).
+get_unbind_itemId_list(SelfMap) ->
+  yyu_map:get_value(unbind_itemId_list, SelfMap).
 
-get_unbind_count(ItemMap) ->
-  yyu_map:get_value(unbind_count, ItemMap).
+get_unbind_count(SelfMap) ->
+  yyu_map:get_value(unbind_count, SelfMap).
 

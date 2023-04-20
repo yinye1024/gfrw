@@ -1,0 +1,5 @@
+syntax = "proto2";
+
+message gm_cmd_c2s{
+  required string cmd = 1;
+}

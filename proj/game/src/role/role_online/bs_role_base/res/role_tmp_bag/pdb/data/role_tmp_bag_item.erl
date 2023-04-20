@@ -22,17 +22,17 @@ new_item(AutoId,OnFailReturn = {_BagExItemList,_WalletExItemList},OnSuccessRetur
   #{
     id => AutoId,
     on_fail_return => OnFailReturn,          %% 失败的时候执行，返回物品
-    on_success_return => OnSuccessReturn     %% 成功的时候执行，发回物品
+    on_success_return => OnSuccessReturn     %% 成功的时候执行，返回物品
   }.
 
 
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_on_fail_return(ItemMap) ->
-  yyu_map:get_value(on_fail_return, ItemMap).
+get_on_fail_return(SelfMap) ->
+  yyu_map:get_value(on_fail_return, SelfMap).
 
-get_on_success_return(ItemMap) ->
-  yyu_map:get_value(on_success_return, ItemMap).
+get_on_success_return(SelfMap) ->
+  yyu_map:get_value(on_success_return, SelfMap).
 

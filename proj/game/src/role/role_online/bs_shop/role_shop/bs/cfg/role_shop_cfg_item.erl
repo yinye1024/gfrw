@@ -33,18 +33,18 @@ priv_new(ShopId,CfgId,ShopType)->
     goodMap => yyu_map:new_map()
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_cfgId(ItemMap) ->
-  yyu_map:get_value(cfgId, ItemMap).
+get_cfgId(SelfMap) ->
+  yyu_map:get_value(cfgId, SelfMap).
 
-get_type(ItemMap) ->
-  yyu_map:get_value(type, ItemMap).
+get_type(SelfMap) ->
+  yyu_map:get_value(type, SelfMap).
 
-get_data(ItemMap) ->
-  yyu_map:get_value(data, ItemMap).
+get_data(SelfMap) ->
+  yyu_map:get_value(data, SelfMap).
 
-set_data(Value, ItemMap) ->
-  yyu_map:put_value(data, Value, ItemMap).
+set_data(Value, SelfMap) ->
+  yyu_map:put_value(data, Value, SelfMap).
 

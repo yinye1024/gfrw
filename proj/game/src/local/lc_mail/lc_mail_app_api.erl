@@ -18,14 +18,15 @@
 
 %% API functions defined
 -export([ets_init/0, start_svr/0, stop_svr/0]).
--export([get_data/2]).
--export([add_mail/2,remove_by_index/2]).
+-export([syn_role_mails/2]).
+-export([add_to_all_mail/1,add_to_role_mail/2,remove_by_index/2]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
 %%
 ets_init()->
+  s2s_lc_mail_adm_mgr:ets_init(),
   s2s_lc_mail_worker_mgr:ets_init(),
   ?OK.
 
@@ -38,11 +39,15 @@ stop_svr()->
   gs_lc_mail_adm_mgr:stop(),
   ?OK.
 
-get_data(RoleId,LocalCbPojo)->
-  s2s_lc_mail_worker_mgr:get_all_mail(RoleId,LocalCbPojo),
+syn_role_mails(RoleId,LocalCbPojo)->
+  s2s_lc_mail_worker_mgr:syn_role_mails(RoleId,LocalCbPojo),
   ?OK.
 
-add_mail(RoleId,Mail)->
+add_to_all_mail(RoleMailItem)->
+  s2s_lc_mail_adm_mgr:add_to_all_mail(RoleMailItem),
+  ?OK.
+
+add_to_role_mail(RoleId,Mail)->
   s2s_lc_mail_worker_mgr:add_mail(RoleId,Mail),
   ?OK.
 remove_by_index(RoleId,MailIndex)->

@@ -14,7 +14,7 @@
 
 %% API functions defined
 -export([proc_init/1,update_to_db/0,check_lru/0]).
--export([add_mail/1,remove_by_index/1,get_all_mail/1]).
+-export([add_mail/1,remove_by_index/1, syn_role_mails/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -30,22 +30,36 @@ check_lru()->
   ?OK.
 
 
-add_mail({RoleId,Mail})->
-  Mail = priv_get_data(RoleId),
-  NewMail = lc_mail_pojo:add_mail(Mail,Mail),
+add_mail({RoleId, RoleMailItem})->
+  MailPojo = priv_get_data(RoleId),
+  NewMail = lc_mail_pojo:add_mail(RoleMailItem,MailPojo),
   priv_update_mail(NewMail),
   ?OK.
 
 remove_by_index({RoleId,MailIndex})->
-  Mail = priv_get_data(RoleId),
-  NewMail = lc_mail_pojo:remove_by_index(MailIndex,Mail),
+  MailPojo = priv_get_data(RoleId),
+  NewMail = lc_mail_pojo:remove_by_index(MailIndex,MailPojo),
   priv_update_mail(NewMail),
   ?OK.
 
-get_all_mail({RoleId,LocalCbPojo})->
-  Mail = priv_get_data(RoleId),
-  yyu_local_callback_pojo:do_callback(Mail,LocalCbPojo),
+syn_role_mails({RoleId,LocalCbPojo})->
+  MailPojo = priv_get_data(RoleId),
+  MailPojo_1 = priv_syn_to_all_mails(MailPojo),
+  yyu_local_callback_pojo:do_callback(MailPojo_1,LocalCbPojo),
   ?OK.
+priv_syn_to_all_mails(MailPojo)->
+  LastMailIndex = lc_mail_pojo:get_to_all_mail_index(MailPojo),
+  NewMailPojo =
+  case s2s_lc_mail_adm_mgr:get_to_all_mails(LastMailIndex) of
+    {LastMailIndex,?NOT_SET}->
+      MailPojo;
+    {NewMailIndex,MailList}->
+      NewMailTmp_1 = lc_mail_pojo:add_mailList(MailList,MailPojo),
+      NewMailTmp_2 = lc_mail_pojo:set_to_all_mail_index(NewMailIndex,NewMailTmp_1),
+      priv_update_mail(NewMailTmp_2),
+      NewMailTmp_2
+  end,
+  NewMailPojo.
 
 priv_get_data(RoleId)->
   Data =

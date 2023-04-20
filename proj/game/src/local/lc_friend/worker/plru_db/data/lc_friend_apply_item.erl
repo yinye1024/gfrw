@@ -27,23 +27,23 @@ new_pojo({RoleId,Name,Gender})->
     time => yyu_time:now_milliseconds()
   }.
 
-get_index(ItemMap) ->
-  yyu_map:get_value(index, ItemMap).
+get_index(SelfMap) ->
+  yyu_map:get_value(index, SelfMap).
 
-set_index(Value, ItemMap) ->
-  yyu_map:put_value(index, Value, ItemMap).
-
-
-get_roleId(ItemMap) ->
-  yyu_map:get_value(roleId, ItemMap).
-
-get_roleName(ItemMap) ->
-  yyu_map:get_value(roleName, ItemMap).
-get_gender(ItemMap) ->
-  yyu_map:get_value(gender, ItemMap).
+set_index(Value, SelfMap) ->
+  yyu_map:put_value(index, Value, SelfMap).
 
 
+get_roleId(SelfMap) ->
+  yyu_map:get_value(roleId, SelfMap).
 
-get_time(ItemMap) ->
-  yyu_map:get_value(time, ItemMap).
+get_roleName(SelfMap) ->
+  yyu_map:get_value(roleName, SelfMap).
+get_gender(SelfMap) ->
+  yyu_map:get_value(gender, SelfMap).
+
+
+
+get_time(SelfMap) ->
+  yyu_map:get_value(time, SelfMap).
 

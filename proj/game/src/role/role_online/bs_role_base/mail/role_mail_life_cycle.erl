@@ -25,7 +25,8 @@ get_mod()->?MODULE.
 role_init(_RoleId)->
   ?OK.
 %% 角色进程初始化的时候执行
-data_load(_RoleId)->
+data_load(RoleId)->
+  role_mail_mgr:proc_init(RoleId),
   ?OK.
 %% 角色进程初始化，data_load 后执行
 after_data_load(_RoleId)->
@@ -35,13 +36,14 @@ loop_5_seconds(_RoleId,_NowTime)->
   ?OK.
 %% 跨天执行,一般是一些清理业务
 clean_midnight(_RoleId,_LastCleanTime)->
+  role_mail_mgr:clean_expired(),
   ?OK.
 %% 跨周执行,一般是一些清理业务
 clean_week(_RoleId,_LastCleanTime)->
   ?OK.
 %% 玩家登陆的时候执行
 on_login(_RoleId)->
-  role_mail_mgr:get_all_mail(),
+  role_mail_mgr:syn_mails_from_lc(),
   ?OK.
 
 

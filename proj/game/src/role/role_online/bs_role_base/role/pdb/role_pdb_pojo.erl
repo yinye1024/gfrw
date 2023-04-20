@@ -30,41 +30,41 @@ new_pojo(RoleId,{UserId,SvrId,Name,Gender})->
     gender => Gender
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  CurVer = get_ver(ItemMap),
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  CurVer = get_ver(SelfMap),
   NewVer = yyu_misc:incr_ver(CurVer),
-  yyu_map:put_value(ver, NewVer, ItemMap).
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
-to_p_roleInfo(ItemMap)->
+to_p_roleInfo(SelfMap)->
   #p_roleInfo{
-    role_id = get_id(ItemMap),
-    name = get_name(ItemMap),
-    gender = get_gender(ItemMap),
+    role_id = get_id(SelfMap),
+    name = get_name(SelfMap),
+    gender = get_gender(SelfMap),
     exp = 1,
     level = 1,
     vip = 1
   }.
 
-get_userId(ItemMap) ->
-  yyu_map:get_value(userId, ItemMap).
+get_userId(SelfMap) ->
+  yyu_map:get_value(userId, SelfMap).
 
-get_svrId(ItemMap) ->
-  yyu_map:get_value(svrId, ItemMap).
+get_svrId(SelfMap) ->
+  yyu_map:get_value(svrId, SelfMap).
 
-get_name(ItemMap) ->
-  yyu_map:get_value(name, ItemMap).
+get_name(SelfMap) ->
+  yyu_map:get_value(name, SelfMap).
 
-get_gender(ItemMap) ->
-  yyu_map:get_value(gender, ItemMap).
+get_gender(SelfMap) ->
+  yyu_map:get_value(gender, SelfMap).
 

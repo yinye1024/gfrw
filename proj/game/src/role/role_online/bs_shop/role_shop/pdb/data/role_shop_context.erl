@@ -28,46 +28,46 @@ new_data(ShipId,GoodMap)->
     good_map => GoodMap   %% <GoodId,role_shop_good_item>
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_good_item(GoodId,ItemMap)->
-  GoodMap = priv_get_good_map(ItemMap),
+get_good_item(GoodId,SelfMap)->
+  GoodMap = priv_get_good_map(SelfMap),
   GoodItem = yyu_map:get_value(GoodId,GoodMap),
   GoodItem.
 
-put_good_item(GoodItem,ItemMap)->
-  GoodMap = priv_get_good_map(ItemMap),
+put_good_item(GoodItem,SelfMap)->
+  GoodMap = priv_get_good_map(SelfMap),
   GoodId = role_shop_good_item:get_id(GoodItem),
   GoodMap_1 = yyu_map:put_value(GoodId,GoodItem,GoodMap),
-  priv_set_good_map(GoodMap_1,ItemMap).
+  priv_set_good_map(GoodMap_1,SelfMap).
 
-priv_get_good_map(ItemMap) ->
-  yyu_map:get_value(good_map, ItemMap).
+priv_get_good_map(SelfMap) ->
+  yyu_map:get_value(good_map, SelfMap).
 
-priv_set_good_map(Value, ItemMap) ->
-  yyu_map:put_value(good_map, Value, ItemMap).
-
-
+priv_set_good_map(Value, SelfMap) ->
+  yyu_map:put_value(good_map, Value, SelfMap).
 
 
-get_tick_lattice_id_list(ItemMap)->
-  Map = priv_get_tick_lattice_id_map(ItemMap),
+
+
+get_tick_lattice_id_list(SelfMap)->
+  Map = priv_get_tick_lattice_id_map(SelfMap),
   yyu_map:all_values(Map).
 
-put_tick_latticeId(LatticeId,ItemMap)->
-  GoodMap = priv_get_tick_lattice_id_map(ItemMap),
+put_tick_latticeId(LatticeId,SelfMap)->
+  GoodMap = priv_get_tick_lattice_id_map(SelfMap),
   GoodMap_1 = yyu_map:put_value(LatticeId,1,GoodMap),
-  priv_set_tick_lattice_id_map(GoodMap_1,ItemMap).
+  priv_set_tick_lattice_id_map(GoodMap_1,SelfMap).
 
-rm_tick_latticeId(LatticeId,ItemMap)->
-  GoodMap = priv_get_tick_lattice_id_map(ItemMap),
+rm_tick_latticeId(LatticeId,SelfMap)->
+  GoodMap = priv_get_tick_lattice_id_map(SelfMap),
   GoodMap_1 = yyu_map:remove(LatticeId,GoodMap),
-  priv_set_tick_lattice_id_map(GoodMap_1,ItemMap).
+  priv_set_tick_lattice_id_map(GoodMap_1,SelfMap).
 
-priv_get_tick_lattice_id_map(ItemMap) ->
-  yyu_map:get_value(tick_lattice_id_map, ItemMap).
+priv_get_tick_lattice_id_map(SelfMap) ->
+  yyu_map:get_value(tick_lattice_id_map, SelfMap).
 
-priv_set_tick_lattice_id_map(Value, ItemMap) ->
-  yyu_map:put_value(tick_lattice_id_map, Value, ItemMap).
+priv_set_tick_lattice_id_map(Value, SelfMap) ->
+  yyu_map:put_value(tick_lattice_id_map, Value, SelfMap).
 

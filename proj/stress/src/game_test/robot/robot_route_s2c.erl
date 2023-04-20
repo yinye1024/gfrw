@@ -62,6 +62,14 @@ priv_route_s2c(?FRIEND_LIST_S2C, BinData)->
   robot_friend_mgr:friend_list_s2c(BinData),
   ?OK;
 
+%%mail.proto
+priv_route_s2c(?MAIL_LIST_S2C, BinData)->
+  robot_mail_mgr:mail_list_s2c(BinData),
+  ?OK;
+priv_route_s2c(?MAIL_OPEN_S2C, BinData)->
+  robot_mail_mgr:mail_open_s2c(BinData),
+  ?OK;
+
 priv_route_s2c(S2CId, BinData)->
   ?LOG_INFO({"unhandle msg ",{S2CId,BinData}}),
   ?OK.

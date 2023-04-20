@@ -27,26 +27,26 @@ new_item(ItemId,CfgId,MaxBuyCount)->
     max_buy_count => MaxBuyCount   %% 最大可购买次数
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_cfgId(ItemMap) ->
-  yyu_map:get_value(cfgId, ItemMap).
+get_cfgId(SelfMap) ->
+  yyu_map:get_value(cfgId, SelfMap).
 
-is_can_buy(ItemMap)->
-  priv_get_buy_count(ItemMap) < priv_get_max_buy_count(ItemMap).
+is_can_buy(SelfMap)->
+  priv_get_buy_count(SelfMap) < priv_get_max_buy_count(SelfMap).
 
-add_buy_count(ItemMap)->
-  BuyCount =   priv_get_buy_count(ItemMap) + 1,
-  priv_set_buy_count(BuyCount, ItemMap).
+add_buy_count(SelfMap)->
+  BuyCount =   priv_get_buy_count(SelfMap) + 1,
+  priv_set_buy_count(BuyCount, SelfMap).
 
-priv_get_buy_count(ItemMap) ->
-  yyu_map:get_value(buy_count, ItemMap).
+priv_get_buy_count(SelfMap) ->
+  yyu_map:get_value(buy_count, SelfMap).
 
-priv_set_buy_count(Value, ItemMap) ->
-  yyu_map:put_value(buy_count, Value, ItemMap).
+priv_set_buy_count(Value, SelfMap) ->
+  yyu_map:put_value(buy_count, Value, SelfMap).
 
-priv_get_max_buy_count(ItemMap) ->
-  yyu_map:get_value(max_buy_count, ItemMap).
+priv_get_max_buy_count(SelfMap) ->
+  yyu_map:get_value(max_buy_count, SelfMap).
 
 

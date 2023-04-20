@@ -34,9 +34,9 @@ new_item(CostKvList,AddKvList)->
     add_kv_list => AddKvList      %% 添加物品列表 [{CfgId,Count，{MaxCount,IsBind,IsCanAcc,ExpiredTime}}...]
   }.
 
-get_cost_kv_list(ItemMap) ->
-  yyu_map:get_value(cost_kv_list, ItemMap).
+get_cost_kv_list(SelfMap) ->
+  yyu_map:get_value(cost_kv_list, SelfMap).
 
-get_add_kv_list(ItemMap) ->
-  yyu_map:get_value(add_kv_list, ItemMap).
+get_add_kv_list(SelfMap) ->
+  yyu_map:get_value(add_kv_list, SelfMap).
 

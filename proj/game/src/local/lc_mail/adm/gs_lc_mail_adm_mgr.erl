@@ -13,7 +13,7 @@
 
 
 %% API functions defined
--export([start_sup_link/0,stop/0]).
+-export([start_sup_link/0,stop/0,cast_fun/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -29,6 +29,6 @@ stop()->
 %%call_fun({WorkFun,Param})->
 %%  Result = lc_mail_adm_gen:call_fun({WorkFun,Param}),
 %%  Result.
-%%cast_fun({WorkFun,Param})->
-%%  lc_mail_adm_gen:cast_fun({WorkFun,Param}),
-%%  ?OK.
+cast_fun({WorkFun,Param})->
+  lc_mail_adm_gen:cast_fun({WorkFun,Param}),
+  ?OK.

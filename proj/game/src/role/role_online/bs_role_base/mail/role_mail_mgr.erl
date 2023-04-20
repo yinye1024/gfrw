@@ -12,22 +12,40 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API functions defined
--export([get_all_mail/0,notify_new_mail/0, cb_on_get_all_mail/1]).
+-export([proc_init/1, syn_mails_from_lc/0,notify_new_mail/0, cb_on_syn_role_mails/1]).
 -export([on_mail_read/1,on_mail_extract/1]).
+-export([get_all_mails/0]).
+-export([clean_expired/0,clean_readed_and_extracted/0]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
+proc_init(RoleId)->
+  role_mail_pdb_holder:init(RoleId),
+  ?OK.
+
+clean_expired()->
+  RoleMailData = priv_get_data(),
+  RoleMailData_1 = role_mail_pdb_pojo:clean_expired(yyu_time:now_seconds(),RoleMailData),
+  priv_update_data(RoleMailData_1),
+  ?OK.
+
+clean_readed_and_extracted()->
+  RoleMailData = priv_get_data(),
+  RoleMailData_1 = role_mail_pdb_pojo:clean_readed_and_extracted(RoleMailData),
+  priv_update_data(RoleMailData_1),
+  ?OK.
+
 notify_new_mail()->
-  get_all_mail(),
+  syn_mails_from_lc(),
   ?OK.
 
-get_all_mail()->
+syn_mails_from_lc()->
   RoleId = role_adm_mgr:get_roleId(),
-  LocalCbPojo = role_mail_cb_handler:get_cb_on_Get_All_Mail(),
-  lc_mail_app_api:get_data(RoleId,LocalCbPojo),
+  LocalCbPojo = role_mail_cb_handler:get_cb_on_syn_role_mails(),
+  lc_mail_app_api:syn_role_mails(RoleId,LocalCbPojo),
   ?OK.
 
-cb_on_get_all_mail(MailPojo)->
+cb_on_syn_role_mails(MailPojo)->
   RoleId = role_adm_mgr:get_roleId(),
   LcMailItemList = lc_mail_pojo:get_mail_list(MailPojo),
   NewLastIndex = lc_mail_pojo:get_mail_index(MailPojo),
@@ -72,6 +90,11 @@ on_mail_extract(MailId)->
   %% 更新状态再读取附件，避免出错的时候会重复读取附件，
   yyu_list:foreach(fun(AttachItem) -> role_mail_attach_agent:do_attach(AttachItem) end,AttachItemList),
   ?OK.
+
+get_all_mails()->
+  RoleMailData = priv_get_data(),
+  role_mail_pdb_pojo:get_all_mails(RoleMailData).
+
 
 priv_get_data()->
   RoleId = role_adm_mgr:get_roleId(),

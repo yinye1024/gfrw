@@ -32,62 +32,62 @@ new_item(ShopId,{ShopType,CfgId,ShopContext,LatticeMap})->
     ext_data => ?NOT_SET            %% 每种商店自己的扩展字段，
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_cfgId(ItemMap) ->
-  yyu_map:get_value(cfgId, ItemMap).
+get_cfgId(SelfMap) ->
+  yyu_map:get_value(cfgId, SelfMap).
 
-get_type(ItemMap) ->
-  yyu_map:get_value(type, ItemMap).
+get_type(SelfMap) ->
+  yyu_map:get_value(type, SelfMap).
 
-get_context(ItemMap) ->
-  yyu_map:get_value(context, ItemMap).
+get_context(SelfMap) ->
+  yyu_map:get_value(context, SelfMap).
 
-set_context(Value, ItemMap) ->
-  yyu_map:put_value(context, Value, ItemMap).
+set_context(Value, SelfMap) ->
+  yyu_map:put_value(context, Value, SelfMap).
 
-get_lattice_list(LatticeIdList,ItemMap)->
-  priv_get_lattice_list(LatticeIdList,ItemMap,[]).
-priv_get_lattice_list([LatticeId|Less],ItemMap,AccList)->
+get_lattice_list(LatticeIdList,SelfMap)->
+  priv_get_lattice_list(LatticeIdList,SelfMap,[]).
+priv_get_lattice_list([LatticeId|Less],SelfMap,AccList)->
   AccList_1 =
-  case  get_lattice(LatticeId,ItemMap) of
+  case  get_lattice(LatticeId,SelfMap) of
     ?NOT_SET ->
       AccList;
     LatticeItem ->
       [LatticeItem|AccList]
   end,
-  priv_get_lattice_list(Less,ItemMap,AccList_1);
-priv_get_lattice_list([],_ItemMap,AccList)->
+  priv_get_lattice_list(Less,SelfMap,AccList_1);
+priv_get_lattice_list([],_SelfMap,AccList)->
   AccList.
 
-get_lattice(LatticeId,ItemMap)->
-  Map = priv_get_lattice_map(ItemMap),
+get_lattice(LatticeId,SelfMap)->
+  Map = priv_get_lattice_map(SelfMap),
   LatticeItem = yyu_map:get_value(LatticeId,Map),
   LatticeItem.
 
-put_lattice_list([LatticeItem|Less],ItemMap)->
-  ItemMap_1 = put_lattice(LatticeItem,ItemMap),
-  put_lattice_list(Less,ItemMap_1);
-put_lattice_list([],ItemMap)->
-  ItemMap.
+put_lattice_list([LatticeItem|Less],SelfMap)->
+  SelfMap_1 = put_lattice(LatticeItem,SelfMap),
+  put_lattice_list(Less,SelfMap_1);
+put_lattice_list([],SelfMap)->
+  SelfMap.
 
-put_lattice(LatticeItem,ItemMap)->
-  Map = priv_get_lattice_map(ItemMap),
+put_lattice(LatticeItem,SelfMap)->
+  Map = priv_get_lattice_map(SelfMap),
   LatticeId = role_shop_lattice_item:get_id(LatticeItem),
   Map_1 = yyu_map:put_value(LatticeId,LatticeItem,Map),
-  priv_set_lattice_map(Map_1, ItemMap).
+  priv_set_lattice_map(Map_1, SelfMap).
 
-priv_get_lattice_map(ItemMap) ->
-  yyu_map:get_value(lattice_map, ItemMap).
+priv_get_lattice_map(SelfMap) ->
+  yyu_map:get_value(lattice_map, SelfMap).
 
-priv_set_lattice_map(Value, ItemMap) ->
-  yyu_map:put_value(lattice_map, Value, ItemMap).
+priv_set_lattice_map(Value, SelfMap) ->
+  yyu_map:put_value(lattice_map, Value, SelfMap).
 
 
-get_ext_data(ItemMap) ->
-  yyu_map:get_value(ext_data, ItemMap).
+get_ext_data(SelfMap) ->
+  yyu_map:get_value(ext_data, SelfMap).
 
-set_ext_data(Value, ItemMap) ->
-  yyu_map:put_value(ext_data, Value, ItemMap).
+set_ext_data(Value, SelfMap) ->
+  yyu_map:put_value(ext_data, Value, SelfMap).
 

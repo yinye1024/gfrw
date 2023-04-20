@@ -27,31 +27,31 @@ new_pojo(RoleId)->
     head_border => ?NOT_SET  %% 边框
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  NewVer = get_ver(ItemMap)+1,
-  yyu_map:put_value(ver, NewVer, ItemMap).
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  NewVer = get_ver(SelfMap)+1,
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
 
-get_headId(ItemMap) ->
-  yyu_map:get_value(headId, ItemMap).
+get_headId(SelfMap) ->
+  yyu_map:get_value(headId, SelfMap).
 
-set_headId(Value, ItemMap) ->
-  yyu_map:put_value(headId, Value, ItemMap).
+set_headId(Value, SelfMap) ->
+  yyu_map:put_value(headId, Value, SelfMap).
 
-get_head_border(ItemMap) ->
-  yyu_map:get_value(head_border, ItemMap).
+get_head_border(SelfMap) ->
+  yyu_map:get_value(head_border, SelfMap).
 
-set_head_border(Value, ItemMap) ->
-  yyu_map:put_value(head_border, Value, ItemMap).
+set_head_border(Value, SelfMap) ->
+  yyu_map:put_value(head_border, Value, SelfMap).
 

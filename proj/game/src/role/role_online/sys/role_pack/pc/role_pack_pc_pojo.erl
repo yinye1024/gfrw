@@ -25,19 +25,19 @@ new_pojo(DataId)->
     pack_queue => {[],[]}
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
 
-get_recv_pack_id(ItemMap) ->
-  yyu_map:get_value(recv_pack_id, ItemMap).
+get_recv_pack_id(SelfMap) ->
+  yyu_map:get_value(recv_pack_id, SelfMap).
 
-set_recv_pack_id(Value, ItemMap) ->
-  yyu_map:put_value(recv_pack_id, Value, ItemMap).
+set_recv_pack_id(Value, SelfMap) ->
+  yyu_map:put_value(recv_pack_id, Value, SelfMap).
 
-get_pack_queue(ItemMap) ->
-  yyu_map:get_value(pack_queue, ItemMap).
+get_pack_queue(SelfMap) ->
+  yyu_map:get_value(pack_queue, SelfMap).
 
-set_pack_queue(Value, ItemMap) ->
-  yyu_map:put_value(pack_queue, Value, ItemMap).
+set_pack_queue(Value, SelfMap) ->
+  yyu_map:put_value(pack_queue, Value, SelfMap).
 

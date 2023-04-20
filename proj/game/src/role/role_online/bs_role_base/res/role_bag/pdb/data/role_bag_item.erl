@@ -36,65 +36,65 @@ new_item(ItemId,CfgId,{Count,MaxCount},{IsBind, IsCanAcc,ExpiredTime})->
     ext_info => ?NOT_SET           %% 扩展信息，由每个业务层自己添加
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_cfgId(ItemMap) ->
-  yyu_map:get_value(cfgId, ItemMap).
+get_cfgId(SelfMap) ->
+  yyu_map:get_value(cfgId, SelfMap).
 
-is_can_add(ItemMap) ->
-  priv_is_can_acc(ItemMap) andalso
-  priv_get_max_count(ItemMap) > get_count(ItemMap).
-priv_get_max_count(ItemMap) ->
-  yyu_map:get_value(max_count, ItemMap).
+is_can_add(SelfMap) ->
+  priv_is_can_acc(SelfMap) andalso
+  priv_get_max_count(SelfMap) > get_count(SelfMap).
+priv_get_max_count(SelfMap) ->
+  yyu_map:get_value(max_count, SelfMap).
 
 
-add_count(Count,MaxCount,ItemMap)->
-  CurCount = get_count(ItemMap),
-  {LeftCount,ItemMap_1} =
+add_count(Count,MaxCount,SelfMap)->
+  CurCount = get_count(SelfMap),
+  {LeftCount,SelfMap_1} =
   case CurCount + Count > MaxCount of
     ?TRUE ->
-      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(MaxCount, ItemMap)};
+      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(MaxCount, SelfMap)};
     ?FALSE ->
-      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(CurCount + Count, ItemMap)}
+      {CurCount+Count-MaxCount, role_bag_item:priv_set_count(CurCount + Count, SelfMap)}
   end,
-  {LeftCount,ItemMap_1}.
+  {LeftCount,SelfMap_1}.
 
-decr_count(DecrCount,ItemMap)->
-  CurCount = get_count(ItemMap),
-  {LeftDecrCount,ItemMap_1} =
+decr_count(DecrCount,SelfMap)->
+  CurCount = get_count(SelfMap),
+  {LeftDecrCount,SelfMap_1} =
   case CurCount > DecrCount of
     ?TRUE ->
-      {0,priv_set_count(CurCount - DecrCount, ItemMap)};
+      {0,priv_set_count(CurCount - DecrCount, SelfMap)};
     ?FALSE ->
-      {DecrCount - CurCount,priv_set_count(0, ItemMap)}
+      {DecrCount - CurCount,priv_set_count(0, SelfMap)}
   end,
-  {LeftDecrCount,ItemMap_1}.
+  {LeftDecrCount,SelfMap_1}.
 
-get_count(ItemMap) ->
-  yyu_map:get_value(count, ItemMap).
+get_count(SelfMap) ->
+  yyu_map:get_value(count, SelfMap).
 
-priv_set_count(Value, ItemMap) ->
-  yyu_map:put_value(count, Value, ItemMap).
+priv_set_count(Value, SelfMap) ->
+  yyu_map:put_value(count, Value, SelfMap).
 
-is_expired(Now,ItemMap)->
-  Now > get_expired_time(ItemMap).
+is_expired(Now,SelfMap)->
+  Now > get_expired_time(SelfMap).
 
-get_expired_time(ItemMap) ->
-  yyu_map:get_value(expired_time, ItemMap).
+get_expired_time(SelfMap) ->
+  yyu_map:get_value(expired_time, SelfMap).
 
-set_expired_time(Value, ItemMap) ->
-  yyu_map:put_value(expired_time, Value, ItemMap).
+set_expired_time(Value, SelfMap) ->
+  yyu_map:put_value(expired_time, Value, SelfMap).
 
-is_bind(ItemMap) ->
-  yyu_map:get_value(is_bind, ItemMap).
+is_bind(SelfMap) ->
+  yyu_map:get_value(is_bind, SelfMap).
 
-priv_is_can_acc(ItemMap) ->
-  yyu_map:get_value(can_acc, ItemMap).
+priv_is_can_acc(SelfMap) ->
+  yyu_map:get_value(can_acc, SelfMap).
 
-get_ext_info(ItemMap) ->
-  yyu_map:get_value(ext_info, ItemMap).
+get_ext_info(SelfMap) ->
+  yyu_map:get_value(ext_info, SelfMap).
 
-set_ext_info(Value, ItemMap) ->
-  yyu_map:put_value(ext_info, Value, ItemMap).
+set_ext_info(Value, SelfMap) ->
+  yyu_map:put_value(ext_info, Value, SelfMap).
 

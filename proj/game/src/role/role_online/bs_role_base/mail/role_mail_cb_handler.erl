@@ -11,23 +11,23 @@
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
--define(Get_All_Mail,1).
+-define(Syn_Role_Mails,1).
 %% API functions defined
 -export([handle_callback/1]).
--export([get_cb_on_Get_All_Mail/0]).
+-export([get_cb_on_syn_role_mails/0]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-handle_callback({?Get_All_Mail,CbParam})->
-  role_mail_life_cycle:cb_on_Get_All_Mail(CbParam),
+handle_callback({?Syn_Role_Mails,CbParam})->
+  role_mail_mgr:cb_on_syn_role_mails(CbParam),
   ?OK;
 handle_callback({LocalParam,CbParam})->
   ?LOG_ERROR({"unknow callback:",LocalParam,CbParam}),
   ?OK.
 
-get_cb_on_Get_All_Mail()->
-  Cb = yyu_local_callback_pojo:new_cb(priv_get_cbfun(),?Get_All_Mail),
+get_cb_on_syn_role_mails()->
+  Cb = yyu_local_callback_pojo:new_cb(priv_get_cbfun(),?Syn_Role_Mails),
   Cb.
 
 priv_get_cbfun()->

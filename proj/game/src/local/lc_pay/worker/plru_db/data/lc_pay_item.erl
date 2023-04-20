@@ -48,47 +48,47 @@ new_item(OrderId, {GameId,SvrId,PlatformId,RoleId},{PayWay,Amount,ProductId,PayT
   }.
 
 
-get_index(ItemMap) ->
-  yyu_map:get_value(index, ItemMap).
+get_index(SelfMap) ->
+  yyu_map:get_value(index, SelfMap).
 
-set_index(Value, ItemMap) ->
-  yyu_map:put_value(index, Value, ItemMap).
+set_index(Value, SelfMap) ->
+  yyu_map:put_value(index, Value, SelfMap).
 
-get_order_id(ItemMap) ->
-  yyu_map:get_value(order_id, ItemMap).
+get_order_id(SelfMap) ->
+  yyu_map:get_value(order_id, SelfMap).
 
-get_game_id(ItemMap) ->
-  yyu_map:get_value(game_id, ItemMap).
+get_game_id(SelfMap) ->
+  yyu_map:get_value(game_id, SelfMap).
 
-get_svr_id(ItemMap) ->
-  yyu_map:get_value(svr_id, ItemMap).
+get_svr_id(SelfMap) ->
+  yyu_map:get_value(svr_id, SelfMap).
 
-get_pm_id(ItemMap) ->
-  yyu_map:get_value(pm_id, ItemMap).
+get_pm_id(SelfMap) ->
+  yyu_map:get_value(pm_id, SelfMap).
 
-get_role_id(ItemMap) ->
-  yyu_map:get_value(role_id, ItemMap).
+get_role_id(SelfMap) ->
+  yyu_map:get_value(role_id, SelfMap).
 
-get_pay_way(ItemMap) ->
-  yyu_map:get_value(pay_way, ItemMap).
+get_pay_way(SelfMap) ->
+  yyu_map:get_value(pay_way, SelfMap).
 
-get_amount(ItemMap) ->
-  yyu_map:get_value(amount, ItemMap).
+get_amount(SelfMap) ->
+  yyu_map:get_value(amount, SelfMap).
 
-get_product_id(ItemMap) ->
-  yyu_map:get_value(product_id, ItemMap).
+get_product_id(SelfMap) ->
+  yyu_map:get_value(product_id, SelfMap).
 
-get_pay_time(ItemMap) ->
-  yyu_map:get_value(pay_time, ItemMap).
+get_pay_time(SelfMap) ->
+  yyu_map:get_value(pay_time, SelfMap).
 
-get_status(ItemMap) ->
-  yyu_map:get_value(status, ItemMap).
+get_status(SelfMap) ->
+  yyu_map:get_value(status, SelfMap).
 
 
-set_pay_done(ItemMap)->
-  set_status(?PayStatus_Finish, ItemMap).
-set_status(Value, ItemMap) ->
-  yyu_map:put_value(status, Value, ItemMap).
+set_pay_done(SelfMap)->
+  set_status(?PayStatus_Finish, SelfMap).
+set_status(Value, SelfMap) ->
+  yyu_map:put_value(status, Value, SelfMap).
 
 
 

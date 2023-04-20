@@ -26,17 +26,17 @@ new_pojo(UserId,{Name,Gender})->
     gender => Gender
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-get_userId(ItemMap) ->
-  yyu_map:get_value(userId, ItemMap).
+get_userId(SelfMap) ->
+  yyu_map:get_value(userId, SelfMap).
 
-get_name(ItemMap) ->
-  yyu_map:get_value(name, ItemMap).
+get_name(SelfMap) ->
+  yyu_map:get_value(name, SelfMap).
 
-get_gender(ItemMap) ->
-  yyu_map:get_value(gender, ItemMap).
+get_gender(SelfMap) ->
+  yyu_map:get_value(gender, SelfMap).
 
-get_create_info(ItemMap) ->
-  {get_name(ItemMap),get_gender(ItemMap)}.
+get_create_info(SelfMap) ->
+  {get_name(SelfMap),get_gender(SelfMap)}.

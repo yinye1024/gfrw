@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+message mail_list_c2s{
+}
+message mail_list_s2c{
+  repeated p_mailInfo mail_list = 1;
+}
+message p_mailInfo{
+  required int64 id = 1;
+  required sint32 type = 2;
+  optional int64 from_id = 3;
+  optional int64 send_time = 4;
+  optional string title = 5;
+  optional string content = 6;
+  optional bool is_read = 7;
+  optional bool is_extract = 8;
+}
+
+message mail_open_c2s{
+  required int64 mail_id = 1;
+}
+message mail_open_s2c{
+  required bool success = 1;
+}
+message clean_mails_c2s{
+}
+
+

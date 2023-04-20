@@ -28,63 +28,63 @@ new_pojo(RoleId)->
     apply_map => yyu_map:new_map()  %%{ApplyId,lc_apply_apply_item}
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  NewVer = get_ver(ItemMap)+1,
-  yyu_map:put_value(ver, NewVer, ItemMap).
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  NewVer = get_ver(SelfMap)+1,
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
 
-get_last_index(ItemMap) ->
-  yyu_map:get_value(last_index, ItemMap).
+get_last_index(SelfMap) ->
+  yyu_map:get_value(last_index, SelfMap).
 
-set_last_index(Value, ItemMap) ->
-  yyu_map:put_value(last_index, Value, ItemMap).
+set_last_index(Value, SelfMap) ->
+  yyu_map:put_value(last_index, Value, SelfMap).
 
-get_apply(ApplyIndex,ItemMap)->
-  ApplyMap = priv_get_apply_map(ItemMap),
+get_apply(ApplyIndex,SelfMap)->
+  ApplyMap = priv_get_apply_map(SelfMap),
   yyu_map:get_value(ApplyIndex,ApplyMap).
 
-get_all_apply(ItemMap)->
-  ApplyMap = priv_get_apply_map(ItemMap),
+get_all_apply(SelfMap)->
+  ApplyMap = priv_get_apply_map(SelfMap),
   yyu_map:all_values(ApplyMap).
 
-update_apply(ApplyItem,ItemMap)->
-  ApplyMap = priv_get_apply_map(ItemMap),
+update_apply(ApplyItem,SelfMap)->
+  ApplyMap = priv_get_apply_map(SelfMap),
   ApplyId = lc_friend_apply_item:get_index(ApplyItem),
   ApplyMap_1 = yyu_map:put_value(ApplyId,ApplyItem,ApplyMap),
-  priv_set_apply_map(ApplyMap_1,ItemMap).
+  priv_set_apply_map(ApplyMap_1,SelfMap).
 
-rm_apply(ApplyId,ItemMap)->
-  ApplyMap = priv_get_apply_map(ItemMap),
+rm_apply(ApplyId,SelfMap)->
+  ApplyMap = priv_get_apply_map(SelfMap),
   ApplyItem = yyu_map:get_value(ApplyId,ApplyMap),
   ApplyMap_1 = yyu_map:remove(ApplyId,ApplyMap),
 
-  RoleIdMap = priv_get_apply_roleId_map(ItemMap),
+  RoleIdMap = priv_get_apply_roleId_map(SelfMap),
   ApplyRoleId = lc_friend_apply_item:get_roleId(ApplyItem),
   RoleIdMap_1 = yyu_map:remove(ApplyRoleId,RoleIdMap),
 
-  ItemMap_1 = priv_set_apply_map(ApplyMap_1,ItemMap),
-  priv_set_apply_map(RoleIdMap_1,ItemMap_1).
+  SelfMap_1 = priv_set_apply_map(ApplyMap_1,SelfMap),
+  priv_set_apply_map(RoleIdMap_1,SelfMap_1).
 
 
-put_applyList(LcApplyItemList,ItemMap)->
-  ApplyMap = priv_get_apply_map(ItemMap),
-  RoleIdMap = priv_get_apply_roleId_map(ItemMap),
+put_applyList(LcApplyItemList,SelfMap)->
+  ApplyMap = priv_get_apply_map(SelfMap),
+  RoleIdMap = priv_get_apply_roleId_map(SelfMap),
   {ApplyMap_1,AccRoleIdMap_1} = priv_put_applyList(LcApplyItemList,{ApplyMap,RoleIdMap}),
 
-  ItemMap_1 = priv_set_apply_map(ApplyMap_1,ItemMap),
-  ItemMap_2 = priv_set_apply_roleId_map(AccRoleIdMap_1,ItemMap_1),
-  ItemMap_2.
+  SelfMap_1 = priv_set_apply_map(ApplyMap_1,SelfMap),
+  SelfMap_2 = priv_set_apply_roleId_map(AccRoleIdMap_1,SelfMap_1),
+  SelfMap_2.
 
 priv_put_applyList([LcApplyItem|Less],{AccApplyMap,AccRoleIdMap})->
   ApplyId = lc_friend_apply_item:get_index(LcApplyItem),
@@ -102,17 +102,17 @@ priv_put_applyList([LcApplyItem|Less],{AccApplyMap,AccRoleIdMap})->
 priv_put_applyList([],{AccApplyMap,AccRoleIdMap})->
   {AccApplyMap,AccRoleIdMap}.
 
-priv_get_apply_map(ItemMap) ->
-  yyu_map:get_value(apply_map, ItemMap).
+priv_get_apply_map(SelfMap) ->
+  yyu_map:get_value(apply_map, SelfMap).
 
-priv_set_apply_map(Value, ItemMap) ->
-  yyu_map:put_value(apply_map, Value, ItemMap).
+priv_set_apply_map(Value, SelfMap) ->
+  yyu_map:put_value(apply_map, Value, SelfMap).
 
-priv_get_apply_roleId_map(ItemMap) ->
-  yyu_map:get_value(apply_roleId_map, ItemMap).
+priv_get_apply_roleId_map(SelfMap) ->
+  yyu_map:get_value(apply_roleId_map, SelfMap).
 
-priv_set_apply_roleId_map(Value, ItemMap) ->
-  yyu_map:put_value(apply_roleId_map, Value, ItemMap).
+priv_set_apply_roleId_map(Value, SelfMap) ->
+  yyu_map:put_value(apply_roleId_map, Value, SelfMap).
 
 
 

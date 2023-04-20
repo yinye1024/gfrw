@@ -23,19 +23,19 @@ new_pojo(RoleId,{_UserId,_SvrId,_Name,_Gender})->
     '_id' => RoleId,ver=>0,class=>?MODULE
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
 
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  CurVer = get_ver(ItemMap),
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  CurVer = get_ver(SelfMap),
   NewVer = yyu_misc:incr_ver(CurVer),
-  yyu_map:put_value(ver, NewVer, ItemMap).
+  yyu_map:put_value(ver, NewVer, SelfMap).
 

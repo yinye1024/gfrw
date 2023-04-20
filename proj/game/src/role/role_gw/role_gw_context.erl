@@ -32,65 +32,65 @@ new()->
     last_time_out=>?NOT_SET
   }.
 
-get_roleId(ItemMap)->
-  yyu_map:get_value(roleId, ItemMap).
-get_ctype(ItemMap) ->
-  yyu_map:get_value(ctype, ItemMap).
-get_userId(ItemMap) ->
-  yyu_map:get_value(userId, ItemMap).
-get_svrId(ItemMap) ->
-  yyu_map:get_value(svrId, ItemMap).
+get_roleId(SelfMap)->
+  yyu_map:get_value(roleId, SelfMap).
+get_ctype(SelfMap) ->
+  yyu_map:get_value(ctype, SelfMap).
+get_userId(SelfMap) ->
+  yyu_map:get_value(userId, SelfMap).
+get_svrId(SelfMap) ->
+  yyu_map:get_value(svrId, SelfMap).
 
-on_active({UserId,Ticket},ItemMap)->
-  ItemMap#{
+on_active({UserId,Ticket},SelfMap)->
+  SelfMap#{
     userId=>UserId,
     ticket=>Ticket
   }.
-on_new_role({NewRoleId},ItemMap)->
-  ItemMap#{
+on_new_role({NewRoleId},SelfMap)->
+  SelfMap#{
     roleId=>NewRoleId
   }.
-on_reconnect({SvrId,RoleId},ItemMap)->
-  ItemMap#{
+on_reconnect({SvrId,RoleId},SelfMap)->
+  SelfMap#{
     svrId =>SvrId,
     roleId=>RoleId
   }.
 
-on_login({_Platform,_MachineInfo,SvrId,_UserId,_UserName,RoleId},ItemMap)->
-  ItemMap#{
+on_login({_Platform,_MachineInfo,SvrId,_UserId,_UserName,RoleId},SelfMap)->
+  SelfMap#{
     svrId =>SvrId,
     roleId=>RoleId
   }.
 
-is_reach_time_out_max(ItemMap)->
+is_reach_time_out_max(SelfMap)->
   MaxCount = 5,
-  priv_get_time_out_count(ItemMap) > MaxCount.
+  priv_get_time_out_count(SelfMap) > MaxCount.
 
-on_time_out(NowTimeSecond,ItemMap)->
-  LastTimeOut = priv_get_last_time_out(ItemMap),
+on_time_out(NowTimeSecond,SelfMap)->
+  LastTimeOut = priv_get_last_time_out(SelfMap),
   ResetTime = 60*5,
-  ItemMap_1 =
+  SelfMap_1 =
   case LastTimeOut =/= ?NOT_SET andalso NowTimeSecond - LastTimeOut > ResetTime  of
-    ?TRUE ->ItemMap#{
+    ?TRUE ->SelfMap#{
               time_out_count=>0,
               last_time_out=>?NOT_SET
             };
     ?FALSE ->
-      ItemMapTmp_1 = priv_incr_time_out_count(ItemMap),
-      ItemMapTmp_1#{last_time_out=>NowTimeSecond}
+      SelfMapTmp_1 = priv_incr_time_out_count(SelfMap),
+      SelfMapTmp_1#{last_time_out=>NowTimeSecond}
   end,
-  ItemMap_1.
+  SelfMap_1.
 
 
-priv_incr_time_out_count(ItemMap) ->
-  Cur = priv_get_time_out_count(ItemMap),
-  priv_set_time_out_count(Cur+1, ItemMap).
-priv_get_time_out_count(ItemMap) ->
-  yyu_map:get_value(time_out_count, ItemMap).
-priv_set_time_out_count(Value, ItemMap) ->
-  yyu_map:put_value(time_out_count, Value, ItemMap).
-priv_get_last_time_out(ItemMap) ->
-  yyu_map:get_value(last_time_out, ItemMap).
+priv_incr_time_out_count(SelfMap) ->
+  Cur = priv_get_time_out_count(SelfMap),
+  priv_set_time_out_count(Cur+1, SelfMap).
+priv_get_time_out_count(SelfMap) ->
+  yyu_map:get_value(time_out_count, SelfMap).
+priv_set_time_out_count(Value, SelfMap) ->
+  yyu_map:put_value(time_out_count, Value, SelfMap).
+priv_get_last_time_out(SelfMap) ->
+  yyu_map:get_value(last_time_out, SelfMap).
 
 
 

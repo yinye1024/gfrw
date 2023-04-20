@@ -74,8 +74,8 @@ priv_do_add([],Data)->
 
 get_itemList()->
   Data = priv_get_data(),
-  ItemMap = role_wallet_pdb_pojo:get_item_map(Data),
-  yyu_map:all_values(ItemMap).
+  SelfMap = role_wallet_pdb_pojo:get_item_map(Data),
+  yyu_map:all_values(SelfMap).
 
 priv_get_data()->
   RoleId = role_adm_mgr:get_roleId(),

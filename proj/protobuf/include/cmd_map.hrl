@@ -20,6 +20,14 @@
 -define(FRIEND_HANDLE_APPLY_C2S,303).
 -define(FRIEND_LIST_C2S,304).
 
+%%gm.proto
+-define(GM_CMD_C2S,401).
+
+%%mail.proto
+-define(MAIL_LIST_C2S,501).
+-define(MAIL_OPEN_C2S,502).
+
+
 
 %% ===========================  c2s 结束 ===========================================================
 
@@ -45,5 +53,8 @@
 -define(FRIEND_LIST_S2C,304).
 
 
+%%mail.proto
+-define(MAIL_LIST_S2C,501).
+-define(MAIL_OPEN_S2C,502).
 %% ===========================  s2c 结束 ===========================================================
 -endif.

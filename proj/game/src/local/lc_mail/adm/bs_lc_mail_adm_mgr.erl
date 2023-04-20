@@ -18,10 +18,13 @@
 %% API functions implements
 %% ===================================================================================
 init()->
+  lc_mail_adm_mgr:proc_init(),
   lc_mail_adm_ticker_mgr:init(),
 
+  OneHour = 3600,
+  lc_mail_adm_ticker_mgr:add_loop(1,{OneHour,fun lc_mail_adm_mgr:clean_expired/0}),
   %% 初始化worker 进程
-  s2s_lc_mail_worker_mgr:gen_init(),
+  s2s_lc_mail_worker_mgr:init_gens(),
   ?OK.
 
 loop_tick()->

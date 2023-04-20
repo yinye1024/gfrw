@@ -24,11 +24,11 @@ new_pojo(Index,Msg)->
     msg => BinMsg
   }.
 
-get_index(ItemMap) ->
-  yyu_map:get_value(index, ItemMap).
+get_index(SelfMap) ->
+  yyu_map:get_value(index, SelfMap).
 
-get_msg(ItemMap) ->
-  BinMsg = yyu_map:get_value(msg, ItemMap),
+get_msg(SelfMap) ->
+  BinMsg = yyu_map:get_value(msg, SelfMap),
   yyu_misc:bin_to_term(BinMsg).
 
 

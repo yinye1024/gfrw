@@ -26,14 +26,14 @@ new_pojo(DataId,McCfg)->
     mc_cfg=>McCfg
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_poolPid(ItemMap) ->
-  yyu_map:get_value(poolPid, ItemMap).
+get_poolPid(SelfMap) ->
+  yyu_map:get_value(poolPid, SelfMap).
 
-set_poolPid(Value, ItemMap) ->
-  yyu_map:put_value(poolPid, Value, ItemMap).
+set_poolPid(Value, SelfMap) ->
+  yyu_map:put_value(poolPid, Value, SelfMap).
 
-get_mc_cfg(ItemMap) ->
-  yyu_map:get_value(mc_cfg, ItemMap).
+get_mc_cfg(SelfMap) ->
+  yyu_map:get_value(mc_cfg, SelfMap).

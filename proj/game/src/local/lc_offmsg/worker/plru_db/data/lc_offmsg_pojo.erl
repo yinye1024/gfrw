@@ -25,52 +25,52 @@ new_pojo(RoleId)->
     msg_list => []
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  CurVer = get_ver(ItemMap),
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  CurVer = get_ver(SelfMap),
   NewVer = yyu_misc:incr_ver(CurVer),
-  yyu_map:put_value(ver, NewVer, ItemMap).
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
-add_msg(Msg,ItemMap) ->
-  {NextIndex,ItemMap_1} = priv_incr_and_get_nextId(ItemMap),
+add_msg(Msg,SelfMap) ->
+  {NextIndex,SelfMap_1} = priv_incr_and_get_nextId(SelfMap),
   MsgItem = lc_offmsg_item:new_pojo(NextIndex,Msg),
-  ItemMap_2 = priv_add_msg_item(MsgItem,ItemMap_1),
-  ItemMap_2.
+  SelfMap_2 = priv_add_msg_item(MsgItem,SelfMap_1),
+  SelfMap_2.
 
-get_msg_list(ItemMap) ->
-  List = priv_get_msg_list(ItemMap),
+get_msg_list(SelfMap) ->
+  List = priv_get_msg_list(SelfMap),
   yyu_list:reverse(List).
 
-remove_by_index(Index,ItemMap) ->
+remove_by_index(Index,SelfMap) ->
   Pred = fun(Item) -> lc_offmsg_item:get_index(Item) > Index end,
-  List = priv_get_msg_list(ItemMap),
+  List = priv_get_msg_list(SelfMap),
   List_1 = yyu_list:filter(Pred,List),
-  priv_set_msg_list(List_1,ItemMap).
+  priv_set_msg_list(List_1,SelfMap).
 
-priv_incr_and_get_nextId(ItemMap)->
-  NextIndex = get_msg_index(ItemMap)+1,
-  ItemMap_1 = priv_set_msg_index(NextIndex,ItemMap),
-  {NextIndex,ItemMap_1}.
-get_msg_index(ItemMap) ->
-  yyu_map:get_value(msg_index, ItemMap).
-priv_set_msg_index(Value, ItemMap) ->
-  yyu_map:put_value(msg_index, Value, ItemMap).
+priv_incr_and_get_nextId(SelfMap)->
+  NextIndex = get_msg_index(SelfMap)+1,
+  SelfMap_1 = priv_set_msg_index(NextIndex,SelfMap),
+  {NextIndex,SelfMap_1}.
+get_msg_index(SelfMap) ->
+  yyu_map:get_value(msg_index, SelfMap).
+priv_set_msg_index(Value, SelfMap) ->
+  yyu_map:put_value(msg_index, Value, SelfMap).
 
-priv_add_msg_item(MsgItem,ItemMap)->
-  List = priv_get_msg_list(ItemMap),
-  priv_set_msg_list([MsgItem|List],ItemMap).
-priv_get_msg_list(ItemMap) ->
-  yyu_map:get_value(msg_list, ItemMap).
-priv_set_msg_list(Value, ItemMap) ->
-  yyu_map:put_value(msg_list, Value, ItemMap).
+priv_add_msg_item(MsgItem,SelfMap)->
+  List = priv_get_msg_list(SelfMap),
+  priv_set_msg_list([MsgItem|List],SelfMap).
+priv_get_msg_list(SelfMap) ->
+  yyu_map:get_value(msg_list, SelfMap).
+priv_set_msg_list(Value, SelfMap) ->
+  yyu_map:put_value(msg_list, Value, SelfMap).
 
 
 

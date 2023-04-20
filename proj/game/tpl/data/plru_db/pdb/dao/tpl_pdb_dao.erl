@@ -22,18 +22,18 @@
 %% ===================================================================================
 create(GenId)->
   NewData = tpl_pdb_pojo:new_pojo(GenId),
-  yymg_mongo_dao:insert(?Collection, NewData),
+  game_mongo_dao:insert(?Collection, NewData),
   NewData.
 
 update(UpdateData)->
-  yymg_mongo_dao:update(?Collection, UpdateData),
+  game_mongo_dao:update(?Collection, UpdateData),
   ?OK.
 
 get_data(GenId)->
-  Data = yymg_mongo_dao:get_by_id(?Collection, GenId),
+  Data = game_mongo_dao:get_by_id(?Collection, GenId),
   Data.
 
 delete(GenId)->
-  yymg_mongo_dao:delete(?Collection, GenId),
+  game_mongo_dao:delete(?Collection, GenId),
   ?OK.
 

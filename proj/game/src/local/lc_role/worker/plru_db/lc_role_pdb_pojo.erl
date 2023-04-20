@@ -35,31 +35,31 @@ update_from_role(RolePdbPojo, RoleAvatarPdbPojo,OldPojo)->
     head_border => role_avatar_pdb_pojo:get_head_border(RoleAvatarPdbPojo)
   }.
 
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  CurVer = get_ver(ItemMap),
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  CurVer = get_ver(SelfMap),
   NewVer = yyu_misc:incr_ver(CurVer),
-  yyu_map:put_value(ver, NewVer, ItemMap).
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
-is_online(ItemMap) ->
-  yyu_map:get_value(is_online, ItemMap).
+is_online(SelfMap) ->
+  yyu_map:get_value(is_online, SelfMap).
 
-set_is_online(Value, ItemMap) ->
-  yyu_map:put_value(is_online, Value, ItemMap).
+set_is_online(Value, SelfMap) ->
+  yyu_map:put_value(is_online, Value, SelfMap).
 
-get_name(ItemMap) ->
-  yyu_map:get_value(name, ItemMap).
+get_name(SelfMap) ->
+  yyu_map:get_value(name, SelfMap).
 
-get_gender(ItemMap) ->
-  yyu_map:get_value(gender, ItemMap).
+get_gender(SelfMap) ->
+  yyu_map:get_value(gender, SelfMap).
 
-get_head_id(ItemMap) ->
-  yyu_map:get_value(head_id, ItemMap).
+get_head_id(SelfMap) ->
+  yyu_map:get_value(head_id, SelfMap).
 
-get_head_border(ItemMap) ->
-  yyu_map:get_value(head_border, ItemMap).
+get_head_border(SelfMap) ->
+  yyu_map:get_value(head_border, SelfMap).
 

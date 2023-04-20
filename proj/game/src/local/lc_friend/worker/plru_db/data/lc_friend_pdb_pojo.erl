@@ -32,86 +32,86 @@ new_pojo(Id)->
     apply_map => yyu_map:new_map()    %% 申请列表     <RoleId,lc_friend_apply_item>
   }.
 
-is_class(ItemMap)->
-  yyu_map:get_value(class,ItemMap) == ?Class.
-has_id(ItemMap)->
-  get_id(ItemMap) =/= ?NOT_SET.
-get_id(ItemMap) ->
-  yyu_map:get_value('_id', ItemMap).
+is_class(SelfMap)->
+  yyu_map:get_value(class,SelfMap) == ?Class.
+has_id(SelfMap)->
+  get_id(SelfMap) =/= ?NOT_SET.
+get_id(SelfMap) ->
+  yyu_map:get_value('_id', SelfMap).
 
-get_ver(ItemMap) ->
-  yyu_map:get_value(ver, ItemMap).
-incr_ver(ItemMap) ->
-  CurVer = get_ver(ItemMap),
+get_ver(SelfMap) ->
+  yyu_map:get_value(ver, SelfMap).
+incr_ver(SelfMap) ->
+  CurVer = get_ver(SelfMap),
   NewVer = yyu_misc:incr_ver(CurVer),
-  yyu_map:put_value(ver, NewVer, ItemMap).
+  yyu_map:put_value(ver, NewVer, SelfMap).
 
 
-add_blackId(RoleId,ItemMap)->
-  Map = priv_get_blackId_map(ItemMap),
+add_blackId(RoleId,SelfMap)->
+  Map = priv_get_blackId_map(SelfMap),
   Map_1 = yyu_map:put_value(RoleId,1,Map),
-  priv_set_blackId_map(Map_1,ItemMap).
+  priv_set_blackId_map(Map_1,SelfMap).
 
-rm_blackId(RoleId,ItemMap)->
-  Map = priv_get_blackId_map(ItemMap),
+rm_blackId(RoleId,SelfMap)->
+  Map = priv_get_blackId_map(SelfMap),
   Map_1 = yyu_map:remove(RoleId,Map),
-  priv_set_blackId_map(Map_1,ItemMap).
-priv_get_blackId_map(ItemMap) ->
-  yyu_map:get_value(blackId_map, ItemMap).
-priv_set_blackId_map(Value, ItemMap) ->
-  yyu_map:put_value(blackId_map, Value, ItemMap).
+  priv_set_blackId_map(Map_1,SelfMap).
+priv_get_blackId_map(SelfMap) ->
+  yyu_map:get_value(blackId_map, SelfMap).
+priv_set_blackId_map(Value, SelfMap) ->
+  yyu_map:put_value(blackId_map, Value, SelfMap).
 
-get_friendIdList(ItemMap)->
-  Map = priv_get_friendId_map(ItemMap),
+get_friendIdList(SelfMap)->
+  Map = priv_get_friendId_map(SelfMap),
   yyu_map:all_keys(Map).
 
-add_friendId(RoleId,ItemMap)->
-  Map = priv_get_friendId_map(ItemMap),
+add_friendId(RoleId,SelfMap)->
+  Map = priv_get_friendId_map(SelfMap),
   Map_1 = yyu_map:put_value(RoleId,1,Map),
-  priv_set_friendId_map(Map_1,ItemMap).
+  priv_set_friendId_map(Map_1,SelfMap).
 
-rm_friendId(RoleId,ItemMap)->
-  Map = priv_get_friendId_map(ItemMap),
+rm_friendId(RoleId,SelfMap)->
+  Map = priv_get_friendId_map(SelfMap),
   Map_1 = yyu_map:remove(RoleId,Map),
-  priv_set_friendId_map(Map_1,ItemMap).
-priv_get_friendId_map(ItemMap) ->
-  yyu_map:get_value(friendId_map, ItemMap).
-priv_set_friendId_map(Value, ItemMap) ->
-  yyu_map:put_value(friendId_map, Value, ItemMap).
+  priv_set_friendId_map(Map_1,SelfMap).
+priv_get_friendId_map(SelfMap) ->
+  yyu_map:get_value(friendId_map, SelfMap).
+priv_set_friendId_map(Value, SelfMap) ->
+  yyu_map:put_value(friendId_map, Value, SelfMap).
 
-get_all_apply(ItemMap)->
-  Map = priv_get_apply_map(ItemMap),
+get_all_apply(SelfMap)->
+  Map = priv_get_apply_map(SelfMap),
   yyu_map:all_values(Map).
 
-add_apply(ApplyItem,ItemMap)->
+add_apply(ApplyItem,SelfMap)->
   RoleId = lc_friend_apply_item:get_roleId(ApplyItem),
-  {NextIndex,ItemMap_1} = priv_incr_and_get_apply_index(ItemMap),
+  {NextIndex,SelfMap_1} = priv_incr_and_get_apply_index(SelfMap),
   ApplyItem_1 = lc_friend_apply_item:set_index(NextIndex,ApplyItem),
 
-  Map = priv_get_apply_map(ItemMap_1),
+  Map = priv_get_apply_map(SelfMap_1),
   Map_1 = yyu_map:put_value(RoleId,ApplyItem_1,Map),
-  priv_set_apply_map(Map_1,ItemMap_1).
+  priv_set_apply_map(Map_1,SelfMap_1).
 
-is_apply_exist(RoleId,ItemMap)->
-  Map = priv_get_apply_map(ItemMap),
+is_apply_exist(RoleId,SelfMap)->
+  Map = priv_get_apply_map(SelfMap),
   yyu_map:has_key(RoleId,Map).
 
 
-rm_apply_byIndex(Index,ItemMap)->
-  Map = priv_get_apply_map(ItemMap),
+rm_apply_byIndex(Index,SelfMap)->
+  Map = priv_get_apply_map(SelfMap),
   FilterFun = fun(_RoleId,ApplyItem) -> lc_friend_apply_item:get_index(ApplyItem)>Index end,
   Map_1 = yyu_map:filter(FilterFun,Map),
-  priv_set_apply_map(Map_1,ItemMap).
-priv_get_apply_map(ItemMap) ->
-  yyu_map:get_value(apply_map, ItemMap).
-priv_set_apply_map(Value, ItemMap) ->
-  yyu_map:put_value(apply_map, Value, ItemMap).
-priv_incr_and_get_apply_index(ItemMap)->
-  NextIndex = get_apply_index(ItemMap)+1,
-  ItemMap_1 = priv_set_apply_index(NextIndex, ItemMap),
-  {NextIndex,ItemMap_1}.
-get_apply_index(ItemMap) ->
-  yyu_map:get_value(apply_index, ItemMap).
-priv_set_apply_index(Value, ItemMap) ->
-  yyu_map:put_value(apply_index, Value, ItemMap).
+  priv_set_apply_map(Map_1,SelfMap).
+priv_get_apply_map(SelfMap) ->
+  yyu_map:get_value(apply_map, SelfMap).
+priv_set_apply_map(Value, SelfMap) ->
+  yyu_map:put_value(apply_map, Value, SelfMap).
+priv_incr_and_get_apply_index(SelfMap)->
+  NextIndex = get_apply_index(SelfMap)+1,
+  SelfMap_1 = priv_set_apply_index(NextIndex, SelfMap),
+  {NextIndex,SelfMap_1}.
+get_apply_index(SelfMap) ->
+  yyu_map:get_value(apply_index, SelfMap).
+priv_set_apply_index(Value, SelfMap) ->
+  yyu_map:put_value(apply_index, Value, SelfMap).
 

@@ -22,18 +22,18 @@
 %% ===================================================================================
 create(MultiId)->
   NewData = tpl_multi_pdb_pojo:new_pojo(MultiId),
-  yymg_mongo_dao:insert(?Collection, NewData),
+  game_mongo_dao:insert(?Collection, NewData),
   NewData.
 
 update(UpdateData)->
-  yymg_mongo_dao:update(?Collection, UpdateData),
+  game_mongo_dao:update(?Collection, UpdateData),
   ?OK.
 
 get_data(MultiId)->
-  Data = yymg_mongo_dao:get_by_id(?Collection, MultiId),
+  Data = game_mongo_dao:get_by_id(?Collection, MultiId),
   Data.
 
 delete(MultiId)->
-  yymg_mongo_dao:delete(?Collection, MultiId),
+  game_mongo_dao:delete(?Collection, MultiId),
   ?OK.
 

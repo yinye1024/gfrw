@@ -28,65 +28,65 @@ new_item(CfgId)->
     unbind_count => 0
   }.
 
-get_total_count(ItemMap) ->
-  get_bind_count(ItemMap) + get_unbind_count(ItemMap).
+get_total_count(SelfMap) ->
+  get_bind_count(SelfMap) + get_unbind_count(SelfMap).
 
-decr_count(Delta,ItemMap)->
-  {LeftCount,ItemMap_1} = priv_decr_bind_count(Delta,ItemMap),
-  {LeftCount_1,ItemMap_2} =
+decr_count(Delta,SelfMap)->
+  {LeftCount,SelfMap_1} = priv_decr_bind_count(Delta,SelfMap),
+  {LeftCount_1,SelfMap_2} =
   case LeftCount > 0 of
-    ?TRUE -> priv_decr_unbind_count(LeftCount,ItemMap_1);
+    ?TRUE -> priv_decr_unbind_count(LeftCount,SelfMap_1);
     ?FALSE ->
-      {LeftCount,ItemMap_1}
+      {LeftCount,SelfMap_1}
   end,
-  {LeftCount_1,ItemMap_2}.
+  {LeftCount_1,SelfMap_2}.
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_bind_count(ItemMap) ->
-  yyu_map:get_value(bind_count, ItemMap).
+get_bind_count(SelfMap) ->
+  yyu_map:get_value(bind_count, SelfMap).
 
-add_bind_count(Delta,ItemMap)->
-  Count_1 = get_bind_count(ItemMap)+Delta,
+add_bind_count(Delta,SelfMap)->
+  Count_1 = get_bind_count(SelfMap)+Delta,
   Count_2 = ?IF(Count_1>?MAX_INT_64,?MAX_INT_64,Count_1),
-  priv_set_bind_count(Count_2, ItemMap).
+  priv_set_bind_count(Count_2, SelfMap).
 
-priv_decr_bind_count(Delta,ItemMap)->
-  Count = get_bind_count(ItemMap),
-  {LeftCount,ItemMap_1}=
+priv_decr_bind_count(Delta,SelfMap)->
+  Count = get_bind_count(SelfMap),
+  {LeftCount,SelfMap_1}=
   case Count >= Delta of
     ?TRUE ->
-      {0,priv_set_bind_count(Count-Delta, ItemMap)};
+      {0,priv_set_bind_count(Count-Delta, SelfMap)};
     ?FALSE ->
-      {Delta - Count,priv_set_bind_count(0, ItemMap)}
+      {Delta - Count,priv_set_bind_count(0, SelfMap)}
   end,
-  {LeftCount,ItemMap_1}.
+  {LeftCount,SelfMap_1}.
 
 
-priv_set_bind_count(Value, ItemMap) ->
-  yyu_map:put_value(bind_count, Value, ItemMap).
+priv_set_bind_count(Value, SelfMap) ->
+  yyu_map:put_value(bind_count, Value, SelfMap).
 
-get_unbind_count(ItemMap) ->
-  yyu_map:get_value(unbind_count, ItemMap).
+get_unbind_count(SelfMap) ->
+  yyu_map:get_value(unbind_count, SelfMap).
 
-add_unbind_count(Delta,ItemMap)->
-  Count_1 = get_unbind_count(ItemMap)+Delta,
+add_unbind_count(Delta,SelfMap)->
+  Count_1 = get_unbind_count(SelfMap)+Delta,
   Count_2 = ?IF(Count_1>?MAX_INT_64,?MAX_INT_64,Count_1),
-  priv_set_unbind_count(Count_2, ItemMap).
+  priv_set_unbind_count(Count_2, SelfMap).
 
-priv_decr_unbind_count(Delta,ItemMap)->
-  Count = get_unbind_count(ItemMap),
-  {LeftCount,ItemMap_1}=
+priv_decr_unbind_count(Delta,SelfMap)->
+  Count = get_unbind_count(SelfMap),
+  {LeftCount,SelfMap_1}=
     case Count >= Delta of
       ?TRUE ->
-        {0,priv_set_unbind_count(Count-Delta, ItemMap)};
+        {0,priv_set_unbind_count(Count-Delta, SelfMap)};
       ?FALSE ->
-        {Delta - Count,priv_set_unbind_count(0, ItemMap)}
+        {Delta - Count,priv_set_unbind_count(0, SelfMap)}
     end,
-  {LeftCount,ItemMap_1}.
+  {LeftCount,SelfMap_1}.
 
-priv_set_unbind_count(Value, ItemMap) ->
-  yyu_map:put_value(unbind_count, Value, ItemMap).
+priv_set_unbind_count(Value, SelfMap) ->
+  yyu_map:put_value(unbind_count, Value, SelfMap).
 
 

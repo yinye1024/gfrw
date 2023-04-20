@@ -32,60 +32,60 @@ new_pojo(DataId)->
   }.
 
 
-get_id(ItemMap) ->
-  yyu_map:get_value(id, ItemMap).
+get_id(SelfMap) ->
+  yyu_map:get_value(id, SelfMap).
 
-get_client_mid(ItemMap) ->
-  yyu_map:get_value(client_mid, ItemMap).
+get_client_mid(SelfMap) ->
+  yyu_map:get_value(client_mid, SelfMap).
 
-set_client_mid(Value, ItemMap) ->
-  yyu_map:put_value(client_mid, Value, ItemMap).
+set_client_mid(Value, SelfMap) ->
+  yyu_map:put_value(client_mid, Value, SelfMap).
 
-get_role_gen(ItemMap) ->
-  yyu_map:get_value(role_gen, ItemMap).
+get_role_gen(SelfMap) ->
+  yyu_map:get_value(role_gen, SelfMap).
 
-set_role_gen(Value, ItemMap) ->
-  yyu_map:put_value(role_gen, Value, ItemMap).
+set_role_gen(Value, SelfMap) ->
+  yyu_map:put_value(role_gen, Value, SelfMap).
 
 
-is_max_heartbeat_time_out(ItemMap)->
+is_max_heartbeat_time_out(SelfMap)->
   MaxCount = 5,
-  priv_get_time_out_count(ItemMap) > MaxCount.
+  priv_get_time_out_count(SelfMap) > MaxCount.
 
-on_heartbeat(NowTimeSecond,ItemMap)->
-  ItemMap_1 = ItemMap#{
+on_heartbeat(NowTimeSecond,SelfMap)->
+  SelfMap_1 = SelfMap#{
     time_out_count=>0,
     last_heartbeat=>NowTimeSecond
   },
-  ItemMap_1.
+  SelfMap_1.
 
-check_heartbeat(NowTimeSecond,ItemMap)->
-  LastHeartbeat = priv_get_last_heartbeat(ItemMap),
+check_heartbeat(NowTimeSecond,SelfMap)->
+  LastHeartbeat = priv_get_last_heartbeat(SelfMap),
   TimeOutSecond = 60,
-  ItemMap_1 =
+  SelfMap_1 =
   case NowTimeSecond - LastHeartbeat > TimeOutSecond of
     ?TRUE ->
-      priv_incr_time_out_count(ItemMap);
+      priv_incr_time_out_count(SelfMap);
     ?FALSE ->
-      ItemMap
+      SelfMap
   end,
-  ItemMap_1.
+  SelfMap_1.
 
-priv_incr_time_out_count(ItemMap) ->
-  Cur = priv_get_time_out_count(ItemMap),
-  priv_set_time_out_count(Cur+1, ItemMap).
-priv_get_time_out_count(ItemMap) ->
-  yyu_map:get_value(time_out_count, ItemMap).
-priv_set_time_out_count(Value, ItemMap) ->
-  yyu_map:put_value(time_out_count, Value, ItemMap).
-priv_get_last_heartbeat(ItemMap) ->
-  yyu_map:get_value(last_heartbeat, ItemMap).
+priv_incr_time_out_count(SelfMap) ->
+  Cur = priv_get_time_out_count(SelfMap),
+  priv_set_time_out_count(Cur+1, SelfMap).
+priv_get_time_out_count(SelfMap) ->
+  yyu_map:get_value(time_out_count, SelfMap).
+priv_set_time_out_count(Value, SelfMap) ->
+  yyu_map:put_value(time_out_count, Value, SelfMap).
+priv_get_last_heartbeat(SelfMap) ->
+  yyu_map:get_value(last_heartbeat, SelfMap).
 
-get_context(ItemMap) ->
-  yyu_map:get_value(context, ItemMap).
+get_context(SelfMap) ->
+  yyu_map:get_value(context, SelfMap).
 
-set_context(Value, ItemMap) ->
-  yyu_map:put_value(context, Value, ItemMap).
+set_context(Value, SelfMap) ->
+  yyu_map:put_value(context, Value, SelfMap).
 
 
 

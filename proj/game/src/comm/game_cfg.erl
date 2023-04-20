@@ -10,7 +10,10 @@
 -author("yinye").
 
 %% API
--export([get_svrId/0,get_svr_open_time/0]).
+-export([is_open_debug/0,get_svrId/0,get_svr_open_time/0]).
+
+is_open_debug()->
+  true.
 
 get_svrId()->
   1.
