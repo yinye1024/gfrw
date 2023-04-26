@@ -23,10 +23,13 @@
 %% API functions implements
 %% ===================================================================================
 new_pojo(RoleId) ->
-  #{
+  NewPojo = #{
     '_id' => RoleId, ver => 0, class => ?MODULE,
     item_map => yyu_map:new_map()       %% <CfgId,role_wallet_item>
-  }.
+  },
+  NewPojo_1 = add_goods(role_wallet_cfg_helper:get_gold_cfgId(),10000,?TRUE,NewPojo),
+  NewPojo_2 = add_goods(role_wallet_cfg_helper:get_diamond_cfgId(),1000,?TRUE,NewPojo_1),
+  NewPojo_2.
 
 is_class(SelfMap) ->
   yyu_map:get_value(class, SelfMap) == ?Class.
@@ -60,6 +63,7 @@ rm_goods(CfgId,Count,SelfMap) ->
   yyu_error:assert_true(LeftCount ==0,"left count should be 0 but not."),
   SelfMap_1 = priv_update_item(WalletItem_2, SelfMap),
   SelfMap_1.
+
 
 add_goods(CfgId,Count,IsBind,SelfMap) ->
   WalletItem_1 =

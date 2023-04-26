@@ -13,7 +13,7 @@
 
 -define(LifeCycleMgrList, [
   role_life_cycle:get_mod()
-  ,role_res_mgr:get_mod()
+  , role_res_life_cycle_mgr:get_mod()
   ,role_avatar_life_cycle:get_mod()
   ,role_friend_life_cycle:get_mod()
   ,role_mail_life_cycle:get_mod()

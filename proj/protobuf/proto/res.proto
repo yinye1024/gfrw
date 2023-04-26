@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+message res_list_bag_c2s{
+}
+
+message res_list_bag_s2c{
+  repeated p_bagItem bagItem_list = 1;
+}
+// 背包物品
+message p_bagItem{
+  required int64 id = 1;
+  optional int32 cfgId = 2;
+  optional int64 count = 3;
+  optional int64 max_count = 4;
+  optional int64 expired_time = 5;
+  optional bool is_bind = 6;
+}
+
+message res_list_wallet_c2s{
+}
+message res_list_wallet_s2c{
+  repeated p_walletItem walletItem_list = 1;
+}
+// 货币
+message p_walletItem{
+  required int64 id = 1;
+  required int64 bind_count = 2;
+  required int64 unbind_count = 3;
+}
+
+message res_use_bagItem_c2s{
+  required int32 cfg_id = 1;
+  required int64 count = 2;
+}
+message res_use_bagItem_s2c{
+  required bool success = 1;
+}
+message res_use_walletItem_c2s{
+  required int32 cfg_id = 1;
+  required int64 count = 2;
+}
+message res_use_walletItem_s2c{
+  required bool success = 1;
+}
+
+

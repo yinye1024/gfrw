@@ -15,20 +15,20 @@
 
 -define(Class,?MODULE).
 %% API functions defined
--export([new_add_item/2,new_cost_item/2,new_item/2]).
+-export([new_add_item/2,new_cost_item/2]).
 -export([get_cost_kv_list/1, get_add_kv_list/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
 new_add_item(CfgId,Count)->
   NoExpired = -1,
-  {MaxCount,IsBind,IsCanAcc,ExpiredTime} = {?MAX_INT_32,?FALSE,?TRUE,NoExpired},
-  new_item([],[{CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime} }]).
+  {MaxCount,IsBind,IsCanAcc,ExpiredTime} = {99,?FALSE,?TRUE,NoExpired},
+  priv_new_item([],[{CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime} }]).
 
 new_cost_item(CfgId,Count)->
-  new_item([{CfgId,Count}],[]).
+  priv_new_item([{CfgId,Count}],[]).
 
-new_item(CostKvList,AddKvList)->
+priv_new_item(CostKvList,AddKvList)->
   #{
     cost_kv_list => CostKvList,   %% 消耗物品列表 [{CfgId,Count}...]
     add_kv_list => AddKvList      %% 添加物品列表 [{CfgId,Count，{MaxCount,IsBind,IsCanAcc,ExpiredTime}}...]

@@ -12,9 +12,11 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 %% API
--export([get_expired_time/1, get_max_count_per_wallet_item/1]).
+-export([get_gold_cfgId/0, get_diamond_cfgId/0]).
 
-get_expired_time(_CfgId)->
-  -1.
-get_max_count_per_wallet_item(_CfgId)->
-  99.
+%% 金币
+get_gold_cfgId()->
+  1.
+%% 钻石
+get_diamond_cfgId()->
+  2.

@@ -19,7 +19,7 @@
 -export([proc_init/0]).
 
 -export([do_exchange/1]).
--export([get_itemList/0]).
+-export([get_itemList/0,get_item/1]).
 
 %% ===================================================================================
 %% API functions implements
@@ -31,6 +31,7 @@ proc_init()->
 
 do_exchange(ExItem)->
   Data = priv_get_data(),
+  ?LOG_INFO({"do_exchange_111",Data}),
   {IsCostOk,Data_1}=
   case role_bag_ex_item:get_cost_kv_list(ExItem) of
     []->{?TRUE,Data};
@@ -43,15 +44,20 @@ do_exchange(ExItem)->
           {?FALSE,Data}
       end
   end,
+  ?LOG_INFO({"do_exchange_112",{IsCostOk,Data_1}}),
   IsExOk =
   case IsCostOk of
     ?TRUE ->
-      Data_2 = priv_do_add(role_bag_ex_item:get_add_kv_list(ExItem),Data_1),
+      EXKvList = role_bag_ex_item:get_add_kv_list(ExItem),
+      ?LOG_INFO({"do_exchange_113",EXKvList}),
+      Data_2 = priv_do_add(EXKvList,Data_1),
+      ?LOG_INFO({"do_exchange_114",Data_2}),
       priv_update_data(Data_2),
       ?TRUE;
     ?FALSE ->
       ?FALSE
   end,
+
   IsExOk.
 
 priv_is_goods_enough([{CfgId,Count}|Less],Data)->
@@ -68,24 +74,31 @@ priv_do_cost([{CfgId,Count}|Less],Data)->
 priv_do_cost([],Data)->
   Data.
 priv_do_add([{CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime}}|Less],Data)->
+  ?LOG_INFO({"dddddtttt 1"}),
   Data_1 = role_bag_pdb_pojo:add_goods(CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime},Data),
-  priv_do_cost(Less,Data_1);
+  priv_do_add(Less,Data_1);
 priv_do_add([],Data)->
+  ?LOG_INFO({"dddddtttt 2"}),
   Data.
 
 get_itemList()->
   Data = priv_get_data(),
-  SelfMap = role_bag_pdb_pojo:get_item_map(Data),
-  yyu_map:all_values(SelfMap).
+  ItemMap = role_bag_pdb_pojo:get_item_map(Data),
+  yyu_map:all_values(ItemMap).
+
+get_item(ItemId)->
+  Data = priv_get_data(),
+  role_bag_pdb_pojo:get_item(ItemId,Data).
 
 priv_get_data()->
   RoleId = role_adm_mgr:get_roleId(),
   Data = role_bag_pdb_holder:get_data(RoleId),
   Data.
 
-priv_update_data(MultiData)->
-  NewMultiData = role_bag_pdb_pojo:incr_ver(MultiData),
-  role_bag_pdb_holder:put_data(NewMultiData),
+priv_update_data(BagData)->
+  ?LOG_INFO({"new role bag data",BagData}),
+  BagData_1 = role_bag_pdb_pojo:incr_ver(BagData),
+  role_bag_pdb_holder:put_data(BagData_1),
   ?OK.
 
 

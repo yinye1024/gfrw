@@ -10,20 +10,15 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/login_pb.hrl").
 
 
--define(Class,?MODULE).
-%% API functions defined
--export([new_add_item/2,new_cost_item/2,new_item/2]).
+-export([new_add_item/3,new_cost_item/2,new_item/2]).
 -export([get_cost_kv_list/1, get_add_kv_list/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-new_add_item(CfgId,Count)->
-  NoExpired = -1,
-  {MaxCount,IsBind,IsCanAcc,ExpiredTime} = {?MAX_INT_32,?FALSE,?TRUE,NoExpired},
-  new_item([],[{CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime} }]).
+new_add_item(CfgId,Count,IsBind)->
+  new_item([],[{CfgId,Count,IsBind}]).
 
 new_cost_item(CfgId,Count)->
   new_item([{CfgId,Count}],[]).

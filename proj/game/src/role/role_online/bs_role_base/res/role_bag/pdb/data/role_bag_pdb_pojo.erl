@@ -10,7 +10,6 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/login_pb.hrl").
 
 
 -define(Class, ?MODULE).
@@ -18,7 +17,7 @@
 -export([new_pojo/1, is_class/1, has_id/1, get_id/1, get_ver/1, incr_ver/1]).
 -export([add_goods/4]).
 -export([is_goods_enough/3,rm_goods/3]).
--export([get_item_map/1]).
+-export([get_item_map/1,get_item/2]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
@@ -61,10 +60,11 @@ rm_goods(CfgId,Count,SelfMap) ->
   case LeftCount_1 > 0 of
     ?TRUE ->
       %% 再扣非绑的
-      UnBindItemList = role_bag_item_sum:get_bind_item_list(BagItemMap,ItemSum),
-      {LeftCount_2, AccItemListTmp} = priv_decr_count(Count,UnBindItemList, DecrItemList_1),
+      UnBindItemList = role_bag_item_sum:get_unbind_item_list(BagItemMap,ItemSum),
+      ?LOG_INFO({"d2222222222222",LeftCount_1,UnBindItemList, DecrItemList_1}),
+      {LeftCount_2, AccItemListTmp} = priv_decr_count(LeftCount_1,UnBindItemList, DecrItemList_1),
       %% 跑到这里不应该出现不够扣的情况，非0 直接抛错
-      yyu_error:assert_true(LeftCount_2 ==0,"left count should be 0 but not."),
+      yyu_error:assert_true(LeftCount_2 == 0,{"left count should be 0 but not.",LeftCount_2}),
       AccItemListTmp;
     ?FALSE ->
       DecrItemList_1
@@ -88,6 +88,7 @@ priv_decr_count(Count,BagItemList,AccItemList)->
   end,
   {LeftCount_1,AccItemList_1}.
 
+%% 获取最少count的item，先从里面减
 priv_get_min_count_item([BagItem|Less],{AccMin,AccBagItem})->
   Count = role_bag_item:get_count(BagItem),
   {AccMin_1,AccBagItem_1} =
@@ -105,17 +106,20 @@ priv_get_min_count_item([],{AccMin,AccBagItem})->
   {AccMin,AccBagItem}.
 
 add_goods(CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime}, SelfMap) ->
-  %% 如果有过期时间，BagItem的IsCanAcc 要设成 ?FALSE，不可叠加
+  %% 如果有过期时间，BagItem的IsCanAcc 要设成 ?FALSE，会过期的物品都不可叠加
   IsCanAcc_1 = ?IF(ExpiredTime > 0, ?FALSE,IsCanAcc),
 
-  {LeftCount,BagItemList} =
-  case priv_get_can_add_item_by_cfgId(priv_get_bagItem_list(SelfMap),CfgId,IsBind) of
+  CurBagItemList = priv_get_bagItem_list(SelfMap),
+  {LeftCount, NewBagItemList} =
+  %% 任何时候最多只会有一个item是不满的，如果有，把count加进去
+  case priv_get_can_add_item_by_cfgId(CurBagItemList,CfgId,IsBind) of
     ?NOT_SET -> {Count,[]};
     BagItem ->
       {LeftCountTmp,BagItemTmp} =  role_bag_item:add_count(Count,MaxCount,BagItem),
       {LeftCountTmp,[BagItemTmp]}
   end,
-  {BagItemList_1,SelfMap_1} = priv_split_count(LeftCount,{CfgId,MaxCount,IsBind,IsCanAcc_1,ExpiredTime},BagItemList,SelfMap),
+  ?LOG_INFO({"priv_split_count",{LeftCount,{CfgId,MaxCount,IsBind,IsCanAcc_1,ExpiredTime}}}),
+  {BagItemList_1,SelfMap_1} = priv_split_count(LeftCount,{CfgId,MaxCount,IsBind,IsCanAcc_1,ExpiredTime}, NewBagItemList,SelfMap),
   priv_update_item_list(BagItemList_1, SelfMap_1).
 
 priv_get_can_add_item_by_cfgId([BagItem | Less], CfgId,IsBind) ->
@@ -130,11 +134,11 @@ priv_get_can_add_item_by_cfgId([], _CfgId,_IsBind) ->
 
 priv_split_count(LeftCount,{CfgId,MaxCount,IsBind,IsCanAcc,ExpiredTime},AccBagItemList,AccSelfMap) when LeftCount =< MaxCount ->
   {ItemId,AccSelfMap_1} = incr_and_get_itemId(AccSelfMap),
-  NewBagItem = role_bag_item:new_item(ItemId,CfgId,LeftCount,{IsBind, IsCanAcc,ExpiredTime}),
+  NewBagItem = role_bag_item:new_item(ItemId,CfgId,{LeftCount,MaxCount},{IsBind, IsCanAcc,ExpiredTime}),
   {[NewBagItem|AccBagItemList],AccSelfMap_1};
 priv_split_count(LeftCount,{CfgId,MaxCount,IsBind,IsCanAcc,ExpiredTime},AccBagItemList,AccSelfMap)->
   {ItemId,AccSelfMap_1} = incr_and_get_itemId(AccSelfMap),
-  NewBagItem = role_bag_item:new_item(ItemId,CfgId,MaxCount,{IsBind, IsCanAcc,ExpiredTime}),
+  NewBagItem = role_bag_item:new_item(ItemId,CfgId,{MaxCount,MaxCount},{IsBind, IsCanAcc,ExpiredTime}),
   priv_split_count(LeftCount-MaxCount,{CfgId,MaxCount,IsBind,IsCanAcc,ExpiredTime},[NewBagItem|AccBagItemList],AccSelfMap_1).
 
 %% 放入 新的 BagItem，并对修改过的所有 cfgId 重新做统计
@@ -155,7 +159,7 @@ priv_update_item_list([BagItem | Less], AccCfgIdMap, AccSelfMap) ->
         priv_rm_item(BagId, AccSelfMap)
     end,
   Map_1 = yyu_map:put_value(role_bag_item:get_cfgId(BagItem), 1, AccCfgIdMap),
-  priv_update_item_list([BagItem | Less], Map_1, AccSelfMap_1);
+  priv_update_item_list(Less, Map_1, AccSelfMap_1);
 priv_update_item_list([], AccCfgIdMap, AccSelfMap) ->
   {AccCfgIdMap, AccSelfMap}.
 
@@ -169,6 +173,10 @@ priv_rm_item(BagId, SelfMap) ->
   Map = get_item_map(SelfMap),
   Map_1 = yyu_map:remove(BagId, Map),
   priv_set_item_map(Map_1, SelfMap).
+
+get_item(ItemId,SelfMap)->
+  ItemMap = get_item_map(SelfMap),
+  yyu_map:get_value(ItemId,ItemMap).
 
 get_item_map(SelfMap) ->
   yyu_map:get_value(item_map, SelfMap).

@@ -31,6 +31,7 @@ new_item(CfgId)->
 get_total_count(SelfMap) ->
   get_bind_count(SelfMap) + get_unbind_count(SelfMap).
 
+%% 货币默认是先扣除绑定，再扣除非绑
 decr_count(Delta,SelfMap)->
   {LeftCount,SelfMap_1} = priv_decr_bind_count(Delta,SelfMap),
   {LeftCount_1,SelfMap_2} =

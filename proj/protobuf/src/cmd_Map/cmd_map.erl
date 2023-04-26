@@ -53,6 +53,12 @@ priv_c2s(?GM_CMD_C2S)->{gm_c2s_handler,gm_pb,gm_cmd_c2s};
 priv_c2s(?MAIL_LIST_C2S)->{mail_c2s_handler,mail_pb,mail_list_c2s};
 priv_c2s(?MAIL_OPEN_C2S)->{mail_c2s_handler,mail_pb,mail_open_c2s};
 
+%%res.proto
+priv_c2s(?RES_LIST_BAG_C2S)->{res_c2s_handler,res_pb,res_list_bag_c2s};
+priv_c2s(?RES_LIST_WALLET_C2S)->{res_c2s_handler,res_pb,res_list_wallet_c2s};
+priv_c2s(?RES_USE_BAGITEM_C2S)->{res_c2s_handler,res_pb,res_use_bagItem_c2s};
+priv_c2s(?RES_USE_WALLETITEM_C2S)->{res_c2s_handler,res_pb,res_use_walletItem_c2s};
+
 
 priv_c2s(_)->{unknown_c2s_handler}.
 
@@ -84,5 +90,11 @@ priv_s2c(friend_list_s2c)->{?FRIEND_LIST_S2C,friend_pb};
 %%mail.proto
 priv_s2c(mail_list_s2c)->{?MAIL_LIST_S2C,mail_pb};
 priv_s2c(mail_open_s2c)->{?MAIL_OPEN_S2C,mail_pb};
+
+%%res.proto
+priv_s2c(res_list_bag_s2c)->{?RES_LIST_BAG_S2C,res_pb};
+priv_s2c(res_list_wallet_s2c)->{?RES_LIST_WALLET_S2C,res_pb};
+priv_s2c(res_use_bagItem_s2c)->{?RES_USE_BAGITEM_S2C,res_pb};
+priv_s2c(res_use_walletItem_s2c)->{?RES_USE_WALLETITEM_S2C,res_pb};
 
 priv_s2c(UnknownRecord)->yyu_error:throw_error({unknown_s2c_record,UnknownRecord}).

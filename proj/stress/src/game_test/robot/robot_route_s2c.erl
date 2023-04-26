@@ -70,6 +70,21 @@ priv_route_s2c(?MAIL_OPEN_S2C, BinData)->
   robot_mail_mgr:mail_open_s2c(BinData),
   ?OK;
 
+
+%%res.proto
+priv_route_s2c(?RES_LIST_BAG_S2C, BinData)->
+  robot_res_mgr:res_list_bag_s2c(BinData),
+  ?OK;
+priv_route_s2c(?RES_LIST_WALLET_S2C, BinData)->
+  robot_res_mgr:res_list_wallet_s2c(BinData),
+  ?OK;
+priv_route_s2c(?RES_USE_BAGITEM_S2C, BinData)->
+  robot_res_mgr:res_use_bagItem_s2c(BinData),
+  ?OK;
+priv_route_s2c(?RES_USE_WALLETITEM_S2C, BinData)->
+  robot_res_mgr:res_use_walletItem_s2c(BinData),
+  ?OK;
+
 priv_route_s2c(S2CId, BinData)->
   ?LOG_INFO({"unhandle msg ",{S2CId,BinData}}),
   ?OK.

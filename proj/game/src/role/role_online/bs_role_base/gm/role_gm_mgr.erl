@@ -33,17 +33,30 @@ priv_gm_cmd(StrCmd)->
   Cmd_1 = unicode:characters_to_list(unicode:characters_to_binary(list_to_binary(Cmd),utf8)), %% 转换utf9字符串
   priv_exec_cmd(Cmd_1,Params).
 
-%% "add_mail,RoleId,MailType,Title,Content,[]"
+%% StrCmd = "add_mail,"++yyu_misc:to_list(UserRoleId)++",1,\"Title_1\",\"Content\",\"attachment\"",
 priv_exec_cmd("add_mail",Params)->
   ?LOG_INFO({"do gm add_mail",Params}),
   PStr = string:join(Params,","),
   TermStr = "{" ++ PStr ++ "}",
-  ?LOG_INFO({"oooooooooooooooo ",{TermStr}}),
   {RoleId,MailType,Title,Content,AttachItemList} = yyu_misc:string_to_term(TermStr),
   SendTime = yyu_time:now_milliseconds(),
   FromId = ?NOT_SET,
   MailItem = role_mail_item:new_pojo(MailType,{FromId,SendTime},{Title,Content,AttachItemList}),
   lc_mail_app_api:add_to_role_mail(RoleId,MailItem),
+  ?OK;
+
+%%StrCmd = "add_bag_item,"++yyu_misc:to_list(101)++","++yyu_misc:to_list(Count)++"",
+priv_exec_cmd("add_bag_item",Params)->
+  ?LOG_INFO({"do gm add_bag_item",Params}),
+  [CfgIdStr,CountStr] = Params,
+  ExItem = role_bag_ex_item:new_add_item(yyu_misc:to_integer(CfgIdStr),yyu_misc:to_integer(CountStr)),
+  role_res_mgr:do_bag_exchange(ExItem),
+  ?OK;
+priv_exec_cmd("add_wallet_item",Params)->
+  ?LOG_INFO({"do gm add_wallet_item",Params}),
+  [CfgIdStr,CountStr, IsBindStr] = Params,
+  ExItem = role_wallet_ex_item:new_add_item(yyu_misc:to_integer(CfgIdStr),yyu_misc:to_integer(CountStr), erlang:list_to_atom(IsBindStr)),
+  role_res_mgr:do_wallet_exchange(ExItem),
   ?OK;
 priv_exec_cmd(Cmd,Params)->
   ?LOG_WARNING({"unknown gm ",Cmd,Params}),

@@ -27,6 +27,12 @@
 -define(MAIL_LIST_C2S,501).
 -define(MAIL_OPEN_C2S,502).
 
+%%res.proto
+-define(RES_LIST_BAG_C2S,601).
+-define(RES_LIST_WALLET_C2S,602).
+-define(RES_USE_BAGITEM_C2S,603).
+-define(RES_USE_WALLETITEM_C2S,604).
+
 
 
 %% ===========================  c2s 结束 ===========================================================
@@ -56,5 +62,12 @@
 %%mail.proto
 -define(MAIL_LIST_S2C,501).
 -define(MAIL_OPEN_S2C,502).
+
+%%res.proto
+-define(RES_LIST_BAG_S2C,601).
+-define(RES_LIST_WALLET_S2C,602).
+-define(RES_USE_BAGITEM_S2C,603).
+-define(RES_USE_WALLETITEM_S2C,604).
+
 %% ===========================  s2c 结束 ===========================================================
 -endif.

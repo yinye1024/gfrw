@@ -3,7 +3,7 @@
 %%% @copyright (C) 2021, <COMPANY>
 %%% @doc
 %%    存放玩家的各种货币
-%%    1 每个item一种货币，货币可叠加，上限是 int64。
+%%    1 每个item 一种货币，货币可叠加，上限是 int64。
 %%    2 每种货币分绑定和非绑两种，消费的时候先消费绑定货币，再消费非绑货币。
 %%    3 货币没有过期时间
 %%% @end
@@ -36,16 +36,21 @@ do_exchange(ExItem)->
     CostKvList ->
       case priv_is_goods_enough(CostKvList,Data) of
         ?TRUE ->
+          ?LOG_INFO({"do_exchange111111",CostKvList,Data}),
           DataTmp = priv_do_cost(CostKvList,Data),
           {?TRUE,DataTmp};
         ?FALSE ->
+          ?LOG_INFO({"do_exchange111122",Data}),
           {?FALSE,Data}
       end
   end,
   IsExOk =
   case IsCostOk of
     ?TRUE ->
-      Data_2 = priv_do_add(role_wallet_ex_item:get_add_kv_list(ExItem),Data_1),
+      ?LOG_INFO({"do_exchange1111333",Data_1}),
+      AddKvList = role_wallet_ex_item:get_add_kv_list(ExItem),
+      Data_2 = priv_do_add(AddKvList,Data_1),
+      ?LOG_INFO({"do_exchange1111444",Data_2}),
       priv_update_data(Data_2),
       ?TRUE;
     ?FALSE ->
@@ -66,9 +71,9 @@ priv_do_cost([{CfgId,Count}|Less],Data)->
   priv_do_cost(Less,Data_1);
 priv_do_cost([],Data)->
   Data.
-priv_do_add([{CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime}}|Less],Data)->
-  Data_1 = role_wallet_pdb_pojo:add_goods(CfgId,Count,{MaxCount,IsBind,IsCanAcc,ExpiredTime},Data),
-  priv_do_cost(Less,Data_1);
+priv_do_add([{CfgId,Count,IsBind}|Less],Data)->
+  Data_1 = role_wallet_pdb_pojo:add_goods(CfgId,Count,IsBind,Data),
+  priv_do_add(Less,Data_1);
 priv_do_add([],Data)->
   Data.
 
