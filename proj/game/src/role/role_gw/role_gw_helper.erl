@@ -11,7 +11,7 @@
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 -include_lib("protobuf/include/login_pb.hrl").
--include("login.hrl").
+-include("role/role_gw/login.hrl").
 
 
 %% API

@@ -20,7 +20,7 @@
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-new_item(ItemId,Type,{MaxRefreshCount,RefreshTimeSpan})->
+new_item(ItemId,Type,{_MaxRefreshCount,_RefreshTimeSpan})->
   #{
     id => ItemId,
     type => Type,

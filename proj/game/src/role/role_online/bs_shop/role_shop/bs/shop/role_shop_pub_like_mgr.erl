@@ -9,7 +9,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include("shop.hrl").
+-include("role/role_online/bs_role_shop/shop.hrl").
 
 %% API functions defined
 -export([init/2,refresh_shop/1,tick/1]).
@@ -36,13 +36,13 @@ new_shop(ShopId,ShopCfgItem)->
   ShopItem = role_shop_item:new_item(ShopId,{ShopType,CfgId,ShopContext_1,LatticeMap}),
   priv_update_data(ShopItem),
   ?OK.
-priv_build_good_map(ShopCfgItem)->
+priv_build_good_map(_ShopCfgItem)->
   yyu_map:new_map().
-priv_build_lattice_map(ShopCfgItem,ShopContext)->
+priv_build_lattice_map(_ShopCfgItem,ShopContext)->
   {yyu_map:new_map(),ShopContext}.
 
 refresh_shop(ShopId)->
-  ShopItem = priv_get_data(ShopId),
+  _ShopItem = priv_get_data(ShopId),
   ?OK.
 
 tick(ShopId)->

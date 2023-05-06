@@ -9,7 +9,7 @@
 -module(role_c2s_handler).
 -author("yinye").
 -include_lib("yyutils/include/yyu_comm.hrl").
--include("login.hrl").
+-include("role/role_gw/login.hrl").
 
 %% API
 -export([role_logout_c2s/1]).

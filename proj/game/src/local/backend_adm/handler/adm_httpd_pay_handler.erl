@@ -30,7 +30,7 @@ priv_handle('POST',Req,_BsPathList)->
 priv_handle(_Other,_Req,_BsPathList)->
   {?OK, adm_httpd_resp_restful:new_fail("未知请求，_Other")}.
 
-priv_to_payItem(RoleId,PayInfoMap)->
+priv_to_payItem(RoleId,_PayInfoMap)->
   OrderId = 1,
   {GameId,SvrId,PlatformId,RoleId} = {1,1,1,RoleId},
   {PayWay,Amount,ProductId,PayTime}={1,200,201,yyu_time:now_seconds()},

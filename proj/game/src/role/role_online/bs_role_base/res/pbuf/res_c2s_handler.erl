@@ -12,7 +12,7 @@
 -include_lib("protobuf/include/res_pb.hrl").
 
 %% API
--export([res_list_bag_c2s/1, res_list_wallet_c2s/1, res_use_bagItem_c2s/1,res_use_walletItem_c2s/1]).
+-export([res_list_bag_c2s/1, res_list_wallet_c2s/1, res_use_bag_item_c2s/1, res_use_wallet_item_c2s/1]).
 
 res_list_bag_c2s(C2SRD = #res_list_bag_c2s{})->
   ?LOG_INFO({"res_list_bag_c2s,",C2SRD}),
@@ -29,12 +29,12 @@ res_list_wallet_c2s(C2SRD = #res_list_wallet_c2s{})->
   res_s2c_handler:res_list_wallet_s2c(PWalletItemList),
   ?OK.
 
-res_use_bagItem_c2s(C2SRD = #res_use_bagItem_c2s{cfg_id = CfgId,count = Count})->
+res_use_bag_item_c2s(C2SRD = #res_use_bag_item_c2s{cfg_id = CfgId,count = Count})->
   ?LOG_INFO({"res_use_bagItem_c2s,",C2SRD}),
   IsSuccess= role_res_mgr:use_bagItem(CfgId,Count),
   res_s2c_handler:res_use_bagItem_s2c(IsSuccess),
   ?OK.
-res_use_walletItem_c2s(C2SRD = #res_use_walletItem_c2s{cfg_id = CfgId,count = Count})->
+res_use_wallet_item_c2s(C2SRD = #res_use_wallet_item_c2s{cfg_id = CfgId,count = Count})->
   ?LOG_INFO({"res_use_walletItem_c2s,",C2SRD}),
 
   IsSuccess = role_res_mgr:use_walletItem(CfgId,Count),

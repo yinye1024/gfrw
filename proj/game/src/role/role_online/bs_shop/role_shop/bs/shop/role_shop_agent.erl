@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include("shop.hrl").
+-include("role/role_online/bs_role_shop/shop.hrl").
 
 
 %% API functions defined
@@ -24,7 +24,7 @@
 init(?ShopType_Pub,ShopId,ShopCfgItem)->
   role_shop_pub_like_mgr:init(ShopId,ShopCfgItem),
   ?OK;
-init(ShopType,ShopId,CfgId)->
+init(ShopType,ShopId,_CfgId)->
   ?LOG_ERROR({"unknow shop type", {ShopType,ShopId}}),
   ?OK.
 
@@ -52,6 +52,6 @@ buy_shop_goods(ShopType,ShopItem,LatticeId)->
 refresh_lattice(?ShopType_Pub,ShopId,LatticeId)->
   role_shop_pub_like_mgr:refresh_lattice(ShopId,LatticeId),
   ?OK;
-refresh_lattice(ShopType,ShopId,LatticeId)->
+refresh_lattice(ShopType,ShopId,_LatticeId)->
   ?LOG_ERROR({"unknow shop type", {ShopType,ShopId}}),
   ?OK.

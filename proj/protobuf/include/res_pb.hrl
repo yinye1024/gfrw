@@ -17,13 +17,13 @@
 -ifndef('RES_LIST_BAG_S2C_PB_H').
 -define('RES_LIST_BAG_S2C_PB_H', true).
 -record(res_list_bag_s2c,
-        {bagItem_list = []      :: [res_pb:p_bagItem()] | undefined % = 1, repeated
+        {bagItem_list = []      :: [res_pb:p_bag_item()] | undefined % = 1, repeated
         }).
 -endif.
 
--ifndef('P_BAGITEM_PB_H').
--define('P_BAGITEM_PB_H', true).
--record(p_bagItem,
+-ifndef('P_BAG_ITEM_PB_H').
+-define('P_BAG_ITEM_PB_H', true).
+-record(p_bag_item,
         {id                     :: integer() | undefined, % = 1, required, 64 bits
          cfgId                  :: integer() | undefined, % = 2, optional, 32 bits
          count                  :: integer() | undefined, % = 3, optional, 64 bits
@@ -43,45 +43,45 @@
 -ifndef('RES_LIST_WALLET_S2C_PB_H').
 -define('RES_LIST_WALLET_S2C_PB_H', true).
 -record(res_list_wallet_s2c,
-        {walletItem_list = []   :: [res_pb:p_walletItem()] | undefined % = 1, repeated
+        {walletItem_list = []   :: [res_pb:p_wallet_item()] | undefined % = 1, repeated
         }).
 -endif.
 
--ifndef('P_WALLETITEM_PB_H').
--define('P_WALLETITEM_PB_H', true).
--record(p_walletItem,
+-ifndef('P_WALLET_ITEM_PB_H').
+-define('P_WALLET_ITEM_PB_H', true).
+-record(p_wallet_item,
         {id                     :: integer() | undefined, % = 1, required, 64 bits
          bind_count             :: integer() | undefined, % = 2, required, 64 bits
          unbind_count           :: integer() | undefined % = 3, required, 64 bits
         }).
 -endif.
 
--ifndef('RES_USE_BAGITEM_C2S_PB_H').
--define('RES_USE_BAGITEM_C2S_PB_H', true).
--record(res_use_bagItem_c2s,
+-ifndef('RES_USE_BAG_ITEM_C2S_PB_H').
+-define('RES_USE_BAG_ITEM_C2S_PB_H', true).
+-record(res_use_bag_item_c2s,
         {cfg_id                 :: integer() | undefined, % = 1, required, 32 bits
          count                  :: integer() | undefined % = 2, required, 64 bits
         }).
 -endif.
 
--ifndef('RES_USE_BAGITEM_S2C_PB_H').
--define('RES_USE_BAGITEM_S2C_PB_H', true).
--record(res_use_bagItem_s2c,
+-ifndef('RES_USE_BAG_ITEM_S2C_PB_H').
+-define('RES_USE_BAG_ITEM_S2C_PB_H', true).
+-record(res_use_bag_item_s2c,
         {success                :: boolean() | 0 | 1 | undefined % = 1, required
         }).
 -endif.
 
--ifndef('RES_USE_WALLETITEM_C2S_PB_H').
--define('RES_USE_WALLETITEM_C2S_PB_H', true).
--record(res_use_walletItem_c2s,
+-ifndef('RES_USE_WALLET_ITEM_C2S_PB_H').
+-define('RES_USE_WALLET_ITEM_C2S_PB_H', true).
+-record(res_use_wallet_item_c2s,
         {cfg_id                 :: integer() | undefined, % = 1, required, 32 bits
          count                  :: integer() | undefined % = 2, required, 64 bits
         }).
 -endif.
 
--ifndef('RES_USE_WALLETITEM_S2C_PB_H').
--define('RES_USE_WALLETITEM_S2C_PB_H', true).
--record(res_use_walletItem_s2c,
+-ifndef('RES_USE_WALLET_ITEM_S2C_PB_H').
+-define('RES_USE_WALLET_ITEM_S2C_PB_H', true).
+-record(res_use_wallet_item_s2c,
         {success                :: boolean() | 0 | 1 | undefined % = 1, required
         }).
 -endif.

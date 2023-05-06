@@ -58,6 +58,11 @@ priv_exec_cmd("add_wallet_item",Params)->
   ExItem = role_wallet_ex_item:new_add_item(yyu_misc:to_integer(CfgIdStr),yyu_misc:to_integer(CountStr), erlang:list_to_atom(IsBindStr)),
   role_res_mgr:do_wallet_exchange(ExItem),
   ?OK;
+priv_exec_cmd("set_role_prop_item",Params)->
+  ?LOG_INFO({"do gm set_role_prop_item",Params}),
+  [PropKey,PropValue] = Params,
+  role_prop_player_mgr:set_gm_attr(yyu_map:from_kv_list([{PropKey,PropValue}])),
+  ?OK;
 priv_exec_cmd(Cmd,Params)->
   ?LOG_WARNING({"unknown gm ",Cmd,Params}),
   ?OK.

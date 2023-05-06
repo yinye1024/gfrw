@@ -58,25 +58,25 @@
 
 -type res_list_bag_s2c() :: #res_list_bag_s2c{}.
 
--type p_bagItem() :: #p_bagItem{}.
+-type p_bag_item() :: #p_bag_item{}.
 
 -type res_list_wallet_c2s() :: #res_list_wallet_c2s{}.
 
 -type res_list_wallet_s2c() :: #res_list_wallet_s2c{}.
 
--type p_walletItem() :: #p_walletItem{}.
+-type p_wallet_item() :: #p_wallet_item{}.
 
--type res_use_bagItem_c2s() :: #res_use_bagItem_c2s{}.
+-type res_use_bag_item_c2s() :: #res_use_bag_item_c2s{}.
 
--type res_use_bagItem_s2c() :: #res_use_bagItem_s2c{}.
+-type res_use_bag_item_s2c() :: #res_use_bag_item_s2c{}.
 
--type res_use_walletItem_c2s() :: #res_use_walletItem_c2s{}.
+-type res_use_wallet_item_c2s() :: #res_use_wallet_item_c2s{}.
 
--type res_use_walletItem_s2c() :: #res_use_walletItem_s2c{}.
+-type res_use_wallet_item_s2c() :: #res_use_wallet_item_s2c{}.
 
--export_type(['res_list_bag_c2s'/0, 'res_list_bag_s2c'/0, 'p_bagItem'/0, 'res_list_wallet_c2s'/0, 'res_list_wallet_s2c'/0, 'p_walletItem'/0, 'res_use_bagItem_c2s'/0, 'res_use_bagItem_s2c'/0, 'res_use_walletItem_c2s'/0, 'res_use_walletItem_s2c'/0]).
--type '$msg_name'() :: res_list_bag_c2s | res_list_bag_s2c | p_bagItem | res_list_wallet_c2s | res_list_wallet_s2c | p_walletItem | res_use_bagItem_c2s | res_use_bagItem_s2c | res_use_walletItem_c2s | res_use_walletItem_s2c.
--type '$msg'() :: res_list_bag_c2s() | res_list_bag_s2c() | p_bagItem() | res_list_wallet_c2s() | res_list_wallet_s2c() | p_walletItem() | res_use_bagItem_c2s() | res_use_bagItem_s2c() | res_use_walletItem_c2s() | res_use_walletItem_s2c().
+-export_type(['res_list_bag_c2s'/0, 'res_list_bag_s2c'/0, 'p_bag_item'/0, 'res_list_wallet_c2s'/0, 'res_list_wallet_s2c'/0, 'p_wallet_item'/0, 'res_use_bag_item_c2s'/0, 'res_use_bag_item_s2c'/0, 'res_use_wallet_item_c2s'/0, 'res_use_wallet_item_s2c'/0]).
+-type '$msg_name'() :: res_list_bag_c2s | res_list_bag_s2c | p_bag_item | res_list_wallet_c2s | res_list_wallet_s2c | p_wallet_item | res_use_bag_item_c2s | res_use_bag_item_s2c | res_use_wallet_item_c2s | res_use_wallet_item_s2c.
+-type '$msg'() :: res_list_bag_c2s() | res_list_bag_s2c() | p_bag_item() | res_list_wallet_c2s() | res_list_wallet_s2c() | p_wallet_item() | res_use_bag_item_c2s() | res_use_bag_item_s2c() | res_use_wallet_item_c2s() | res_use_wallet_item_s2c().
 -export_type(['$msg_name'/0, '$msg'/0]).
 
 -spec encode_msg('$msg'()) -> binary().
@@ -96,14 +96,14 @@ encode_msg(Msg, MsgName, Opts) ->
     case MsgName of
       res_list_bag_c2s -> encode_msg_res_list_bag_c2s(id(Msg, TrUserData), TrUserData);
       res_list_bag_s2c -> encode_msg_res_list_bag_s2c(id(Msg, TrUserData), TrUserData);
-      p_bagItem -> encode_msg_p_bagItem(id(Msg, TrUserData), TrUserData);
+      p_bag_item -> encode_msg_p_bag_item(id(Msg, TrUserData), TrUserData);
       res_list_wallet_c2s -> encode_msg_res_list_wallet_c2s(id(Msg, TrUserData), TrUserData);
       res_list_wallet_s2c -> encode_msg_res_list_wallet_s2c(id(Msg, TrUserData), TrUserData);
-      p_walletItem -> encode_msg_p_walletItem(id(Msg, TrUserData), TrUserData);
-      res_use_bagItem_c2s -> encode_msg_res_use_bagItem_c2s(id(Msg, TrUserData), TrUserData);
-      res_use_bagItem_s2c -> encode_msg_res_use_bagItem_s2c(id(Msg, TrUserData), TrUserData);
-      res_use_walletItem_c2s -> encode_msg_res_use_walletItem_c2s(id(Msg, TrUserData), TrUserData);
-      res_use_walletItem_s2c -> encode_msg_res_use_walletItem_s2c(id(Msg, TrUserData), TrUserData)
+      p_wallet_item -> encode_msg_p_wallet_item(id(Msg, TrUserData), TrUserData);
+      res_use_bag_item_c2s -> encode_msg_res_use_bag_item_c2s(id(Msg, TrUserData), TrUserData);
+      res_use_bag_item_s2c -> encode_msg_res_use_bag_item_s2c(id(Msg, TrUserData), TrUserData);
+      res_use_wallet_item_c2s -> encode_msg_res_use_wallet_item_c2s(id(Msg, TrUserData), TrUserData);
+      res_use_wallet_item_s2c -> encode_msg_res_use_wallet_item_s2c(id(Msg, TrUserData), TrUserData)
     end.
 
 
@@ -120,10 +120,10 @@ encode_msg_res_list_bag_s2c(#res_list_bag_s2c{bagItem_list = F1}, Bin, TrUserDat
       end
     end.
 
-encode_msg_p_bagItem(Msg, TrUserData) -> encode_msg_p_bagItem(Msg, <<>>, TrUserData).
+encode_msg_p_bag_item(Msg, TrUserData) -> encode_msg_p_bag_item(Msg, <<>>, TrUserData).
 
 
-encode_msg_p_bagItem(#p_bagItem{id = F1, cfgId = F2, count = F3, max_count = F4, expired_time = F5, is_bind = F6}, Bin, TrUserData) ->
+encode_msg_p_bag_item(#p_bag_item{id = F1, cfgId = F2, count = F3, max_count = F4, expired_time = F5, is_bind = F6}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end,
     B2 = if F2 == undefined -> B1;
 	    true -> begin TrF2 = id(F2, TrUserData), e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData) end
@@ -154,42 +154,42 @@ encode_msg_res_list_wallet_s2c(#res_list_wallet_s2c{walletItem_list = F1}, Bin, 
       end
     end.
 
-encode_msg_p_walletItem(Msg, TrUserData) -> encode_msg_p_walletItem(Msg, <<>>, TrUserData).
+encode_msg_p_wallet_item(Msg, TrUserData) -> encode_msg_p_wallet_item(Msg, <<>>, TrUserData).
 
 
-encode_msg_p_walletItem(#p_walletItem{id = F1, bind_count = F2, unbind_count = F3}, Bin, TrUserData) ->
+encode_msg_p_wallet_item(#p_wallet_item{id = F1, bind_count = F2, unbind_count = F3}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int64(TrF1, <<Bin/binary, 8>>, TrUserData) end,
     B2 = begin TrF2 = id(F2, TrUserData), e_type_int64(TrF2, <<B1/binary, 16>>, TrUserData) end,
     begin TrF3 = id(F3, TrUserData), e_type_int64(TrF3, <<B2/binary, 24>>, TrUserData) end.
 
-encode_msg_res_use_bagItem_c2s(Msg, TrUserData) -> encode_msg_res_use_bagItem_c2s(Msg, <<>>, TrUserData).
+encode_msg_res_use_bag_item_c2s(Msg, TrUserData) -> encode_msg_res_use_bag_item_c2s(Msg, <<>>, TrUserData).
 
 
-encode_msg_res_use_bagItem_c2s(#res_use_bagItem_c2s{cfg_id = F1, count = F2}, Bin, TrUserData) ->
+encode_msg_res_use_bag_item_c2s(#res_use_bag_item_c2s{cfg_id = F1, count = F2}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end, begin TrF2 = id(F2, TrUserData), e_type_int64(TrF2, <<B1/binary, 16>>, TrUserData) end.
 
-encode_msg_res_use_bagItem_s2c(Msg, TrUserData) -> encode_msg_res_use_bagItem_s2c(Msg, <<>>, TrUserData).
+encode_msg_res_use_bag_item_s2c(Msg, TrUserData) -> encode_msg_res_use_bag_item_s2c(Msg, <<>>, TrUserData).
 
 
-encode_msg_res_use_bagItem_s2c(#res_use_bagItem_s2c{success = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end.
+encode_msg_res_use_bag_item_s2c(#res_use_bag_item_s2c{success = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end.
 
-encode_msg_res_use_walletItem_c2s(Msg, TrUserData) -> encode_msg_res_use_walletItem_c2s(Msg, <<>>, TrUserData).
+encode_msg_res_use_wallet_item_c2s(Msg, TrUserData) -> encode_msg_res_use_wallet_item_c2s(Msg, <<>>, TrUserData).
 
 
-encode_msg_res_use_walletItem_c2s(#res_use_walletItem_c2s{cfg_id = F1, count = F2}, Bin, TrUserData) ->
+encode_msg_res_use_wallet_item_c2s(#res_use_wallet_item_c2s{cfg_id = F1, count = F2}, Bin, TrUserData) ->
     B1 = begin TrF1 = id(F1, TrUserData), e_type_int32(TrF1, <<Bin/binary, 8>>, TrUserData) end, begin TrF2 = id(F2, TrUserData), e_type_int64(TrF2, <<B1/binary, 16>>, TrUserData) end.
 
-encode_msg_res_use_walletItem_s2c(Msg, TrUserData) -> encode_msg_res_use_walletItem_s2c(Msg, <<>>, TrUserData).
+encode_msg_res_use_wallet_item_s2c(Msg, TrUserData) -> encode_msg_res_use_wallet_item_s2c(Msg, <<>>, TrUserData).
 
 
-encode_msg_res_use_walletItem_s2c(#res_use_walletItem_s2c{success = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end.
+encode_msg_res_use_wallet_item_s2c(#res_use_wallet_item_s2c{success = F1}, Bin, TrUserData) -> begin TrF1 = id(F1, TrUserData), e_type_bool(TrF1, <<Bin/binary, 8>>, TrUserData) end.
 
-e_mfield_res_list_bag_s2c_bagItem_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_bagItem(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
+e_mfield_res_list_bag_s2c_bagItem_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_bag_item(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
 
 e_field_res_list_bag_s2c_bagItem_list([Elem | Rest], Bin, TrUserData) -> Bin2 = <<Bin/binary, 10>>, Bin3 = e_mfield_res_list_bag_s2c_bagItem_list(id(Elem, TrUserData), Bin2, TrUserData), e_field_res_list_bag_s2c_bagItem_list(Rest, Bin3, TrUserData);
 e_field_res_list_bag_s2c_bagItem_list([], Bin, _TrUserData) -> Bin.
 
-e_mfield_res_list_wallet_s2c_walletItem_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_walletItem(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
+e_mfield_res_list_wallet_s2c_walletItem_list(Msg, Bin, TrUserData) -> SubBin = encode_msg_p_wallet_item(Msg, <<>>, TrUserData), Bin2 = e_varint(byte_size(SubBin), Bin), <<Bin2/binary, SubBin/binary>>.
 
 e_field_res_list_wallet_s2c_walletItem_list([Elem | Rest], Bin, TrUserData) ->
     Bin2 = <<Bin/binary, 10>>, Bin3 = e_mfield_res_list_wallet_s2c_walletItem_list(id(Elem, TrUserData), Bin2, TrUserData), e_field_res_list_wallet_s2c_walletItem_list(Rest, Bin3, TrUserData);
@@ -291,14 +291,14 @@ decode_msg_1_catch(Bin, MsgName, TrUserData) ->
 
 decode_msg_2_doit(res_list_bag_c2s, Bin, TrUserData) -> id(decode_msg_res_list_bag_c2s(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(res_list_bag_s2c, Bin, TrUserData) -> id(decode_msg_res_list_bag_s2c(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(p_bagItem, Bin, TrUserData) -> id(decode_msg_p_bagItem(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(p_bag_item, Bin, TrUserData) -> id(decode_msg_p_bag_item(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(res_list_wallet_c2s, Bin, TrUserData) -> id(decode_msg_res_list_wallet_c2s(Bin, TrUserData), TrUserData);
 decode_msg_2_doit(res_list_wallet_s2c, Bin, TrUserData) -> id(decode_msg_res_list_wallet_s2c(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(p_walletItem, Bin, TrUserData) -> id(decode_msg_p_walletItem(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(res_use_bagItem_c2s, Bin, TrUserData) -> id(decode_msg_res_use_bagItem_c2s(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(res_use_bagItem_s2c, Bin, TrUserData) -> id(decode_msg_res_use_bagItem_s2c(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(res_use_walletItem_c2s, Bin, TrUserData) -> id(decode_msg_res_use_walletItem_c2s(Bin, TrUserData), TrUserData);
-decode_msg_2_doit(res_use_walletItem_s2c, Bin, TrUserData) -> id(decode_msg_res_use_walletItem_s2c(Bin, TrUserData), TrUserData).
+decode_msg_2_doit(p_wallet_item, Bin, TrUserData) -> id(decode_msg_p_wallet_item(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(res_use_bag_item_c2s, Bin, TrUserData) -> id(decode_msg_res_use_bag_item_c2s(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(res_use_bag_item_s2c, Bin, TrUserData) -> id(decode_msg_res_use_bag_item_s2c(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(res_use_wallet_item_c2s, Bin, TrUserData) -> id(decode_msg_res_use_wallet_item_c2s(Bin, TrUserData), TrUserData);
+decode_msg_2_doit(res_use_wallet_item_s2c, Bin, TrUserData) -> id(decode_msg_res_use_wallet_item_s2c(Bin, TrUserData), TrUserData).
 
 
 
@@ -355,7 +355,7 @@ dg_read_field_def_res_list_bag_s2c(<<>>, 0, 0, _, R1, TrUserData) -> #res_list_b
 
 d_field_res_list_bag_s2c_bagItem_list(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_list_bag_s2c_bagItem_list(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
 d_field_res_list_bag_s2c_bagItem_list(<<0:1, X:7, Rest/binary>>, N, Acc, F, Prev, TrUserData) ->
-    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bs:Len/binary, Rest2/binary>> = Rest, {id(decode_msg_p_bagItem(Bs, TrUserData), TrUserData), Rest2} end,
+    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bs:Len/binary, Rest2/binary>> = Rest, {id(decode_msg_p_bag_item(Bs, TrUserData), TrUserData), Rest2} end,
     dfp_read_field_def_res_list_bag_s2c(RestF, 0, 0, F, cons(NewFValue, Prev, TrUserData), TrUserData).
 
 skip_varint_res_list_bag_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_list_bag_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
@@ -370,75 +370,75 @@ skip_32_res_list_bag_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> 
 
 skip_64_res_list_bag_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_list_bag_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-decode_msg_p_bagItem(Bin, TrUserData) ->
-    dfp_read_field_def_p_bagItem(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_p_bag_item(Bin, TrUserData) ->
+    dfp_read_field_def_p_bag_item(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_p_bagItem(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_cfgId(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_max_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<40, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_expired_time(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<48, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bagItem_is_bind(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dfp_read_field_def_p_bagItem(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, _) -> #p_bagItem{id = F@_1, cfgId = F@_2, count = F@_3, max_count = F@_4, expired_time = F@_5, is_bind = F@_6};
-dfp_read_field_def_p_bagItem(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dg_read_field_def_p_bagItem(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+dfp_read_field_def_p_bag_item(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_cfgId(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_max_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<40, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_expired_time(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<48, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> d_field_p_bag_item_is_bind(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_p_bag_item(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, _) -> #p_bag_item{id = F@_1, cfgId = F@_2, count = F@_3, max_count = F@_4, expired_time = F@_5, is_bind = F@_6};
+dfp_read_field_def_p_bag_item(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dg_read_field_def_p_bag_item(Other, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-dg_read_field_def_p_bagItem(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_bagItem(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-dg_read_field_def_p_bagItem(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
+dg_read_field_def_p_bag_item(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_bag_item(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+dg_read_field_def_p_bag_item(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_p_bagItem_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-      16 -> d_field_p_bagItem_cfgId(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-      24 -> d_field_p_bagItem_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-      32 -> d_field_p_bagItem_max_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-      40 -> d_field_p_bagItem_expired_time(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-      48 -> d_field_p_bagItem_is_bind(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      8 -> d_field_p_bag_item_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      16 -> d_field_p_bag_item_cfgId(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      24 -> d_field_p_bag_item_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      32 -> d_field_p_bag_item_max_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      40 -> d_field_p_bag_item_expired_time(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+      48 -> d_field_p_bag_item_is_bind(Rest, 0, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_p_bagItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-	    1 -> skip_64_p_bagItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-	    2 -> skip_length_delimited_p_bagItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-	    3 -> skip_group_p_bagItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-	    5 -> skip_32_p_bagItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
+	    0 -> skip_varint_p_bag_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+	    1 -> skip_64_p_bag_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+	    2 -> skip_length_delimited_p_bag_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+	    3 -> skip_group_p_bag_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+	    5 -> skip_32_p_bag_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
 	  end
     end;
-dg_read_field_def_p_bagItem(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, _) -> #p_bagItem{id = F@_1, cfgId = F@_2, count = F@_3, max_count = F@_4, expired_time = F@_5, is_bind = F@_6}.
+dg_read_field_def_p_bag_item(<<>>, 0, 0, _, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, _) -> #p_bag_item{id = F@_1, cfgId = F@_2, count = F@_3, max_count = F@_4, expired_time = F@_5, is_bind = F@_6}.
 
-d_field_p_bagItem_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, NewFValue, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+d_field_p_bag_item_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, NewFValue, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-d_field_p_bagItem_cfgId(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_cfgId(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_cfgId(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, F@_1, NewFValue, F@_3, F@_4, F@_5, F@_6, TrUserData).
+d_field_p_bag_item_cfgId(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_cfgId(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_cfgId(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, F@_1, NewFValue, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-d_field_p_bagItem_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, F@_4, F@_5, F@_6, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, F@_1, F@_2, NewFValue, F@_4, F@_5, F@_6, TrUserData).
+d_field_p_bag_item_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, F@_4, F@_5, F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, F@_1, F@_2, NewFValue, F@_4, F@_5, F@_6, TrUserData).
 
-d_field_p_bagItem_max_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_max_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_max_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, _, F@_5, F@_6, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, F@_1, F@_2, F@_3, NewFValue, F@_5, F@_6, TrUserData).
+d_field_p_bag_item_max_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_max_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_max_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, _, F@_5, F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, F@_1, F@_2, F@_3, NewFValue, F@_5, F@_6, TrUserData).
 
-d_field_p_bagItem_expired_time(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_expired_time(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_expired_time(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, _, F@_6, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, F@_1, F@_2, F@_3, F@_4, NewFValue, F@_6, TrUserData).
+d_field_p_bag_item_expired_time(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_expired_time(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_expired_time(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, _, F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, F@_1, F@_2, F@_3, F@_4, NewFValue, F@_6, TrUserData).
 
-d_field_p_bagItem_is_bind(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bagItem_is_bind(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-d_field_p_bagItem_is_bind(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, _, TrUserData) ->
-    {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_p_bagItem(RestF, 0, 0, F, F@_1, F@_2, F@_3, F@_4, F@_5, NewFValue, TrUserData).
+d_field_p_bag_item_is_bind(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> d_field_p_bag_item_is_bind(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+d_field_p_bag_item_is_bind(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, _, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_p_bag_item(RestF, 0, 0, F, F@_1, F@_2, F@_3, F@_4, F@_5, NewFValue, TrUserData).
 
-skip_varint_p_bagItem(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> skip_varint_p_bagItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-skip_varint_p_bagItem(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bagItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+skip_varint_p_bag_item(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> skip_varint_p_bag_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+skip_varint_p_bag_item(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bag_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-skip_length_delimited_p_bagItem(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> skip_length_delimited_p_bagItem(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
-skip_length_delimited_p_bagItem(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
-    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_bagItem(Rest2, 0, 0, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+skip_length_delimited_p_bag_item(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) when N < 57 -> skip_length_delimited_p_bag_item(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
+skip_length_delimited_p_bag_item(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_bag_item(Rest2, 0, 0, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-skip_group_p_bagItem(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_bagItem(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+skip_group_p_bag_item(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_bag_item(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-skip_32_p_bagItem(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bagItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+skip_32_p_bag_item(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bag_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
-skip_64_p_bagItem(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bagItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
+skip_64_p_bag_item(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) -> dfp_read_field_def_p_bag_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData).
 
 decode_msg_res_list_wallet_c2s(Bin, TrUserData) -> dfp_read_field_def_res_list_wallet_c2s(Bin, 0, 0, 0, TrUserData).
 
@@ -493,7 +493,7 @@ dg_read_field_def_res_list_wallet_s2c(<<>>, 0, 0, _, R1, TrUserData) -> #res_lis
 
 d_field_res_list_wallet_s2c_walletItem_list(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_list_wallet_s2c_walletItem_list(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
 d_field_res_list_wallet_s2c_walletItem_list(<<0:1, X:7, Rest/binary>>, N, Acc, F, Prev, TrUserData) ->
-    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bs:Len/binary, Rest2/binary>> = Rest, {id(decode_msg_p_walletItem(Bs, TrUserData), TrUserData), Rest2} end,
+    {NewFValue, RestF} = begin Len = X bsl N + Acc, <<Bs:Len/binary, Rest2/binary>> = Rest, {id(decode_msg_p_wallet_item(Bs, TrUserData), TrUserData), Rest2} end,
     dfp_read_field_def_res_list_wallet_s2c(RestF, 0, 0, F, cons(NewFValue, Prev, TrUserData), TrUserData).
 
 skip_varint_res_list_wallet_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_list_wallet_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
@@ -508,219 +508,220 @@ skip_32_res_list_wallet_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) 
 
 skip_64_res_list_wallet_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_list_wallet_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-decode_msg_p_walletItem(Bin, TrUserData) -> dfp_read_field_def_p_walletItem(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_p_wallet_item(Bin, TrUserData) -> dfp_read_field_def_p_wallet_item(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_p_walletItem(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_walletItem_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_walletItem(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_walletItem_bind_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_walletItem(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_walletItem_unbind_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-dfp_read_field_def_p_walletItem(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_walletItem{id = F@_1, bind_count = F@_2, unbind_count = F@_3};
-dfp_read_field_def_p_walletItem(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_p_walletItem(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+dfp_read_field_def_p_wallet_item(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_wallet_item_id(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_wallet_item(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_wallet_item_bind_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_wallet_item(<<24, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> d_field_p_wallet_item_unbind_count(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_p_wallet_item(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_wallet_item{id = F@_1, bind_count = F@_2, unbind_count = F@_3};
+dfp_read_field_def_p_wallet_item(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dg_read_field_def_p_wallet_item(Other, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-dg_read_field_def_p_walletItem(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_walletItem(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-dg_read_field_def_p_walletItem(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
+dg_read_field_def_p_wallet_item(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 32 - 7 -> dg_read_field_def_p_wallet_item(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+dg_read_field_def_p_wallet_item(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, F@_3, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_p_walletItem_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
-      16 -> d_field_p_walletItem_bind_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
-      24 -> d_field_p_walletItem_unbind_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      8 -> d_field_p_wallet_item_id(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      16 -> d_field_p_wallet_item_bind_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
+      24 -> d_field_p_wallet_item_unbind_count(Rest, 0, 0, 0, F@_1, F@_2, F@_3, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_p_walletItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    1 -> skip_64_p_walletItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    2 -> skip_length_delimited_p_walletItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    3 -> skip_group_p_walletItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
-	    5 -> skip_32_p_walletItem(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
+	    0 -> skip_varint_p_wallet_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    1 -> skip_64_p_wallet_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    2 -> skip_length_delimited_p_wallet_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    3 -> skip_group_p_wallet_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData);
+	    5 -> skip_32_p_wallet_item(Rest, 0, 0, Key bsr 3, F@_1, F@_2, F@_3, TrUserData)
 	  end
     end;
-dg_read_field_def_p_walletItem(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_walletItem{id = F@_1, bind_count = F@_2, unbind_count = F@_3}.
+dg_read_field_def_p_wallet_item(<<>>, 0, 0, _, F@_1, F@_2, F@_3, _) -> #p_wallet_item{id = F@_1, bind_count = F@_2, unbind_count = F@_3}.
 
-d_field_p_walletItem_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_walletItem_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_walletItem_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_walletItem(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
+d_field_p_wallet_item_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_wallet_item_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_wallet_item_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_wallet_item(RestF, 0, 0, F, NewFValue, F@_2, F@_3, TrUserData).
 
-d_field_p_walletItem_bind_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_walletItem_bind_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_walletItem_bind_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_walletItem(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
+d_field_p_wallet_item_bind_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_wallet_item_bind_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_wallet_item_bind_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_wallet_item(RestF, 0, 0, F, F@_1, NewFValue, F@_3, TrUserData).
 
-d_field_p_walletItem_unbind_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_walletItem_unbind_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-d_field_p_walletItem_unbind_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_walletItem(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
+d_field_p_wallet_item_unbind_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> d_field_p_wallet_item_unbind_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+d_field_p_wallet_item_unbind_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_p_wallet_item(RestF, 0, 0, F, F@_1, F@_2, NewFValue, TrUserData).
 
-skip_varint_p_walletItem(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_p_walletItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
-skip_varint_p_walletItem(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_walletItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+skip_varint_p_wallet_item(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> skip_varint_p_wallet_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData);
+skip_varint_p_wallet_item(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_wallet_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-skip_length_delimited_p_walletItem(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_p_walletItem(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
-skip_length_delimited_p_walletItem(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_walletItem(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
+skip_length_delimited_p_wallet_item(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) when N < 57 -> skip_length_delimited_p_wallet_item(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, F@_3, TrUserData);
+skip_length_delimited_p_wallet_item(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, F@_3, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_p_wallet_item(Rest2, 0, 0, F, F@_1, F@_2, F@_3, TrUserData).
 
-skip_group_p_walletItem(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_walletItem(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
+skip_group_p_wallet_item(Bin, _, Z2, FNum, F@_1, F@_2, F@_3, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_p_wallet_item(Rest, 0, Z2, FNum, F@_1, F@_2, F@_3, TrUserData).
 
-skip_32_p_walletItem(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_walletItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+skip_32_p_wallet_item(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_wallet_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-skip_64_p_walletItem(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_walletItem(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
+skip_64_p_wallet_item(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData) -> dfp_read_field_def_p_wallet_item(Rest, Z1, Z2, F, F@_1, F@_2, F@_3, TrUserData).
 
-decode_msg_res_use_bagItem_c2s(Bin, TrUserData) -> dfp_read_field_def_res_use_bagItem_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_res_use_bag_item_c2s(Bin, TrUserData) -> dfp_read_field_def_res_use_bag_item_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_res_use_bagItem_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_bagItem_c2s_cfg_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_res_use_bagItem_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_bagItem_c2s_count(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_res_use_bagItem_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_bagItem_c2s{cfg_id = F@_1, count = F@_2};
-dfp_read_field_def_res_use_bagItem_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_res_use_bagItem_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
+dfp_read_field_def_res_use_bag_item_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_bag_item_c2s_cfg_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_res_use_bag_item_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_bag_item_c2s_count(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_res_use_bag_item_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_bag_item_c2s{cfg_id = F@_1, count = F@_2};
+dfp_read_field_def_res_use_bag_item_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_res_use_bag_item_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-dg_read_field_def_res_use_bagItem_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_bagItem_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-dg_read_field_def_res_use_bagItem_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
+dg_read_field_def_res_use_bag_item_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_bag_item_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+dg_read_field_def_res_use_bag_item_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_res_use_bagItem_c2s_cfg_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
-      16 -> d_field_res_use_bagItem_c2s_count(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      8 -> d_field_res_use_bag_item_c2s_cfg_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      16 -> d_field_res_use_bag_item_c2s_count(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_res_use_bagItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    1 -> skip_64_res_use_bagItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    2 -> skip_length_delimited_res_use_bagItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    3 -> skip_group_res_use_bagItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    5 -> skip_32_res_use_bagItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
+	    0 -> skip_varint_res_use_bag_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    1 -> skip_64_res_use_bag_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    2 -> skip_length_delimited_res_use_bag_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    3 -> skip_group_res_use_bag_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    5 -> skip_32_res_use_bag_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
 	  end
     end;
-dg_read_field_def_res_use_bagItem_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_bagItem_c2s{cfg_id = F@_1, count = F@_2}.
+dg_read_field_def_res_use_bag_item_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_bag_item_c2s{cfg_id = F@_1, count = F@_2}.
 
-d_field_res_use_bagItem_c2s_cfg_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_bagItem_c2s_cfg_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_res_use_bagItem_c2s_cfg_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_bagItem_c2s(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
+d_field_res_use_bag_item_c2s_cfg_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_bag_item_c2s_cfg_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_res_use_bag_item_c2s_cfg_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_bag_item_c2s(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
 
-d_field_res_use_bagItem_c2s_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_bagItem_c2s_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_res_use_bagItem_c2s_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_bagItem_c2s(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
+d_field_res_use_bag_item_c2s_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_bag_item_c2s_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_res_use_bag_item_c2s_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_bag_item_c2s(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
 
-skip_varint_res_use_bagItem_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_res_use_bagItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-skip_varint_res_use_bagItem_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bagItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_varint_res_use_bag_item_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_res_use_bag_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+skip_varint_res_use_bag_item_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bag_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_length_delimited_res_use_bagItem_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_res_use_bagItem_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-skip_length_delimited_res_use_bagItem_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
-    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_bagItem_c2s(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
+skip_length_delimited_res_use_bag_item_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_res_use_bag_item_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+skip_length_delimited_res_use_bag_item_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_bag_item_c2s(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
 
-skip_group_res_use_bagItem_c2s(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_bagItem_c2s(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
+skip_group_res_use_bag_item_c2s(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_bag_item_c2s(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
 
-skip_32_res_use_bagItem_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bagItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_32_res_use_bag_item_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bag_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_64_res_use_bagItem_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bagItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_64_res_use_bag_item_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_bag_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-decode_msg_res_use_bagItem_s2c(Bin, TrUserData) -> dfp_read_field_def_res_use_bagItem_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
+decode_msg_res_use_bag_item_s2c(Bin, TrUserData) -> dfp_read_field_def_res_use_bag_item_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_res_use_bagItem_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_res_use_bagItem_s2c_success(Rest, Z1, Z2, F, F@_1, TrUserData);
-dfp_read_field_def_res_use_bagItem_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_bagItem_s2c{success = F@_1};
-dfp_read_field_def_res_use_bagItem_s2c(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_res_use_bagItem_s2c(Other, Z1, Z2, F, F@_1, TrUserData).
+dfp_read_field_def_res_use_bag_item_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_res_use_bag_item_s2c_success(Rest, Z1, Z2, F, F@_1, TrUserData);
+dfp_read_field_def_res_use_bag_item_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_bag_item_s2c{success = F@_1};
+dfp_read_field_def_res_use_bag_item_s2c(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_res_use_bag_item_s2c(Other, Z1, Z2, F, F@_1, TrUserData).
 
-dg_read_field_def_res_use_bagItem_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_bagItem_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-dg_read_field_def_res_use_bagItem_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
+dg_read_field_def_res_use_bag_item_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_bag_item_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+dg_read_field_def_res_use_bag_item_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_res_use_bagItem_s2c_success(Rest, 0, 0, 0, F@_1, TrUserData);
+      8 -> d_field_res_use_bag_item_s2c_success(Rest, 0, 0, 0, F@_1, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_res_use_bagItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    1 -> skip_64_res_use_bagItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    2 -> skip_length_delimited_res_use_bagItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    3 -> skip_group_res_use_bagItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    5 -> skip_32_res_use_bagItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
+	    0 -> skip_varint_res_use_bag_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    1 -> skip_64_res_use_bag_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    2 -> skip_length_delimited_res_use_bag_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    3 -> skip_group_res_use_bag_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    5 -> skip_32_res_use_bag_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
 	  end
     end;
-dg_read_field_def_res_use_bagItem_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_bagItem_s2c{success = F@_1}.
+dg_read_field_def_res_use_bag_item_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_bag_item_s2c{success = F@_1}.
 
-d_field_res_use_bagItem_s2c_success(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_use_bagItem_s2c_success(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-d_field_res_use_bagItem_s2c_success(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) -> {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_res_use_bagItem_s2c(RestF, 0, 0, F, NewFValue, TrUserData).
+d_field_res_use_bag_item_s2c_success(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_use_bag_item_s2c_success(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+d_field_res_use_bag_item_s2c_success(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) -> {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_res_use_bag_item_s2c(RestF, 0, 0, F, NewFValue, TrUserData).
 
-skip_varint_res_use_bagItem_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_use_bagItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
-skip_varint_res_use_bagItem_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bagItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_varint_res_use_bag_item_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_use_bag_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
+skip_varint_res_use_bag_item_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bag_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-skip_length_delimited_res_use_bagItem_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> skip_length_delimited_res_use_bagItem_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-skip_length_delimited_res_use_bagItem_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_bagItem_s2c(Rest2, 0, 0, F, F@_1, TrUserData).
+skip_length_delimited_res_use_bag_item_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> skip_length_delimited_res_use_bag_item_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+skip_length_delimited_res_use_bag_item_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_bag_item_s2c(Rest2, 0, 0, F, F@_1, TrUserData).
 
-skip_group_res_use_bagItem_s2c(Bin, _, Z2, FNum, F@_1, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_bagItem_s2c(Rest, 0, Z2, FNum, F@_1, TrUserData).
+skip_group_res_use_bag_item_s2c(Bin, _, Z2, FNum, F@_1, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_bag_item_s2c(Rest, 0, Z2, FNum, F@_1, TrUserData).
 
-skip_32_res_use_bagItem_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bagItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_32_res_use_bag_item_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bag_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-skip_64_res_use_bagItem_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bagItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_64_res_use_bag_item_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_bag_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-decode_msg_res_use_walletItem_c2s(Bin, TrUserData) -> dfp_read_field_def_res_use_walletItem_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
+decode_msg_res_use_wallet_item_c2s(Bin, TrUserData) -> dfp_read_field_def_res_use_wallet_item_c2s(Bin, 0, 0, 0, id(undefined, TrUserData), id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_res_use_walletItem_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_walletItem_c2s_cfg_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_res_use_walletItem_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_walletItem_c2s_count(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-dfp_read_field_def_res_use_walletItem_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_walletItem_c2s{cfg_id = F@_1, count = F@_2};
-dfp_read_field_def_res_use_walletItem_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_res_use_walletItem_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
+dfp_read_field_def_res_use_wallet_item_c2s(<<8, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_wallet_item_c2s_cfg_id(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_res_use_wallet_item_c2s(<<16, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> d_field_res_use_wallet_item_c2s_count(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+dfp_read_field_def_res_use_wallet_item_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_wallet_item_c2s{cfg_id = F@_1, count = F@_2};
+dfp_read_field_def_res_use_wallet_item_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dg_read_field_def_res_use_wallet_item_c2s(Other, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-dg_read_field_def_res_use_walletItem_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_walletItem_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-dg_read_field_def_res_use_walletItem_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
+dg_read_field_def_res_use_wallet_item_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_wallet_item_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+dg_read_field_def_res_use_wallet_item_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, F@_2, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_res_use_walletItem_c2s_cfg_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
-      16 -> d_field_res_use_walletItem_c2s_count(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      8 -> d_field_res_use_wallet_item_c2s_cfg_id(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
+      16 -> d_field_res_use_wallet_item_c2s_count(Rest, 0, 0, 0, F@_1, F@_2, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_res_use_walletItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    1 -> skip_64_res_use_walletItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    2 -> skip_length_delimited_res_use_walletItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    3 -> skip_group_res_use_walletItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
-	    5 -> skip_32_res_use_walletItem_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
+	    0 -> skip_varint_res_use_wallet_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    1 -> skip_64_res_use_wallet_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    2 -> skip_length_delimited_res_use_wallet_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    3 -> skip_group_res_use_wallet_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData);
+	    5 -> skip_32_res_use_wallet_item_c2s(Rest, 0, 0, Key bsr 3, F@_1, F@_2, TrUserData)
 	  end
     end;
-dg_read_field_def_res_use_walletItem_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_walletItem_c2s{cfg_id = F@_1, count = F@_2}.
+dg_read_field_def_res_use_wallet_item_c2s(<<>>, 0, 0, _, F@_1, F@_2, _) -> #res_use_wallet_item_c2s{cfg_id = F@_1, count = F@_2}.
 
-d_field_res_use_walletItem_c2s_cfg_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_walletItem_c2s_cfg_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_res_use_walletItem_c2s_cfg_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_walletItem_c2s(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
+d_field_res_use_wallet_item_c2s_cfg_id(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_wallet_item_c2s_cfg_id(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_res_use_wallet_item_c2s_cfg_id(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:32/signed-native>> = <<(X bsl N + Acc):32/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_wallet_item_c2s(RestF, 0, 0, F, NewFValue, F@_2, TrUserData).
 
-d_field_res_use_walletItem_c2s_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_walletItem_c2s_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-d_field_res_use_walletItem_c2s_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
-    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_walletItem_c2s(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
+d_field_res_use_wallet_item_c2s_count(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> d_field_res_use_wallet_item_c2s_count(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+d_field_res_use_wallet_item_c2s_count(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, _, TrUserData) ->
+    {NewFValue, RestF} = {begin <<Res:64/signed-native>> = <<(X bsl N + Acc):64/unsigned-native>>, id(Res, TrUserData) end, Rest}, dfp_read_field_def_res_use_wallet_item_c2s(RestF, 0, 0, F, F@_1, NewFValue, TrUserData).
 
-skip_varint_res_use_walletItem_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_res_use_walletItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
-skip_varint_res_use_walletItem_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_walletItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_varint_res_use_wallet_item_c2s(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> skip_varint_res_use_wallet_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData);
+skip_varint_res_use_wallet_item_c2s(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_wallet_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_length_delimited_res_use_walletItem_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_res_use_walletItem_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
-skip_length_delimited_res_use_walletItem_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
-    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_walletItem_c2s(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
+skip_length_delimited_res_use_wallet_item_c2s(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) when N < 57 -> skip_length_delimited_res_use_wallet_item_c2s(Rest, N + 7, X bsl N + Acc, F, F@_1, F@_2, TrUserData);
+skip_length_delimited_res_use_wallet_item_c2s(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_wallet_item_c2s(Rest2, 0, 0, F, F@_1, F@_2, TrUserData).
 
-skip_group_res_use_walletItem_c2s(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_walletItem_c2s(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
+skip_group_res_use_wallet_item_c2s(Bin, _, Z2, FNum, F@_1, F@_2, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_wallet_item_c2s(Rest, 0, Z2, FNum, F@_1, F@_2, TrUserData).
 
-skip_32_res_use_walletItem_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_walletItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_32_res_use_wallet_item_c2s(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_wallet_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-skip_64_res_use_walletItem_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_walletItem_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
+skip_64_res_use_wallet_item_c2s(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, F@_2, TrUserData) -> dfp_read_field_def_res_use_wallet_item_c2s(Rest, Z1, Z2, F, F@_1, F@_2, TrUserData).
 
-decode_msg_res_use_walletItem_s2c(Bin, TrUserData) -> dfp_read_field_def_res_use_walletItem_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
+decode_msg_res_use_wallet_item_s2c(Bin, TrUserData) -> dfp_read_field_def_res_use_wallet_item_s2c(Bin, 0, 0, 0, id(undefined, TrUserData), TrUserData).
 
-dfp_read_field_def_res_use_walletItem_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_res_use_walletItem_s2c_success(Rest, Z1, Z2, F, F@_1, TrUserData);
-dfp_read_field_def_res_use_walletItem_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_walletItem_s2c{success = F@_1};
-dfp_read_field_def_res_use_walletItem_s2c(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_res_use_walletItem_s2c(Other, Z1, Z2, F, F@_1, TrUserData).
+dfp_read_field_def_res_use_wallet_item_s2c(<<8, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> d_field_res_use_wallet_item_s2c_success(Rest, Z1, Z2, F, F@_1, TrUserData);
+dfp_read_field_def_res_use_wallet_item_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_wallet_item_s2c{success = F@_1};
+dfp_read_field_def_res_use_wallet_item_s2c(Other, Z1, Z2, F, F@_1, TrUserData) -> dg_read_field_def_res_use_wallet_item_s2c(Other, Z1, Z2, F, F@_1, TrUserData).
 
-dg_read_field_def_res_use_walletItem_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_walletItem_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-dg_read_field_def_res_use_walletItem_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
+dg_read_field_def_res_use_wallet_item_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 32 - 7 -> dg_read_field_def_res_use_wallet_item_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+dg_read_field_def_res_use_wallet_item_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, _, F@_1, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
-      8 -> d_field_res_use_walletItem_s2c_success(Rest, 0, 0, 0, F@_1, TrUserData);
+      8 -> d_field_res_use_wallet_item_s2c_success(Rest, 0, 0, 0, F@_1, TrUserData);
       _ ->
 	  case Key band 7 of
-	    0 -> skip_varint_res_use_walletItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    1 -> skip_64_res_use_walletItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    2 -> skip_length_delimited_res_use_walletItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    3 -> skip_group_res_use_walletItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
-	    5 -> skip_32_res_use_walletItem_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
+	    0 -> skip_varint_res_use_wallet_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    1 -> skip_64_res_use_wallet_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    2 -> skip_length_delimited_res_use_wallet_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    3 -> skip_group_res_use_wallet_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData);
+	    5 -> skip_32_res_use_wallet_item_s2c(Rest, 0, 0, Key bsr 3, F@_1, TrUserData)
 	  end
     end;
-dg_read_field_def_res_use_walletItem_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_walletItem_s2c{success = F@_1}.
+dg_read_field_def_res_use_wallet_item_s2c(<<>>, 0, 0, _, F@_1, _) -> #res_use_wallet_item_s2c{success = F@_1}.
 
-d_field_res_use_walletItem_s2c_success(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_use_walletItem_s2c_success(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-d_field_res_use_walletItem_s2c_success(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) -> {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_res_use_walletItem_s2c(RestF, 0, 0, F, NewFValue, TrUserData).
+d_field_res_use_wallet_item_s2c_success(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> d_field_res_use_wallet_item_s2c_success(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+d_field_res_use_wallet_item_s2c_success(<<0:1, X:7, Rest/binary>>, N, Acc, F, _, TrUserData) -> {NewFValue, RestF} = {id(X bsl N + Acc =/= 0, TrUserData), Rest}, dfp_read_field_def_res_use_wallet_item_s2c(RestF, 0, 0, F, NewFValue, TrUserData).
 
-skip_varint_res_use_walletItem_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_use_walletItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
-skip_varint_res_use_walletItem_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_walletItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_varint_res_use_wallet_item_s2c(<<1:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> skip_varint_res_use_wallet_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData);
+skip_varint_res_use_wallet_item_s2c(<<0:1, _:7, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_wallet_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-skip_length_delimited_res_use_walletItem_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> skip_length_delimited_res_use_walletItem_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
-skip_length_delimited_res_use_walletItem_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_walletItem_s2c(Rest2, 0, 0, F, F@_1, TrUserData).
+skip_length_delimited_res_use_wallet_item_s2c(<<1:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) when N < 57 -> skip_length_delimited_res_use_wallet_item_s2c(Rest, N + 7, X bsl N + Acc, F, F@_1, TrUserData);
+skip_length_delimited_res_use_wallet_item_s2c(<<0:1, X:7, Rest/binary>>, N, Acc, F, F@_1, TrUserData) -> Length = X bsl N + Acc, <<_:Length/binary, Rest2/binary>> = Rest, dfp_read_field_def_res_use_wallet_item_s2c(Rest2, 0, 0, F, F@_1, TrUserData).
 
-skip_group_res_use_walletItem_s2c(Bin, _, Z2, FNum, F@_1, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_walletItem_s2c(Rest, 0, Z2, FNum, F@_1, TrUserData).
+skip_group_res_use_wallet_item_s2c(Bin, _, Z2, FNum, F@_1, TrUserData) -> {_, Rest} = read_group(Bin, FNum), dfp_read_field_def_res_use_wallet_item_s2c(Rest, 0, Z2, FNum, F@_1, TrUserData).
 
-skip_32_res_use_walletItem_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_walletItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_32_res_use_wallet_item_s2c(<<_:32, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_wallet_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
-skip_64_res_use_walletItem_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_walletItem_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
+skip_64_res_use_wallet_item_s2c(<<_:64, Rest/binary>>, Z1, Z2, F, F@_1, TrUserData) -> dfp_read_field_def_res_use_wallet_item_s2c(Rest, Z1, Z2, F, F@_1, TrUserData).
 
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
@@ -790,14 +791,14 @@ merge_msgs(Prev, New, MsgName, Opts) ->
     case MsgName of
       res_list_bag_c2s -> merge_msg_res_list_bag_c2s(Prev, New, TrUserData);
       res_list_bag_s2c -> merge_msg_res_list_bag_s2c(Prev, New, TrUserData);
-      p_bagItem -> merge_msg_p_bagItem(Prev, New, TrUserData);
+      p_bag_item -> merge_msg_p_bag_item(Prev, New, TrUserData);
       res_list_wallet_c2s -> merge_msg_res_list_wallet_c2s(Prev, New, TrUserData);
       res_list_wallet_s2c -> merge_msg_res_list_wallet_s2c(Prev, New, TrUserData);
-      p_walletItem -> merge_msg_p_walletItem(Prev, New, TrUserData);
-      res_use_bagItem_c2s -> merge_msg_res_use_bagItem_c2s(Prev, New, TrUserData);
-      res_use_bagItem_s2c -> merge_msg_res_use_bagItem_s2c(Prev, New, TrUserData);
-      res_use_walletItem_c2s -> merge_msg_res_use_walletItem_c2s(Prev, New, TrUserData);
-      res_use_walletItem_s2c -> merge_msg_res_use_walletItem_s2c(Prev, New, TrUserData)
+      p_wallet_item -> merge_msg_p_wallet_item(Prev, New, TrUserData);
+      res_use_bag_item_c2s -> merge_msg_res_use_bag_item_c2s(Prev, New, TrUserData);
+      res_use_bag_item_s2c -> merge_msg_res_use_bag_item_s2c(Prev, New, TrUserData);
+      res_use_wallet_item_c2s -> merge_msg_res_use_wallet_item_c2s(Prev, New, TrUserData);
+      res_use_wallet_item_s2c -> merge_msg_res_use_wallet_item_s2c(Prev, New, TrUserData)
     end.
 
 -compile({nowarn_unused_function,merge_msg_res_list_bag_c2s/3}).
@@ -811,30 +812,30 @@ merge_msg_res_list_bag_s2c(#res_list_bag_s2c{bagItem_list = PFbagItem_list}, #re
 			     NFbagItem_list == undefined -> PFbagItem_list
 			  end}.
 
--compile({nowarn_unused_function,merge_msg_p_bagItem/3}).
-merge_msg_p_bagItem(#p_bagItem{cfgId = PFcfgId, count = PFcount, max_count = PFmax_count, expired_time = PFexpired_time, is_bind = PFis_bind},
-		    #p_bagItem{id = NFid, cfgId = NFcfgId, count = NFcount, max_count = NFmax_count, expired_time = NFexpired_time, is_bind = NFis_bind}, _) ->
-    #p_bagItem{id = NFid,
-	       cfgId =
-		   if NFcfgId =:= undefined -> PFcfgId;
-		      true -> NFcfgId
-		   end,
-	       count =
-		   if NFcount =:= undefined -> PFcount;
-		      true -> NFcount
-		   end,
-	       max_count =
-		   if NFmax_count =:= undefined -> PFmax_count;
-		      true -> NFmax_count
-		   end,
-	       expired_time =
-		   if NFexpired_time =:= undefined -> PFexpired_time;
-		      true -> NFexpired_time
-		   end,
-	       is_bind =
-		   if NFis_bind =:= undefined -> PFis_bind;
-		      true -> NFis_bind
-		   end}.
+-compile({nowarn_unused_function,merge_msg_p_bag_item/3}).
+merge_msg_p_bag_item(#p_bag_item{cfgId = PFcfgId, count = PFcount, max_count = PFmax_count, expired_time = PFexpired_time, is_bind = PFis_bind},
+		     #p_bag_item{id = NFid, cfgId = NFcfgId, count = NFcount, max_count = NFmax_count, expired_time = NFexpired_time, is_bind = NFis_bind}, _) ->
+    #p_bag_item{id = NFid,
+		cfgId =
+		    if NFcfgId =:= undefined -> PFcfgId;
+		       true -> NFcfgId
+		    end,
+		count =
+		    if NFcount =:= undefined -> PFcount;
+		       true -> NFcount
+		    end,
+		max_count =
+		    if NFmax_count =:= undefined -> PFmax_count;
+		       true -> NFmax_count
+		    end,
+		expired_time =
+		    if NFexpired_time =:= undefined -> PFexpired_time;
+		       true -> NFexpired_time
+		    end,
+		is_bind =
+		    if NFis_bind =:= undefined -> PFis_bind;
+		       true -> NFis_bind
+		    end}.
 
 -compile({nowarn_unused_function,merge_msg_res_list_wallet_c2s/3}).
 merge_msg_res_list_wallet_c2s(_Prev, New, _TrUserData) -> New.
@@ -847,20 +848,20 @@ merge_msg_res_list_wallet_s2c(#res_list_wallet_s2c{walletItem_list = PFwalletIte
 				NFwalletItem_list == undefined -> PFwalletItem_list
 			     end}.
 
--compile({nowarn_unused_function,merge_msg_p_walletItem/3}).
-merge_msg_p_walletItem(#p_walletItem{}, #p_walletItem{id = NFid, bind_count = NFbind_count, unbind_count = NFunbind_count}, _) -> #p_walletItem{id = NFid, bind_count = NFbind_count, unbind_count = NFunbind_count}.
+-compile({nowarn_unused_function,merge_msg_p_wallet_item/3}).
+merge_msg_p_wallet_item(#p_wallet_item{}, #p_wallet_item{id = NFid, bind_count = NFbind_count, unbind_count = NFunbind_count}, _) -> #p_wallet_item{id = NFid, bind_count = NFbind_count, unbind_count = NFunbind_count}.
 
--compile({nowarn_unused_function,merge_msg_res_use_bagItem_c2s/3}).
-merge_msg_res_use_bagItem_c2s(#res_use_bagItem_c2s{}, #res_use_bagItem_c2s{cfg_id = NFcfg_id, count = NFcount}, _) -> #res_use_bagItem_c2s{cfg_id = NFcfg_id, count = NFcount}.
+-compile({nowarn_unused_function,merge_msg_res_use_bag_item_c2s/3}).
+merge_msg_res_use_bag_item_c2s(#res_use_bag_item_c2s{}, #res_use_bag_item_c2s{cfg_id = NFcfg_id, count = NFcount}, _) -> #res_use_bag_item_c2s{cfg_id = NFcfg_id, count = NFcount}.
 
--compile({nowarn_unused_function,merge_msg_res_use_bagItem_s2c/3}).
-merge_msg_res_use_bagItem_s2c(#res_use_bagItem_s2c{}, #res_use_bagItem_s2c{success = NFsuccess}, _) -> #res_use_bagItem_s2c{success = NFsuccess}.
+-compile({nowarn_unused_function,merge_msg_res_use_bag_item_s2c/3}).
+merge_msg_res_use_bag_item_s2c(#res_use_bag_item_s2c{}, #res_use_bag_item_s2c{success = NFsuccess}, _) -> #res_use_bag_item_s2c{success = NFsuccess}.
 
--compile({nowarn_unused_function,merge_msg_res_use_walletItem_c2s/3}).
-merge_msg_res_use_walletItem_c2s(#res_use_walletItem_c2s{}, #res_use_walletItem_c2s{cfg_id = NFcfg_id, count = NFcount}, _) -> #res_use_walletItem_c2s{cfg_id = NFcfg_id, count = NFcount}.
+-compile({nowarn_unused_function,merge_msg_res_use_wallet_item_c2s/3}).
+merge_msg_res_use_wallet_item_c2s(#res_use_wallet_item_c2s{}, #res_use_wallet_item_c2s{cfg_id = NFcfg_id, count = NFcount}, _) -> #res_use_wallet_item_c2s{cfg_id = NFcfg_id, count = NFcount}.
 
--compile({nowarn_unused_function,merge_msg_res_use_walletItem_s2c/3}).
-merge_msg_res_use_walletItem_s2c(#res_use_walletItem_s2c{}, #res_use_walletItem_s2c{success = NFsuccess}, _) -> #res_use_walletItem_s2c{success = NFsuccess}.
+-compile({nowarn_unused_function,merge_msg_res_use_wallet_item_s2c/3}).
+merge_msg_res_use_wallet_item_s2c(#res_use_wallet_item_s2c{}, #res_use_wallet_item_s2c{success = NFsuccess}, _) -> #res_use_wallet_item_s2c{success = NFsuccess}.
 
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 -> verify_msg(Msg, element(1, Msg), []);
@@ -875,14 +876,14 @@ verify_msg(Msg, MsgName, Opts) ->
     case MsgName of
       res_list_bag_c2s -> v_msg_res_list_bag_c2s(Msg, [MsgName], TrUserData);
       res_list_bag_s2c -> v_msg_res_list_bag_s2c(Msg, [MsgName], TrUserData);
-      p_bagItem -> v_msg_p_bagItem(Msg, [MsgName], TrUserData);
+      p_bag_item -> v_msg_p_bag_item(Msg, [MsgName], TrUserData);
       res_list_wallet_c2s -> v_msg_res_list_wallet_c2s(Msg, [MsgName], TrUserData);
       res_list_wallet_s2c -> v_msg_res_list_wallet_s2c(Msg, [MsgName], TrUserData);
-      p_walletItem -> v_msg_p_walletItem(Msg, [MsgName], TrUserData);
-      res_use_bagItem_c2s -> v_msg_res_use_bagItem_c2s(Msg, [MsgName], TrUserData);
-      res_use_bagItem_s2c -> v_msg_res_use_bagItem_s2c(Msg, [MsgName], TrUserData);
-      res_use_walletItem_c2s -> v_msg_res_use_walletItem_c2s(Msg, [MsgName], TrUserData);
-      res_use_walletItem_s2c -> v_msg_res_use_walletItem_s2c(Msg, [MsgName], TrUserData);
+      p_wallet_item -> v_msg_p_wallet_item(Msg, [MsgName], TrUserData);
+      res_use_bag_item_c2s -> v_msg_res_use_bag_item_c2s(Msg, [MsgName], TrUserData);
+      res_use_bag_item_s2c -> v_msg_res_use_bag_item_s2c(Msg, [MsgName], TrUserData);
+      res_use_wallet_item_c2s -> v_msg_res_use_wallet_item_c2s(Msg, [MsgName], TrUserData);
+      res_use_wallet_item_s2c -> v_msg_res_use_wallet_item_s2c(Msg, [MsgName], TrUserData);
       _ -> mk_type_error(not_a_known_message, Msg, [])
     end.
 
@@ -895,15 +896,15 @@ v_msg_res_list_bag_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, res
 -compile({nowarn_unused_function,v_msg_res_list_bag_s2c/3}).
 -dialyzer({nowarn_function,v_msg_res_list_bag_s2c/3}).
 v_msg_res_list_bag_s2c(#res_list_bag_s2c{bagItem_list = F1}, Path, TrUserData) ->
-    if is_list(F1) -> _ = [v_msg_p_bagItem(Elem, [bagItem_list | Path], TrUserData) || Elem <- F1], ok;
-       true -> mk_type_error({invalid_list_of, {msg, p_bagItem}}, F1, [bagItem_list | Path])
+    if is_list(F1) -> _ = [v_msg_p_bag_item(Elem, [bagItem_list | Path], TrUserData) || Elem <- F1], ok;
+       true -> mk_type_error({invalid_list_of, {msg, p_bag_item}}, F1, [bagItem_list | Path])
     end,
     ok;
 v_msg_res_list_bag_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_list_bag_s2c}, X, Path).
 
--compile({nowarn_unused_function,v_msg_p_bagItem/3}).
--dialyzer({nowarn_function,v_msg_p_bagItem/3}).
-v_msg_p_bagItem(#p_bagItem{id = F1, cfgId = F2, count = F3, max_count = F4, expired_time = F5, is_bind = F6}, Path, TrUserData) ->
+-compile({nowarn_unused_function,v_msg_p_bag_item/3}).
+-dialyzer({nowarn_function,v_msg_p_bag_item/3}).
+v_msg_p_bag_item(#p_bag_item{id = F1, cfgId = F2, count = F3, max_count = F4, expired_time = F5, is_bind = F6}, Path, TrUserData) ->
     v_type_int64(F1, [id | Path], TrUserData),
     if F2 == undefined -> ok;
        true -> v_type_int32(F2, [cfgId | Path], TrUserData)
@@ -921,7 +922,7 @@ v_msg_p_bagItem(#p_bagItem{id = F1, cfgId = F2, count = F3, max_count = F4, expi
        true -> v_type_bool(F6, [is_bind | Path], TrUserData)
     end,
     ok;
-v_msg_p_bagItem(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_bagItem}, X, Path).
+v_msg_p_bag_item(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_bag_item}, X, Path).
 
 -compile({nowarn_unused_function,v_msg_res_list_wallet_c2s/3}).
 -dialyzer({nowarn_function,v_msg_res_list_wallet_c2s/3}).
@@ -931,36 +932,37 @@ v_msg_res_list_wallet_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, 
 -compile({nowarn_unused_function,v_msg_res_list_wallet_s2c/3}).
 -dialyzer({nowarn_function,v_msg_res_list_wallet_s2c/3}).
 v_msg_res_list_wallet_s2c(#res_list_wallet_s2c{walletItem_list = F1}, Path, TrUserData) ->
-    if is_list(F1) -> _ = [v_msg_p_walletItem(Elem, [walletItem_list | Path], TrUserData) || Elem <- F1], ok;
-       true -> mk_type_error({invalid_list_of, {msg, p_walletItem}}, F1, [walletItem_list | Path])
+    if is_list(F1) -> _ = [v_msg_p_wallet_item(Elem, [walletItem_list | Path], TrUserData) || Elem <- F1], ok;
+       true -> mk_type_error({invalid_list_of, {msg, p_wallet_item}}, F1, [walletItem_list | Path])
     end,
     ok;
 v_msg_res_list_wallet_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_list_wallet_s2c}, X, Path).
 
--compile({nowarn_unused_function,v_msg_p_walletItem/3}).
--dialyzer({nowarn_function,v_msg_p_walletItem/3}).
-v_msg_p_walletItem(#p_walletItem{id = F1, bind_count = F2, unbind_count = F3}, Path, TrUserData) -> v_type_int64(F1, [id | Path], TrUserData), v_type_int64(F2, [bind_count | Path], TrUserData), v_type_int64(F3, [unbind_count | Path], TrUserData), ok;
-v_msg_p_walletItem(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_walletItem}, X, Path).
+-compile({nowarn_unused_function,v_msg_p_wallet_item/3}).
+-dialyzer({nowarn_function,v_msg_p_wallet_item/3}).
+v_msg_p_wallet_item(#p_wallet_item{id = F1, bind_count = F2, unbind_count = F3}, Path, TrUserData) ->
+    v_type_int64(F1, [id | Path], TrUserData), v_type_int64(F2, [bind_count | Path], TrUserData), v_type_int64(F3, [unbind_count | Path], TrUserData), ok;
+v_msg_p_wallet_item(X, Path, _TrUserData) -> mk_type_error({expected_msg, p_wallet_item}, X, Path).
 
--compile({nowarn_unused_function,v_msg_res_use_bagItem_c2s/3}).
--dialyzer({nowarn_function,v_msg_res_use_bagItem_c2s/3}).
-v_msg_res_use_bagItem_c2s(#res_use_bagItem_c2s{cfg_id = F1, count = F2}, Path, TrUserData) -> v_type_int32(F1, [cfg_id | Path], TrUserData), v_type_int64(F2, [count | Path], TrUserData), ok;
-v_msg_res_use_bagItem_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_bagItem_c2s}, X, Path).
+-compile({nowarn_unused_function,v_msg_res_use_bag_item_c2s/3}).
+-dialyzer({nowarn_function,v_msg_res_use_bag_item_c2s/3}).
+v_msg_res_use_bag_item_c2s(#res_use_bag_item_c2s{cfg_id = F1, count = F2}, Path, TrUserData) -> v_type_int32(F1, [cfg_id | Path], TrUserData), v_type_int64(F2, [count | Path], TrUserData), ok;
+v_msg_res_use_bag_item_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_bag_item_c2s}, X, Path).
 
--compile({nowarn_unused_function,v_msg_res_use_bagItem_s2c/3}).
--dialyzer({nowarn_function,v_msg_res_use_bagItem_s2c/3}).
-v_msg_res_use_bagItem_s2c(#res_use_bagItem_s2c{success = F1}, Path, TrUserData) -> v_type_bool(F1, [success | Path], TrUserData), ok;
-v_msg_res_use_bagItem_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_bagItem_s2c}, X, Path).
+-compile({nowarn_unused_function,v_msg_res_use_bag_item_s2c/3}).
+-dialyzer({nowarn_function,v_msg_res_use_bag_item_s2c/3}).
+v_msg_res_use_bag_item_s2c(#res_use_bag_item_s2c{success = F1}, Path, TrUserData) -> v_type_bool(F1, [success | Path], TrUserData), ok;
+v_msg_res_use_bag_item_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_bag_item_s2c}, X, Path).
 
--compile({nowarn_unused_function,v_msg_res_use_walletItem_c2s/3}).
--dialyzer({nowarn_function,v_msg_res_use_walletItem_c2s/3}).
-v_msg_res_use_walletItem_c2s(#res_use_walletItem_c2s{cfg_id = F1, count = F2}, Path, TrUserData) -> v_type_int32(F1, [cfg_id | Path], TrUserData), v_type_int64(F2, [count | Path], TrUserData), ok;
-v_msg_res_use_walletItem_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_walletItem_c2s}, X, Path).
+-compile({nowarn_unused_function,v_msg_res_use_wallet_item_c2s/3}).
+-dialyzer({nowarn_function,v_msg_res_use_wallet_item_c2s/3}).
+v_msg_res_use_wallet_item_c2s(#res_use_wallet_item_c2s{cfg_id = F1, count = F2}, Path, TrUserData) -> v_type_int32(F1, [cfg_id | Path], TrUserData), v_type_int64(F2, [count | Path], TrUserData), ok;
+v_msg_res_use_wallet_item_c2s(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_wallet_item_c2s}, X, Path).
 
--compile({nowarn_unused_function,v_msg_res_use_walletItem_s2c/3}).
--dialyzer({nowarn_function,v_msg_res_use_walletItem_s2c/3}).
-v_msg_res_use_walletItem_s2c(#res_use_walletItem_s2c{success = F1}, Path, TrUserData) -> v_type_bool(F1, [success | Path], TrUserData), ok;
-v_msg_res_use_walletItem_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_walletItem_s2c}, X, Path).
+-compile({nowarn_unused_function,v_msg_res_use_wallet_item_s2c/3}).
+-dialyzer({nowarn_function,v_msg_res_use_wallet_item_s2c/3}).
+v_msg_res_use_wallet_item_s2c(#res_use_wallet_item_s2c{success = F1}, Path, TrUserData) -> v_type_bool(F1, [success | Path], TrUserData), ok;
+v_msg_res_use_wallet_item_s2c(X, Path, _TrUserData) -> mk_type_error({expected_msg, res_use_wallet_item_s2c}, X, Path).
 
 -compile({nowarn_unused_function,v_type_int32/3}).
 -dialyzer({nowarn_function,v_type_int32/3}).
@@ -1018,28 +1020,28 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 
 
 get_msg_defs() ->
-    [{{msg, res_list_bag_c2s}, []}, {{msg, res_list_bag_s2c}, [#field{name = bagItem_list, fnum = 1, rnum = 2, type = {msg, p_bagItem}, occurrence = repeated, opts = []}]},
-     {{msg, p_bagItem},
+    [{{msg, res_list_bag_c2s}, []}, {{msg, res_list_bag_s2c}, [#field{name = bagItem_list, fnum = 1, rnum = 2, type = {msg, p_bag_item}, occurrence = repeated, opts = []}]},
+     {{msg, p_bag_item},
       [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = cfgId, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []},
        #field{name = count, fnum = 3, rnum = 4, type = int64, occurrence = optional, opts = []}, #field{name = max_count, fnum = 4, rnum = 5, type = int64, occurrence = optional, opts = []},
        #field{name = expired_time, fnum = 5, rnum = 6, type = int64, occurrence = optional, opts = []}, #field{name = is_bind, fnum = 6, rnum = 7, type = bool, occurrence = optional, opts = []}]},
-     {{msg, res_list_wallet_c2s}, []}, {{msg, res_list_wallet_s2c}, [#field{name = walletItem_list, fnum = 1, rnum = 2, type = {msg, p_walletItem}, occurrence = repeated, opts = []}]},
-     {{msg, p_walletItem},
+     {{msg, res_list_wallet_c2s}, []}, {{msg, res_list_wallet_s2c}, [#field{name = walletItem_list, fnum = 1, rnum = 2, type = {msg, p_wallet_item}, occurrence = repeated, opts = []}]},
+     {{msg, p_wallet_item},
       [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = bind_count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []},
        #field{name = unbind_count, fnum = 3, rnum = 4, type = int64, occurrence = required, opts = []}]},
-     {{msg, res_use_bagItem_c2s}, [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}]},
-     {{msg, res_use_bagItem_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]},
-     {{msg, res_use_walletItem_c2s}, [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}]},
-     {{msg, res_use_walletItem_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]}].
+     {{msg, res_use_bag_item_c2s}, [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}]},
+     {{msg, res_use_bag_item_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]},
+     {{msg, res_use_wallet_item_c2s}, [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}]},
+     {{msg, res_use_wallet_item_s2c}, [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}]}].
 
 
-get_msg_names() -> [res_list_bag_c2s, res_list_bag_s2c, p_bagItem, res_list_wallet_c2s, res_list_wallet_s2c, p_walletItem, res_use_bagItem_c2s, res_use_bagItem_s2c, res_use_walletItem_c2s, res_use_walletItem_s2c].
+get_msg_names() -> [res_list_bag_c2s, res_list_bag_s2c, p_bag_item, res_list_wallet_c2s, res_list_wallet_s2c, p_wallet_item, res_use_bag_item_c2s, res_use_bag_item_s2c, res_use_wallet_item_c2s, res_use_wallet_item_s2c].
 
 
 get_group_names() -> [].
 
 
-get_msg_or_group_names() -> [res_list_bag_c2s, res_list_bag_s2c, p_bagItem, res_list_wallet_c2s, res_list_wallet_s2c, p_walletItem, res_use_bagItem_c2s, res_use_bagItem_s2c, res_use_walletItem_c2s, res_use_walletItem_s2c].
+get_msg_or_group_names() -> [res_list_bag_c2s, res_list_bag_s2c, p_bag_item, res_list_wallet_c2s, res_list_wallet_s2c, p_wallet_item, res_use_bag_item_c2s, res_use_bag_item_s2c, res_use_wallet_item_c2s, res_use_wallet_item_s2c].
 
 
 get_enum_names() -> [].
@@ -1057,20 +1059,20 @@ fetch_enum_def(EnumName) -> erlang:error({no_such_enum, EnumName}).
 
 
 find_msg_def(res_list_bag_c2s) -> [];
-find_msg_def(res_list_bag_s2c) -> [#field{name = bagItem_list, fnum = 1, rnum = 2, type = {msg, p_bagItem}, occurrence = repeated, opts = []}];
-find_msg_def(p_bagItem) ->
+find_msg_def(res_list_bag_s2c) -> [#field{name = bagItem_list, fnum = 1, rnum = 2, type = {msg, p_bag_item}, occurrence = repeated, opts = []}];
+find_msg_def(p_bag_item) ->
     [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = cfgId, fnum = 2, rnum = 3, type = int32, occurrence = optional, opts = []},
      #field{name = count, fnum = 3, rnum = 4, type = int64, occurrence = optional, opts = []}, #field{name = max_count, fnum = 4, rnum = 5, type = int64, occurrence = optional, opts = []},
      #field{name = expired_time, fnum = 5, rnum = 6, type = int64, occurrence = optional, opts = []}, #field{name = is_bind, fnum = 6, rnum = 7, type = bool, occurrence = optional, opts = []}];
 find_msg_def(res_list_wallet_c2s) -> [];
-find_msg_def(res_list_wallet_s2c) -> [#field{name = walletItem_list, fnum = 1, rnum = 2, type = {msg, p_walletItem}, occurrence = repeated, opts = []}];
-find_msg_def(p_walletItem) ->
+find_msg_def(res_list_wallet_s2c) -> [#field{name = walletItem_list, fnum = 1, rnum = 2, type = {msg, p_wallet_item}, occurrence = repeated, opts = []}];
+find_msg_def(p_wallet_item) ->
     [#field{name = id, fnum = 1, rnum = 2, type = int64, occurrence = required, opts = []}, #field{name = bind_count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []},
      #field{name = unbind_count, fnum = 3, rnum = 4, type = int64, occurrence = required, opts = []}];
-find_msg_def(res_use_bagItem_c2s) -> [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}];
-find_msg_def(res_use_bagItem_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
-find_msg_def(res_use_walletItem_c2s) -> [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}];
-find_msg_def(res_use_walletItem_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
+find_msg_def(res_use_bag_item_c2s) -> [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}];
+find_msg_def(res_use_bag_item_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
+find_msg_def(res_use_wallet_item_c2s) -> [#field{name = cfg_id, fnum = 1, rnum = 2, type = int32, occurrence = required, opts = []}, #field{name = count, fnum = 2, rnum = 3, type = int64, occurrence = required, opts = []}];
+find_msg_def(res_use_wallet_item_s2c) -> [#field{name = success, fnum = 1, rnum = 2, type = bool, occurrence = required, opts = []}];
 find_msg_def(_) -> error.
 
 
@@ -1131,27 +1133,27 @@ service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 
 fqbin_to_msg_name(<<"res_list_bag_c2s">>) -> res_list_bag_c2s;
 fqbin_to_msg_name(<<"res_list_bag_s2c">>) -> res_list_bag_s2c;
-fqbin_to_msg_name(<<"p_bagItem">>) -> p_bagItem;
+fqbin_to_msg_name(<<"p_bag_item">>) -> p_bag_item;
 fqbin_to_msg_name(<<"res_list_wallet_c2s">>) -> res_list_wallet_c2s;
 fqbin_to_msg_name(<<"res_list_wallet_s2c">>) -> res_list_wallet_s2c;
-fqbin_to_msg_name(<<"p_walletItem">>) -> p_walletItem;
-fqbin_to_msg_name(<<"res_use_bagItem_c2s">>) -> res_use_bagItem_c2s;
-fqbin_to_msg_name(<<"res_use_bagItem_s2c">>) -> res_use_bagItem_s2c;
-fqbin_to_msg_name(<<"res_use_walletItem_c2s">>) -> res_use_walletItem_c2s;
-fqbin_to_msg_name(<<"res_use_walletItem_s2c">>) -> res_use_walletItem_s2c;
+fqbin_to_msg_name(<<"p_wallet_item">>) -> p_wallet_item;
+fqbin_to_msg_name(<<"res_use_bag_item_c2s">>) -> res_use_bag_item_c2s;
+fqbin_to_msg_name(<<"res_use_bag_item_s2c">>) -> res_use_bag_item_s2c;
+fqbin_to_msg_name(<<"res_use_wallet_item_c2s">>) -> res_use_wallet_item_c2s;
+fqbin_to_msg_name(<<"res_use_wallet_item_s2c">>) -> res_use_wallet_item_s2c;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
 msg_name_to_fqbin(res_list_bag_c2s) -> <<"res_list_bag_c2s">>;
 msg_name_to_fqbin(res_list_bag_s2c) -> <<"res_list_bag_s2c">>;
-msg_name_to_fqbin(p_bagItem) -> <<"p_bagItem">>;
+msg_name_to_fqbin(p_bag_item) -> <<"p_bag_item">>;
 msg_name_to_fqbin(res_list_wallet_c2s) -> <<"res_list_wallet_c2s">>;
 msg_name_to_fqbin(res_list_wallet_s2c) -> <<"res_list_wallet_s2c">>;
-msg_name_to_fqbin(p_walletItem) -> <<"p_walletItem">>;
-msg_name_to_fqbin(res_use_bagItem_c2s) -> <<"res_use_bagItem_c2s">>;
-msg_name_to_fqbin(res_use_bagItem_s2c) -> <<"res_use_bagItem_s2c">>;
-msg_name_to_fqbin(res_use_walletItem_c2s) -> <<"res_use_walletItem_c2s">>;
-msg_name_to_fqbin(res_use_walletItem_s2c) -> <<"res_use_walletItem_s2c">>;
+msg_name_to_fqbin(p_wallet_item) -> <<"p_wallet_item">>;
+msg_name_to_fqbin(res_use_bag_item_c2s) -> <<"res_use_bag_item_c2s">>;
+msg_name_to_fqbin(res_use_bag_item_s2c) -> <<"res_use_bag_item_s2c">>;
+msg_name_to_fqbin(res_use_wallet_item_c2s) -> <<"res_use_wallet_item_c2s">>;
+msg_name_to_fqbin(res_use_wallet_item_s2c) -> <<"res_use_wallet_item_s2c">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -1190,7 +1192,7 @@ get_all_source_basenames() -> ["res.proto"].
 get_all_proto_names() -> ["res"].
 
 
-get_msg_containment("res") -> [p_bagItem, p_walletItem, res_list_bag_c2s, res_list_bag_s2c, res_list_wallet_c2s, res_list_wallet_s2c, res_use_bagItem_c2s, res_use_bagItem_s2c, res_use_walletItem_c2s, res_use_walletItem_s2c];
+get_msg_containment("res") -> [p_bag_item, p_wallet_item, res_list_bag_c2s, res_list_bag_s2c, res_list_wallet_c2s, res_list_wallet_s2c, res_use_bag_item_c2s, res_use_bag_item_s2c, res_use_wallet_item_c2s, res_use_wallet_item_s2c];
 get_msg_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
@@ -1210,16 +1212,16 @@ get_enum_containment("res") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"res_use_walletItem_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_walletItem_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_bagItem_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_bagItem_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"res_use_wallet_item_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"res_use_wallet_item_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"res_use_bag_item_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"res_use_bag_item_c2s">>) -> "res";
 get_proto_by_msg_name_as_fqbin(<<"res_list_wallet_s2c">>) -> "res";
 get_proto_by_msg_name_as_fqbin(<<"res_list_wallet_c2s">>) -> "res";
 get_proto_by_msg_name_as_fqbin(<<"res_list_bag_s2c">>) -> "res";
 get_proto_by_msg_name_as_fqbin(<<"res_list_bag_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"p_walletItem">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"p_bagItem">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"p_wallet_item">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"p_bag_item">>) -> "res";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

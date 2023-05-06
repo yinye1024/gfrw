@@ -30,8 +30,11 @@
 %%res.proto
 -define(RES_LIST_BAG_C2S,601).
 -define(RES_LIST_WALLET_C2S,602).
--define(RES_USE_BAGITEM_C2S,603).
--define(RES_USE_WALLETITEM_C2S,604).
+-define(RES_USE_BAG_ITEM_C2S,603).
+-define(RES_USE_WALLET_ITEM_C2S,604).
+
+%%prop.proto
+-define(ROLE_PROP_PLAYER_C2S,701).
 
 
 
@@ -66,8 +69,12 @@
 %%res.proto
 -define(RES_LIST_BAG_S2C,601).
 -define(RES_LIST_WALLET_S2C,602).
--define(RES_USE_BAGITEM_S2C,603).
--define(RES_USE_WALLETITEM_S2C,604).
+-define(RES_USE_BAG_ITEM_S2C,603).
+-define(RES_USE_WALLET_ITEM_S2C,604).
+
+%%prop.proto
+-define(ROLE_PROP_PLAYER_S2C,601).
+-define(ROLE_PROP_PLAYER_CHANGED_S2C,602).
 
 %% ===========================  s2c 结束 ===========================================================
 -endif.

@@ -1,0 +1,16 @@
+syntax = "proto2";
+import "comm.proto";
+
+message role_prop_player_c2s{
+}
+
+message role_prop_player_s2c{
+  repeated p_kv_int kv_list = 1;
+}
+
+message role_prop_player_changed_s2c{
+  repeated p_kv_int kv_list = 1;
+}
+
+
+

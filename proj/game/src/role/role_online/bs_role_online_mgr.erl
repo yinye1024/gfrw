@@ -46,6 +46,7 @@ persistent()->
   ?OK.
 
 terminate(RoleId)->
+  gs_role_gen_life_cycle_mgr:on_terminate(),
   role_online_gen_mgr:un_reg(RoleId),
   role_proc_db:update_to_db(),
   ?OK.

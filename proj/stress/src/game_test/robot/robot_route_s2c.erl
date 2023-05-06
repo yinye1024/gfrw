@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("game/include/login.hrl").
+-include_lib("game/include/role/role_gw/login.hrl").
 
 -include_lib("protobuf/include/cmd_map.hrl").
 
@@ -78,10 +78,10 @@ priv_route_s2c(?RES_LIST_BAG_S2C, BinData)->
 priv_route_s2c(?RES_LIST_WALLET_S2C, BinData)->
   robot_res_mgr:res_list_wallet_s2c(BinData),
   ?OK;
-priv_route_s2c(?RES_USE_BAGITEM_S2C, BinData)->
+priv_route_s2c(?RES_USE_BAG_ITEM_S2C, BinData)->
   robot_res_mgr:res_use_bagItem_s2c(BinData),
   ?OK;
-priv_route_s2c(?RES_USE_WALLETITEM_S2C, BinData)->
+priv_route_s2c(?RES_USE_WALLET_ITEM_S2C, BinData)->
   robot_res_mgr:res_use_walletItem_s2c(BinData),
   ?OK;
 

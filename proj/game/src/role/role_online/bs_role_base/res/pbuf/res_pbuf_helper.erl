@@ -20,7 +20,7 @@ to_p_bagItem_list(BagItemList)->
   PResInfoList.
 
 priv_to_p_bagItem(BagItem)->
-  {RecordName, MapData, PBufPbMod} = {p_bagItem, BagItem,res_pb},
+  {RecordName, MapData, PBufPbMod} = {p_bag_item, BagItem,res_pb},
   RcData = map2record:to_record(RecordName, MapData, PBufPbMod),
   RcData.
 to_p_walletItem_list(WalletItemList)->
@@ -28,7 +28,7 @@ to_p_walletItem_list(WalletItemList)->
   PResInfoList.
 
 priv_to_p_walletItem(WalletItem)->
-  {RecordName, MapData, PBufPbMod} = {p_walletItem, WalletItem,res_pb},
+  {RecordName, MapData, PBufPbMod} = {p_wallet_item, WalletItem,res_pb},
   RcData = map2record:to_record(RecordName, MapData, PBufPbMod),
   RcData.
 

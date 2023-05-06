@@ -29,16 +29,16 @@ priv_test_bagItem(UserId)->
   priv_gm_add_res(UserId,CfgId,Count),
 
   BagItemList = priv_get_bagItemList(UserId),
-  BagItem = yyu_list:filter_one(fun(PBagItem) -> PBagItem#p_bagItem.cfgId == CfgId end, BagItemList),
+  BagItem = yyu_list:filter_one(fun(PBagItem) -> PBagItem#p_bag_item.cfgId == CfgId end, BagItemList),
   yyu_error:assert_true(BagItem =/= ?NOT_SET,"the BagItem not found"),
 
-  s2s_robot_mgr:cast_do_fun(UserId,{fun robot_res_mgr:res_use_bagItem_c2s/2, [CfgId,BagItem#p_bagItem.count-1]}),
+  s2s_robot_mgr:cast_do_fun(UserId,{fun robot_res_mgr:res_use_bagItem_c2s/2, [CfgId,BagItem#p_bag_item.count-1]}),
   yyu_time:sleep(1000),
 
   BagItemList_1 = priv_get_bagItemList(UserId),
-  BagItem_1 = yyu_list:filter_one(fun(PBagItem) -> PBagItem#p_bagItem.cfgId == CfgId end, BagItemList_1),
+  BagItem_1 = yyu_list:filter_one(fun(PBagItem) -> PBagItem#p_bag_item.cfgId == CfgId end, BagItemList_1),
 
-  CheckCount = BagItem_1#p_bagItem.count,
+  CheckCount = BagItem_1#p_bag_item.count,
   yyu_error:assert_true(CheckCount == 1,{"the count is not right",CheckCount}),
   ?OK.
 priv_gm_add_res(UserId,CfgId,Count)->
@@ -61,19 +61,19 @@ priv_test_walletItem(UserId)->
   priv_gm_add_wallet(UserId,CfgId,Count),
 
   WalletItemList = priv_get_walletItemList(UserId),
-  WalletItem = yyu_list:filter_one(fun(PWalletItem) -> PWalletItem#p_walletItem.id == CfgId end, WalletItemList),
+  WalletItem = yyu_list:filter_one(fun(PWalletItem) -> PWalletItem#p_wallet_item.id == CfgId end, WalletItemList),
   yyu_error:assert_true(WalletItem =/= ?NOT_SET,"the WalletItem not found"),
 
-  Total_1 = WalletItem#p_walletItem.unbind_count+ WalletItem#p_walletItem.bind_count,
+  Total_1 = WalletItem#p_wallet_item.unbind_count+ WalletItem#p_wallet_item.bind_count,
   Cost = 19,
 
   s2s_robot_mgr:cast_do_fun(UserId,{fun robot_res_mgr:res_use_walletItem_c2s/2, [CfgId,Cost]}),
   yyu_time:sleep(1000),
 
   WalletItemList_1 = priv_get_walletItemList(UserId),
-  WalletItem_1 = yyu_list:filter_one(fun(PWalletItem) -> PWalletItem#p_walletItem.id == CfgId end, WalletItemList_1),
+  WalletItem_1 = yyu_list:filter_one(fun(PWalletItem) -> PWalletItem#p_wallet_item.id == CfgId end, WalletItemList_1),
 
-  Total_2 = WalletItem_1#p_walletItem.unbind_count+ WalletItem_1#p_walletItem.bind_count,
+  Total_2 = WalletItem_1#p_wallet_item.unbind_count+ WalletItem_1#p_wallet_item.bind_count,
   yyu_error:assert_true(Total_2 == (Total_1-Cost),{"the count is not right", {Total_1,Total_2,Cost}}),
   ?OK.
 priv_gm_add_wallet(UserId,CfgId,Count)->

@@ -17,9 +17,12 @@
   ,role_avatar_life_cycle:get_mod()
   ,role_friend_life_cycle:get_mod()
   ,role_mail_life_cycle:get_mod()
+
+
+  ,role_prop_life_cycle:get_mod()   %% 属性放在最后，因为after data load 要最后执行属性计算
 ]).
 %% API
--export([role_init/0,data_load/0,after_data_load/0,loop_5_seconds/0,clean_midnight/1,clean_week/1,on_login/0]).
+-export([role_init/0,data_load/0,after_data_load/0,loop_5_seconds/0,clean_midnight/1,clean_week/1,on_login/0,on_terminate/0]).
 
 role_init()->
   RoleId = role_adm_mgr:get_roleId(),
@@ -55,6 +58,11 @@ clean_week(LastCleanTime)->
 on_login()->
   RoleId = role_adm_mgr:get_roleId(),
   priv_do_fun(?LifeCycleMgrList,on_login,RoleId),
+  ?OK.
+
+on_terminate()->
+  RoleId = role_adm_mgr:get_roleId(),
+  priv_do_fun(?LifeCycleMgrList,on_terminate,RoleId),
   ?OK.
 
 priv_do_fun([Mod|Less], Method, RoleId) ->

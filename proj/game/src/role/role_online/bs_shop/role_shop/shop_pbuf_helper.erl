@@ -12,7 +12,7 @@
 
 %% API
 -export([build_shop_info_list/1]).
-build_shop_info_list(ShopItemList)->
+build_shop_info_list(_ShopItemList)->
   [].
 
 

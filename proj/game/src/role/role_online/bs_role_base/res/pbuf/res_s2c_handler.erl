@@ -28,7 +28,7 @@ res_list_wallet_s2c(PWalletItemList)->
   role_inner_misc:inner_mark_send_RecordData(RCS2C).
 
 res_use_bagItem_s2c(IsSuccess)->
-  RCS2C = #res_use_bagItem_s2c{
+  RCS2C = #res_use_bag_item_s2c{
     success = IsSuccess
   },
   role_inner_misc:inner_mark_send_RecordData(RCS2C).

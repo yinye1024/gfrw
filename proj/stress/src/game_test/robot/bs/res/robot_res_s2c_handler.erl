@@ -41,7 +41,7 @@ res_list_wallet_s2c(BinData)->
   ?OK.
 
 res_use_bagItem_s2c(BinData)->
-  #res_use_bagItem_s2c{
+  #res_use_bag_item_s2c{
     success = IsSuccess
   } = res_pb:decode_msg(BinData,res_use_bagItem_s2c),
 
@@ -49,7 +49,7 @@ res_use_bagItem_s2c(BinData)->
   ?OK.
 
 res_use_walletItem_s2c(BinData)->
-  #res_use_walletItem_s2c{
+  #res_use_wallet_item_s2c{
     success = IsSuccess
   } = res_pb:decode_msg(BinData,res_use_walletItem_s2c),
 

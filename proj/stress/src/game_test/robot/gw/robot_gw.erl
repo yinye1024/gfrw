@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("game/include/login.hrl").
+-include_lib("game/include/role/role_gw/login.hrl").
 
 
 %% API functions defined

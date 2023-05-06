@@ -20,7 +20,6 @@
 new_pojo(RoleId)->
   #{
     '_id' => RoleId,ver=>0,class=>?MODULE,
-    ver=>0,
     msg_index => 0,
     msg_list => []
   }.

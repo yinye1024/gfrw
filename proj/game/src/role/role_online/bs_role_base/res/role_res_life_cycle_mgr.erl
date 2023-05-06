@@ -15,7 +15,7 @@
 %% API functions defined
 -export([get_mod/0]).
 
--export([role_init/1,data_load/1,after_data_load/1,loop_5_seconds/2,clean_midnight/2,clean_week/2,on_login/1]).
+-export([role_init/1,data_load/1,after_data_load/1,loop_5_seconds/2,clean_midnight/2,clean_week/2,on_login/1,on_terminate/1]).
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
@@ -43,5 +43,7 @@ clean_week(_RoleId,_LastCleanTime)->
 %% 玩家登陆的时候执行
 on_login(_RoleId)->
   ?OK.
-
+%% 玩家进程关闭的时候，持久化之前执行
+on_terminate(_RoleId)->
+  ?OK.
 

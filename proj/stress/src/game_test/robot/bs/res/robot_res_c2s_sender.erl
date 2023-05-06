@@ -32,9 +32,9 @@ res_list_bag_c2s() ->
   ?OK.
 
 res_use_bagItem_c2s(CfgId,Count) ->
-  Record = #res_use_bagItem_c2s{cfg_id = CfgId,count = Count},
+  Record = #res_use_bag_item_c2s{cfg_id = CfgId,count = Count},
   BinData = res_pb:encode_msg(Record),
-  {C2SId,BinData} = {?RES_USE_BAGITEM_C2S,BinData},
+  {C2SId,BinData} = {?RES_USE_BAG_ITEM_C2S,BinData},
   ?LOG_INFO({"send res_use_bagItem_c2s ++++++++++++++"}),
   robot_pc_mgr:send_msg({C2SId,BinData}),
   ?OK.
@@ -49,9 +49,9 @@ res_list_wallet_c2s() ->
   ?OK.
 
 res_use_walletItem_c2s(CfgId,Count) ->
-  Record = #res_use_walletItem_c2s{cfg_id = CfgId,count = Count},
+  Record = #res_use_wallet_item_c2s{cfg_id = CfgId,count = Count},
   BinData = res_pb:encode_msg(Record),
-  {C2SId,BinData} = {?RES_USE_WALLETITEM_C2S,BinData},
+  {C2SId,BinData} = {?RES_USE_WALLET_ITEM_C2S,BinData},
   ?LOG_INFO({"send res_use_walletItem_c2s ++++++++++++++"}),
   robot_pc_mgr:send_msg({C2SId,BinData}),
   ?OK.

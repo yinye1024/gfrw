@@ -28,14 +28,14 @@
   {git,"https://github.com/devinus/poolboy.git",
        {ref,"29be47db8c2be38b18c908e43a80ebb7b9b6116b"}},
   2},
- {<<"protobuf">>,{path,"../protobuf",{mtime,<<"2023-04-25T14:37:42Z">>}},0},
+ {<<"protobuf">>,{path,"../protobuf",{mtime,<<"2023-05-06T17:36:36Z">>}},0},
  {<<"yypb">>,
   {git,"https://github.com/yinye1024/pbwraper.git",
        {ref,"dc5358a126ba11d41390e946794544abf7e03cf1"}},
   1},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-04-25T14:07:39Z">>}},
+        {mtime,<<"2023-05-06T17:18:02Z">>}},
   0}]}.
 [
 {pkg_hash,[
