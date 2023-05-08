@@ -30,6 +30,7 @@ data_load(RoleId)->
   ?OK.
 %% 角色进程初始化，data_load 后执行
 after_data_load(_RoleId)->
+  role_prop_mgr:after_data_load(),
   ?OK.
 %% 大约每隔5秒执行一次，具体执行情况要看是否有消息堆积
 loop_5_seconds(_RoleId,_NowTime)->

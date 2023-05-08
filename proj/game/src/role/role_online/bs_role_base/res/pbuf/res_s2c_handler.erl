@@ -12,7 +12,7 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 -include_lib("protobuf/include/res_pb.hrl").
 %% API
--export([res_list_bag_s2c/1,res_list_wallet_s2c/1, res_use_bagItem_s2c/1]).
+-export([res_list_bag_s2c/1,res_list_wallet_s2c/1, res_use_bag_item_s2c/1]).
 
 res_list_bag_s2c(PBagItemList)->
   ?LOG_ERROR({"res_list_s2c ================ ", PBagItemList}),
@@ -27,7 +27,7 @@ res_list_wallet_s2c(PWalletItemList)->
   },
   role_inner_misc:inner_mark_send_RecordData(RCS2C).
 
-res_use_bagItem_s2c(IsSuccess)->
+res_use_bag_item_s2c(IsSuccess)->
   RCS2C = #res_use_bag_item_s2c{
     success = IsSuccess
   },

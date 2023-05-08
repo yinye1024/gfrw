@@ -60,8 +60,9 @@ priv_exec_cmd("add_wallet_item",Params)->
   ?OK;
 priv_exec_cmd("set_role_prop_item",Params)->
   ?LOG_INFO({"do gm set_role_prop_item",Params}),
-  [PropKey,PropValue] = Params,
-  role_prop_player_mgr:set_gm_attr(yyu_map:from_kv_list([{PropKey,PropValue}])),
+  [PropKeyStr,PropValueStr] = Params,
+  role_prop_player_mgr:set_gm_attr(yyu_map:from_kv_list([{yyu_misc:to_integer(PropKeyStr),yyu_misc:to_integer(PropValueStr)}])),
+  role_prop_player_mgr:check_and_update_tree(),
   ?OK;
 priv_exec_cmd(Cmd,Params)->
   ?LOG_WARNING({"unknown gm ",Cmd,Params}),

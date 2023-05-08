@@ -60,7 +60,7 @@ priv_c2s(?RES_USE_BAG_ITEM_C2S)->{res_c2s_handler,res_pb,res_use_bag_item_c2s};
 priv_c2s(?RES_USE_WALLET_ITEM_C2S)->{res_c2s_handler,res_pb,res_use_wallet_item_c2s};
 
 %%prop.proto
-priv_c2s(?ROLE_PROP_PLAYER_C2S)->{prop_c2s_handler,res_pb,role_prop_player_c2s};
+priv_c2s(?ROLE_PROP_PLAYER_C2S)->{prop_c2s_handler,prop_pb,role_prop_player_c2s};
 
 
 priv_c2s(_)->{unknown_c2s_handler}.

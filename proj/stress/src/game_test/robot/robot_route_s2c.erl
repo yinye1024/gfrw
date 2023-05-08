@@ -85,6 +85,14 @@ priv_route_s2c(?RES_USE_WALLET_ITEM_S2C, BinData)->
   robot_res_mgr:res_use_walletItem_s2c(BinData),
   ?OK;
 
+%%prop.proto
+priv_route_s2c(?ROLE_PROP_PLAYER_S2C, BinData)->
+  robot_prop_mgr:role_prop_player_s2c(BinData),
+  ?OK;
+priv_route_s2c(?ROLE_PROP_PLAYER_CHANGED_S2C, BinData)->
+  robot_prop_mgr:role_prop_player_changed_s2c(BinData),
+  ?OK;
+
 priv_route_s2c(S2CId, BinData)->
   ?LOG_INFO({"unhandle msg ",{S2CId,BinData}}),
   ?OK.

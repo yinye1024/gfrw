@@ -27,13 +27,13 @@ new_leaf(LeafAgent)->
     id=>NodeId,
     is_leaf => ?TRUE,
     leaf_agent => LeafAgent,
-    last_attr => role_prop_attr_item:new_pojo(NodeId)
+    last_attr => role_prop_attr_item:new_pojo(NodeId)   %% 叶节点才有 这个属性
   }.
 new_node(NodeId)->
   #{
     id=>NodeId,
-    is_leaf => ?TRUE,
-    cur_attr => role_prop_attr_item:new_pojo(NodeId),
+    is_leaf => ?FALSE,
+    cur_attr => role_prop_attr_item:new_pojo(NodeId),   %% 父节点才有这个属性
     childNodeIdMap=> yyu_map:new_map()   %%<NodeId,1>
   }.
 
@@ -139,13 +139,14 @@ is_leaf(SelfMap) ->
   yyu_map:get_value(is_leaf, SelfMap).
 
 get_attr(SelfMap)->
+  AttrItem  =
   case is_leaf(SelfMap) of
     ?TRUE ->
       priv_get_last_attr(SelfMap);
     ?FALSE ->
       priv_get_cur_attr(SelfMap)
   end,
-  ?OK.
+  AttrItem.
 get_attr_ver(SelfMap)->
   AttrItem = get_attr(SelfMap),
   role_prop_attr_item:get_ver(AttrItem).

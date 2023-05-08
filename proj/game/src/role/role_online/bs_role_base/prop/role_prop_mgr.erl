@@ -25,6 +25,7 @@
 %% API functions implements
 %% ===================================================================================
 data_load(RoleId)->
+  role_prop_pdb_mgr:proc_init(RoleId),
   role_prop_pc_mgr:proc_init(RoleId),
   ?OK.
 after_data_load()->
@@ -50,10 +51,10 @@ check_and_update_player()->
   role_prop_player_mgr:check_and_update_tree(),
   ?OK.
 get_player_propValue(PropKey)->
-  PropValue  = role_prop_player_mgr:get_propValue(PropKey),
+  PropValue  = role_prop_player_mgr:get_effect_propValue(PropKey),
   PropValue.
 get_plyaer_propMap()->
-  PropMap = role_prop_player_mgr:get_propMap(),
+  PropMap = role_prop_player_mgr:get_effect_propMap(),
   PropMap.
 
 new_hero(HeroId)->
@@ -67,9 +68,9 @@ check_and_update_all_hero()->
   role_prop_hero_mgr:check_and_update_all(),
   ?OK.
 get_hero_propValue(PropKey,HeroId)->
-  PropValue  = role_prop_hero_mgr:get_propValue(PropKey,HeroId),
+  PropValue  = role_prop_hero_mgr:get_effect_propValue(PropKey,HeroId),
   PropValue.
 
 get_hero_propMap(HeroId)->
-  PropMap = role_prop_hero_mgr:get_propMap(HeroId),
+  PropMap = role_prop_hero_mgr:get_effect_propMap(HeroId),
   PropMap.

@@ -15,7 +15,7 @@
 %% API functions defined
 -export([get_mod/0]).
 
--export([role_init/1,data_load/1,after_data_load/1,loop_5_seconds/2,clean_midnight/2,clean_week/2,on_login/1]).
+-export([role_init/1,data_load/1,after_data_load/1,loop_5_seconds/2,clean_midnight/2,clean_week/2,on_login/1,on_terminate/1]).
 -export([notify_new_msg/0,cb_on_get_all_msg/1]).
 %% ===================================================================================
 %% API functions implements
@@ -44,7 +44,10 @@ clean_week(_RoleId,_LastCleanTime)->
 on_login(_RoleId)->
   handle_msg(),
   ?OK.
-
+%% 玩家进程关闭的时候，持久化之前执行
+on_terminate(_RoleId)->
+  role_prop_mgr:save_active_heroIdList(),
+  ?OK.
 
 notify_new_msg()->
   ?OK.

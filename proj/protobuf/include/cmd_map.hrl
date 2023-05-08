@@ -73,8 +73,8 @@
 -define(RES_USE_WALLET_ITEM_S2C,604).
 
 %%prop.proto
--define(ROLE_PROP_PLAYER_S2C,601).
--define(ROLE_PROP_PLAYER_CHANGED_S2C,602).
+-define(ROLE_PROP_PLAYER_S2C,701).
+-define(ROLE_PROP_PLAYER_CHANGED_S2C,702).
 
 %% ===========================  s2c 结束 ===========================================================
 -endif.

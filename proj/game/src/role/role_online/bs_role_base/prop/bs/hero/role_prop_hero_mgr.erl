@@ -13,7 +13,7 @@
 
 %% API functions defined
 -export([new_treeList/1,new_tree/1,check_and_update_all/0,check_and_update_tree/1]).
--export([get_propMap/1,get_propValue/2]).
+-export([get_effect_propMap/1, get_effect_propValue/2]).
 -export([lru_lean/0]).
 %% ===================================================================================
 %% API functions implements
@@ -46,17 +46,17 @@ check_and_update_tree(HeroId)->
   end,
   ?OK.
 
-get_propValue(PropKey,HeroId)->
+get_effect_propValue(PropKey,HeroId)->
   Tree = role_prop_pc_mgr:get_hero_tree(HeroId),
-  PropValue = role_prop_tree_item:get_effect_value(PropKey,Tree),
-  priv_update_touch_time(Tree),
+  PropMap = get_effect_propMap(HeroId),
+  PropValue = yyu_map:get_value(PropKey,PropMap),
   PropValue.
 
-get_propMap(HeroId)->
+get_effect_propMap(HeroId)->
   Tree = role_prop_pc_mgr:get_hero_tree(HeroId),
-  PropMap = role_prop_tree_item:get_effect_propMap(Tree),
-  priv_update_touch_time(Tree),
-  PropMap.
+  {_IsNeedUpdated,EffectPropMap,Tree_1} = role_prop_tree_item:get_effect_propMap(Tree),
+  priv_update_touch_time(Tree_1),
+  EffectPropMap.
 
 lru_lean()->
   HeroIdList = role_prop_pc_mgr:get_heroId_list(),

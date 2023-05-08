@@ -34,7 +34,7 @@ priv_get_gm_attr()->
       yyu_proc_cache_dao:init(?MODULE);
     ?TRUE->?OK
   end,
-  AttrItem = yyu_proc_cache_dao:get_data(?DataId,?MODULE),
+  AttrItem = yyu_proc_cache_dao:get_data(?MODULE,?DataId),
   AttrItem.
 
 set_gm_attr(PropMap)->

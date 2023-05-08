@@ -15,7 +15,7 @@
 %% API functions defined
 -export([new_pojo/2,new_pojo/3]).
 -export([get_id/1, get_tree_type/1]).
--export([get_effect_value/2,get_effect_propMap/1,check_and_do_update/1]).
+-export([get_effect_propMap/1,check_and_do_update/1]).
 -export([add_node/2,get_node_attr/2]).
 -export([set_last_touch_time/2,is_expired/2]).
 
@@ -38,26 +38,21 @@ new_pojo(TreeType,TreeId,PropKeyList)->
   },
   SelfMap.
 
-get_effect_value(PropKey,SelfMap)->
-  EffectPropMap = get_effect_propMap(SelfMap),
-  yyu_map:get_value(PropKey,EffectPropMap).
-
 get_effect_propMap(SelfMap)->
   RootNode = priv_get_root_node(SelfMap),
   RootAttrItem = role_prop_tree_node:get_attr(RootNode),
   EffectPropItem = priv_get_effect_prop_item(SelfMap),
-  {EffectPropMap,SelfMap_1} =
+  {IsNeedUpdated,EffectPropMap,SelfMap_1} =
   case priv_is_need_reCal(RootAttrItem,EffectPropItem)  of
     ?TRUE ->
       EffectPropItemTmp = role_prop_attr_effect_prop_item:new_pojo(RootAttrItem),
       SelfMapTmp = priv_set_effect_prop_item(EffectPropItemTmp, SelfMap),
       EffectPropMapTmp = role_prop_attr_effect_prop_item:get_effect_prop_map(EffectPropItemTmp),
-      {EffectPropMapTmp,SelfMapTmp};
+      {?TRUE,EffectPropMapTmp,SelfMapTmp};
     ?FALSE ->
       EffectPropMapTmp = role_prop_attr_effect_prop_item:get_effect_prop_map(EffectPropItem),
-      {EffectPropMapTmp,?NOT_SET}
+      {?FALSE,EffectPropMapTmp,SelfMap}
   end,
-  IsNeedUpdated = (SelfMap_1==?NOT_SET),
   {IsNeedUpdated,EffectPropMap,SelfMap_1}.
 
 priv_is_need_reCal(RootAttrItem,EffectPropItem)->

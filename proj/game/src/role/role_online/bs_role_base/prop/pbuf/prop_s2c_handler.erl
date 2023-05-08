@@ -12,17 +12,18 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 -include_lib("protobuf/include/prop_pb.hrl").
 %% API
-%%-export([prop_list_s2c/1,prop_open_s2c/1]).
-%%
-%%prop_list_s2c(PMailInfoList)->
-%%  ?LOG_ERROR({"prop_list_s2c ================ ", PMailInfoList}),
-%%  RCS2C = #prop_list_s2c{
-%%    prop_list = PMailInfoList
-%%  },
-%%  role_inner_misc:inner_mark_send_RecordData(RCS2C).
-%%
-%%prop_open_s2c(IsSuccess)->
-%%  RCS2C = #prop_open_s2c{
-%%    success = IsSuccess
-%%  },
-%%  role_inner_misc:inner_mark_send_RecordData(RCS2C).
+-export([role_prop_player_s2c/1,role_prop_player_changed_s2c/1]).
+
+role_prop_player_s2c(PKVList)->
+  ?LOG_ERROR({"prop_list_s2c ================ ", PKVList}),
+  RCS2C = #role_prop_player_s2c{
+    kv_list = PKVList
+  },
+  role_inner_misc:inner_mark_send_RecordData(RCS2C).
+
+role_prop_player_changed_s2c(PKVList)->
+  ?LOG_ERROR({"prop_list_s2c ================ ", PKVList}),
+  RCS2C = #role_prop_player_changed_s2c{
+    kv_list = PKVList
+  },
+  role_inner_misc:inner_mark_send_RecordData(RCS2C).

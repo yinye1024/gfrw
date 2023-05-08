@@ -34,6 +34,7 @@ add_mail({RoleId, RoleMailItem})->
   MailPojo = priv_get_data(RoleId),
   NewMail = lc_mail_pojo:add_mail(RoleMailItem,MailPojo),
   priv_update_mail(NewMail),
+  s2s_role_mail_mgr:notify_new_mail(RoleId),
   ?OK.
 
 remove_by_index({RoleId,MailIndex})->

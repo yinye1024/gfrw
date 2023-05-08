@@ -32,12 +32,12 @@ res_list_wallet_c2s(C2SRD = #res_list_wallet_c2s{})->
 res_use_bag_item_c2s(C2SRD = #res_use_bag_item_c2s{cfg_id = CfgId,count = Count})->
   ?LOG_INFO({"res_use_bagItem_c2s,",C2SRD}),
   IsSuccess= role_res_mgr:use_bagItem(CfgId,Count),
-  res_s2c_handler:res_use_bagItem_s2c(IsSuccess),
+  res_s2c_handler:res_use_bag_item_s2c(IsSuccess),
   ?OK.
 res_use_wallet_item_c2s(C2SRD = #res_use_wallet_item_c2s{cfg_id = CfgId,count = Count})->
   ?LOG_INFO({"res_use_walletItem_c2s,",C2SRD}),
 
   IsSuccess = role_res_mgr:use_walletItem(CfgId,Count),
-  res_s2c_handler:res_use_bagItem_s2c(IsSuccess),
+  res_s2c_handler:res_use_bag_item_s2c(IsSuccess),
   ?OK.
 
