@@ -47,7 +47,6 @@ check_and_update_tree(HeroId)->
   ?OK.
 
 get_effect_propValue(PropKey,HeroId)->
-  Tree = role_prop_pc_mgr:get_hero_tree(HeroId),
   PropMap = get_effect_propMap(HeroId),
   PropValue = yyu_map:get_value(PropKey,PropMap),
   PropValue.

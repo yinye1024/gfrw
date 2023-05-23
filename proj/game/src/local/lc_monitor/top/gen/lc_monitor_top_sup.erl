@@ -6,39 +6,34 @@
 %%% @end
 %%% Created : 25. 四月 2021 19:45
 %%%-------------------------------------------------------------------
--module(role_online_sup).
+-module(lc_monitor_top_sup).
 -author("yinye").
 
 -behavior(supervisor).
 -include_lib("yyutils/include/yyu_comm.hrl").
+
 -define(SERVER,?MODULE).
 
 
 %% API functions defined
--export([get_mod/0,start_link/0,new_child/1,init/1]).
+-export([start_link/0,init/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-get_mod()->?MODULE.
-
 start_link()->
-  supervisor:start_link({local,?SERVER},?MODULE,{}).
+  SupInitArgs = [],
+  supervisor:start_link({local,?SERVER},?MODULE,SupInitArgs).
 
-new_child({RoleId,TcpGen})->
-  supervisor:start_child(?MODULE,[{RoleId,TcpGen}]).
-
-init({}) ->
-  Mod = role_online_gen:get_mod(),
+init(_SupInitArgs) ->
+  GenMod = lc_monitor_top_gen:get_mod(),
   ChileSpec = #{
-    id=> Mod,
-    start => {Mod,start_link,[]},
-    restart => temporary,  %% 挂了就挂了，不处理
+    id=> GenMod,
+    start => {GenMod,start_link,[]},
+    restart => permanent,  %% 挂了就重启
     shutdown => 20000,
     type => worker,
-    modules => [Mod]
+    modules => [GenMod]
   },
-  {?OK,{ {simple_one_for_one,10,10},[ChileSpec]} }.
-
-
+  {?OK,{ {one_for_one,10,10},[ChileSpec]} }.
 

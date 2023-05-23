@@ -12,12 +12,19 @@
 -include_lib("yyutils/include/yyu_comm.hrl").
 %% API
 -export([do/0]).
+%% ts_tester:do().
 do()->
+  get_head(reductions).
 
-%%  Params = [<<"RoleId">>,<<"MailType">>],
-%%  P1 = string:join(Params,","),
-%%  P2 = "{"++P1++"}",
-%%  {RoleId,MailType,Title,Content,AttachItemList} = yyu_misc:string_to_term(),
+priv_insert([{Key,Value}|Less],Gb)->
+  Gb_1 = gb_trees:insert(Key,Value,Gb),
+  priv_insert(Less,Gb_1);
+priv_insert([],Gb)->
+  Gb.
 
-  yyu_misc:term_to_string({1034,1,"biaoti","内容"}),
-  yyu_misc:string_to_term("{1034,11,aaa,aaa,aa}").
+get_head(AttrName)->
+  Head = io_lib:format(
+    "~n========================================~p=========================================================~n"
+    "~n=========================================~p==============================================~n~20s ~45s ~24s ~36s ~12s ~14s ~10s~n",
+    [AttrName,yyu_calendar:local_time(),"Pid","current_function","registered_name","initial_call","memory","reductions","msg_len"]),
+  Head.

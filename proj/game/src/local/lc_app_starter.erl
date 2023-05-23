@@ -23,13 +23,15 @@ ets_init()->
   ?OK.
 
 start_svr()->
-  lc_role_app_api:start_svr(),
-  lc_friend_app_api:start_svr(),
-  lc_mail_app_api:start_svr(),
+  lc_monitor_app_api:start_svr(),
+%%  lc_role_app_api:start_svr(),
+%%  lc_friend_app_api:start_svr(),
+%%  lc_mail_app_api:start_svr(),
   ?OK.
 
 stop_svr()->
-  lc_role_app_api:stop_svr(),
-  lc_friend_app_api:stop_svr(),
-  lc_mail_app_api:stop_svr(),
+  lc_monitor_app_api:stop_svr(),
+%%  lc_role_app_api:stop_svr(),
+%%  lc_friend_app_api:stop_svr(),
+%%  lc_mail_app_api:stop_svr(),
   ?OK.
