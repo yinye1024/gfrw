@@ -17,7 +17,7 @@
 raw_create(RoleCreateItem)->
   UserId = role_create_item:get_userId(RoleCreateItem),
   RoleId = game_autoId_mgr:get_role_autoId(),
-  SvrId = game_cfg:get_svrId(),
+  SvrId = game_cfg:svr_no(),
   {Name,Gender} = role_create_item:get_create_info(RoleCreateItem),
   RolePojo = role_pdb_pojo:new_pojo(RoleId,{UserId,SvrId,Name,Gender}),
   role_pdb_dao:create(RolePojo),

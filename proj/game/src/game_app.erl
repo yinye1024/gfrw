@@ -8,13 +8,16 @@
 -behaviour(application).
 
 %% Application callbacks
--export([start/2, stop/1]).
+-export([start/2, stop/0]).
 
 %%====================================================================
 %% API
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
+
+    %% 动态配置初始化
+    game_cfg:init(),
     %% 启动日志服务
     yyu_logger:start(),
     %% 启动mongodb服务
@@ -33,8 +36,9 @@ start(_StartType, _StartArgs) ->
     game_sup:start_link().
 
 %%--------------------------------------------------------------------
-stop(_State) ->
+stop() ->
     lc_app_starter:stop_svr(),
+    init:stop(),
     ok.
 
 %%====================================================================

@@ -21,7 +21,7 @@
 
 gm_cmd(RpcCmd)->
   ?LOG_INFO({"receive gm ",RpcCmd}),
-  case game_cfg:is_open_debug() of
+  case game_cfg:is_debug_open() of
     ?TRUE ->
       StrCmd = string:strip(string:strip(string:strip(yyu_misc:to_list(RpcCmd),both,$\n),both,$\r)),
       priv_gm_cmd(StrCmd),

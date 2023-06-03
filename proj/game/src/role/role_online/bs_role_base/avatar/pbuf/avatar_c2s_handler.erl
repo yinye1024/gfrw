@@ -23,6 +23,6 @@ avatar_head_change_c2s(C2SRD = #avatar_head_change_c2s{head_id = HeadId,head_bor
 svr_open_time_c2s(C2SRD = #svr_open_time_c2s{})->
   ?LOG_INFO({"svr_open_time_c2s,",C2SRD}),
 
-  SvrOpenTime = game_cfg:get_svr_open_time(),
+  SvrOpenTime = game_cfg:svr_OpenSeconds(),
   avatar_s2c_handler:svr_open_time_s2c(SvrOpenTime),
   ?OK.
