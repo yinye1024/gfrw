@@ -10,7 +10,7 @@
   1},
  {<<"mgd4erl">>,
   {path,"D:/allen_github/yinye1024/mgd4erl",
-        {mtime,<<"2023-06-05T15:01:41Z">>}},
+        {mtime,<<"2023-06-07T09:21:52Z">>}},
   0},
  {<<"mochiweb">>,
   {git,"https://github.com/mochi/mochiweb.git",
@@ -39,7 +39,7 @@
   1},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-06-05T15:01:39Z">>}},
+        {mtime,<<"2023-06-07T09:21:20Z">>}},
   0}]}.
 [
 {pkg_hash,[
