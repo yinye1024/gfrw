@@ -10,7 +10,7 @@
   1},
  {<<"mgd4erl">>,
   {path,"D:/allen_github/yinye1024/mgd4erl",
-        {mtime,<<"2023-05-23T19:44:59Z">>}},
+        {mtime,<<"2023-06-05T15:01:41Z">>}},
   0},
  {<<"mochiweb">>,
   {git,"https://github.com/mochi/mochiweb.git",
@@ -18,7 +18,7 @@
   0},
  {<<"network">>,
   {path,"D:/allen_github/yinye1024/network",
-        {mtime,<<"2023-05-23T19:45:19Z">>}},
+        {mtime,<<"2023-06-05T15:01:40Z">>}},
   0},
  {<<"pbkdf2">>,
   {git,"https://github.com/emqx/erlang-pbkdf2.git",
@@ -28,7 +28,7 @@
   {git,"https://github.com/devinus/poolboy.git",
        {ref,"29be47db8c2be38b18c908e43a80ebb7b9b6116b"}},
   2},
- {<<"protobuf">>,{path,"../protobuf",{mtime,<<"2023-05-08T15:53:51Z">>}},0},
+ {<<"protobuf">>,{path,"../protobuf",{mtime,<<"2023-06-05T15:01:40Z">>}},0},
  {<<"recon">>,
   {git,"https://github.com/ferd/recon.git",
        {ref,"9efec263d84d0435230f4d3312a4afb352b8f71c"}},
@@ -39,7 +39,7 @@
   1},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-05-30T09:35:57Z">>}},
+        {mtime,<<"2023-06-05T15:01:39Z">>}},
   0}]}.
 [
 {pkg_hash,[

@@ -19,12 +19,12 @@
 %% 一般是启动报错的时候（log服务来不及启动）用来定位
 start_cur_node_with_shell()->
   CurNodeItem = es_node_item:new_svr_node(),
-  {NodeName,_Cookie,_PaList,{StarMod,StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
-  io:format("~n exec Start Node:~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
-  case priv_is_node_app_started(NodeName,StarMod) of
+  {NodeName,_Cookie,_PaList,{_StarMod,_StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
+%%  io:format("~n exec Start Node with shell :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
+  case priv_is_node_alive(NodeName) of
     ?FALSE ->
-      io:format("~n Try Start Node ... :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
-      io:format("~n Wait ...  ~n",[]),
+%%      io:format("~n Try Start Node ... :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
+%%      io:format("~n Wait ...  ~n",[]),
       Cmd = es_node_cmd_builder:build_node_start_cmd_with_shell(CurNodeItem),
       FinalCmd = priv_check_string(Cmd),
       es_utils_exec:format_exec(FinalCmd),
@@ -38,50 +38,58 @@ start_cur_node_with_shell()->
 %% 守护进程启动节点
 start_cur_node_daemon()->
   CurNodeItem = es_node_item:new_svr_node(),
-  {NodeName,_Cookie,_PaList,{StarMod,_StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
-  case priv_is_node_app_started(NodeName,StarMod) of
+  {NodeName,_Cookie,_PaList,{StarMod,StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
+  io:format("~n exec Start Node daemon:~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
+  case priv_is_node_alive(NodeName) of
     ?FALSE ->
+      io:format("~n Try Start Node ... :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
+      io:format("~n Wait ... ",[]),
       Cmd = es_node_cmd_builder:build_node_start_cmd_daemon(CurNodeItem),
       FinalCmd = priv_check_string(Cmd),
-      {_Resp,_Out} = es_utils_exec:port_exec(FinalCmd),
-      %% 1 秒检查一次，等待20分钟
-      MaxTry = 1200,
-      priv_wait_node_up(NodeName,StarMod,MaxTry),
+      es_utils_exec:port_exec_no_wait(FinalCmd),
+      %% 2 秒检查一次，等待20分钟
+      MaxTry = 600,
+      priv_wait_node_up(StarMod,MaxTry),
+      io:format("~n Node start success!  ~n",[]),
       ?OK;
     ?TRUE ->
       io:format("[Warning] Node ~p is running, ",[NodeName]),
       ?OK
   end,
   ?OK.
-priv_wait_node_up(NodeName,MainAppName,0)->
-  io:format("[Error] Node ~p start fail, check the svr error log, ",[NodeName]),
+priv_wait_node_up(_StarMod,0)->
+  io:format("[Error] Node start fail, check the svr error log, ",[]),
   throw(2);
-priv_wait_node_up(NodeName,MainAppName,MaxTry)->
+priv_wait_node_up(StarMod,MaxTry)->
   io:format(".",[]),
-  timer:sleep(1000),
-  case priv_is_node_app_started(NodeName,MainAppName) of
-    ?TRUE ->?Skip;
-    ?FALSE -> priv_wait_node_up(NodeName,MainAppName,MaxTry-1)
+  timer:sleep(2000),
+  case priv_is_node_app_started() of
+    ?TRUE ->
+      io:format("~n app_started success:~p  ~n",[StarMod]),
+      ?Skip;
+    ?FALSE ->
+      io:format(".",[]),
+      priv_wait_node_up(StarMod,MaxTry-1)
   end,
   ?OK.
 
 stop_cur_node()->
-  CurNodeItem = es_node_item:new_svr_node(),
-  {NodeName,_Cookie,_PaList,{StarMod,StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
-  io:format("~n exec Stop Node:~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
+  TargetNodeItem = es_node_item:new_svr_node(),
+  {TargetNodeName,_Cookie,_PaList,_} = es_node_item:get_start_cmd_info(TargetNodeItem),
+  io:format("~n exec Stop Node:~p ~n",[TargetNodeName]),
   RpcCmd = "stop",
   IsSuccess = priv_do_cur_node_rpc(RpcCmd),
 
   case IsSuccess of
     ?TRUE ->
-      io:format("~n Try Stop Node ... :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
-      io:format("~n Wait ...  ~n",[]),
-      %% 1 秒检查一次，等待20分钟
-      MaxTry = 1200,
-      priv_wait_node_down(NodeName,MaxTry),
+      io:format("~n Try Stop Node ... :~p ~n",[TargetNodeName]),
+      io:format("~n Wait ... ",[]),
+      %% 2 秒检查一次，等待20分钟
+      MaxTry = 600,
+      priv_wait_node_down(TargetNodeName,MaxTry),
       ?OK;
     ?FALSE ->
-      io:format("[Warning] exec Stop fail: ~p, rpc fail ",[NodeName]),
+      io:format("[Warning] exec Stop fail: ~p, rpc fail ",[TargetNodeName]),
       ?OK
   end,
   ?OK.
@@ -91,19 +99,20 @@ priv_wait_node_down(NodeName,0)->
   throw(2);
 priv_wait_node_down(NodeName,MaxTry)->
   io:format(".",[]),
-  timer:sleep(1000),
+  timer:sleep(2000),
   case priv_is_node_alive(NodeName) of
-    ?FALSE ->?Skip;
-    ?TRUE -> priv_wait_node_down(NodeName,MaxTry-1)
+    ?TRUE -> priv_wait_node_down(NodeName,MaxTry-1);
+    _Other ->?Skip
   end,
   ?OK.
 
 %% attach到当前节点
 attach_cur_node()->
+  TargetNodeItem = es_node_item:new_svr_node(),
+  {TargetNodeName,_Cookie,_PaList,_} = es_node_item:get_start_cmd_info(TargetNodeItem),
+  io:format("~n Try to attach Node ... :~p ~n",[TargetNodeName]),
   CurNodeItem = es_node_item:new_attach_node(),
-  {NodeName,_Cookie,_PaList,{StarMod,StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
-  io:format("~n Try to attach Node ... :~p ~p ~p ~n",[NodeName,StarMod,StartFun]),
-  Cmd = es_node_cmd_builder:build_node_attach_cmd(CurNodeItem,NodeName),
+  Cmd = es_node_cmd_builder:build_node_attach_cmd(CurNodeItem, TargetNodeName),
   FinalCmd = priv_check_string(Cmd),
   es_utils_exec:format_exec(FinalCmd),
   ?OK.
@@ -114,23 +123,28 @@ cur_node_do_reload(ModsStr)->
   IsSuccess = priv_do_cur_node_rpc(RpcCmd),
   IsSuccess.
 
-priv_is_node_app_started(NodeName,MainAppName)->
-  RpcCmd = "status "++ MainAppName,
+priv_is_node_app_started()->
+  RpcCmd = "status game",
   IsSuccess = priv_do_cur_node_rpc(RpcCmd),
   IsSuccess.
 
 priv_do_cur_node_rpc(Args)->
+  TargetNodeItem = es_node_item:new_svr_node(),
+  {TargetNodeName,_Cookie,_PaList,_} = es_node_item:get_start_cmd_info(TargetNodeItem),
+
   CurRpcNodeItem = es_node_item:new_rpc_node(),
-  {NodeName,_Cookie,_PaList,{_StarMod,_StartFun}} = es_node_item:get_start_cmd_info(CurRpcNodeItem),
-  Cmd = es_node_cmd_builder:build_node_rpc_cmd(NodeName, CurRpcNodeItem,Args),
+  Cmd = es_node_cmd_builder:build_node_rpc_cmd(CurRpcNodeItem,TargetNodeName,Args),
   FinalCmd = priv_check_string(Cmd),
+%%  io:format("~n rpc cmd :~p~n",[FinalCmd]),
   {Resp,_Out} = es_utils_exec:port_exec(FinalCmd),
   es_node_rpc:is_success(Resp).
 
 priv_is_node_alive(NodeName)->
-  IsAlive = net_kernel:connect_node(NodeName),
+  TargetNode = list_to_atom(NodeName),
+  IsAlive = net_kernel:connect_node(TargetNode),
+%%  io:format("~n priv_is_node_alive :~p:~p ~n",[TargetNode,IsAlive]),
   net_kernel:disconnect(NodeName),
-  IsAlive.
+  IsAlive == ?TRUE.
 
 %% 简单检查下是不是字符串
 priv_check_string(Cmd)->

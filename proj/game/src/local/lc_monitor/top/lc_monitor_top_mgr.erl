@@ -40,7 +40,7 @@ priv_sum_new_info([Pid |Less],{AccPIdInfoList,AccRmPidList})->
     [{message_queue_len,MsgQueueLen},{memory,MemBytes},{reductions,Reds},{current_function,CurFun}] ->
       CurStk =
       case MsgQueueLen > 0 of
-        ?TRUE -> {current_stacktrace,[CurStkTmp]} = recon:info(Pid,current_stacktrace),
+        ?TRUE -> {current_stacktrace,CurStkTmp} = recon:info(Pid,current_stacktrace),
           CurStkTmp;
         ?FALSE -> ?NOT_SET
       end,

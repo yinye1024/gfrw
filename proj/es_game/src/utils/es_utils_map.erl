@@ -40,7 +40,7 @@ get_value_list(KeyList,Map)->
   priv_get_value_list(KeyList,Map,[]).
 priv_get_value_list([Key|Less],Map,AccList)->
   AccList_1 =
-    case yyu_map:get_value(Key,Map) of
+    case get_value(Key,Map) of
       ?NOT_SET -> AccList;
       Value ->
         [Value|AccList]

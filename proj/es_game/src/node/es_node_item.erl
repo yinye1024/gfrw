@@ -34,7 +34,7 @@ new_rpc_node()->
   }.
 priv_new_comm_node()->
   #{
-    svr_root_name => es_node_cfg:get_svr_root_name(),
+    svr_root_name => es_node_cfg:get_game_root_name(),
     svr_host => es_node_cfg:get_svr_host(),
     svr_port => es_node_cfg:get_svr_port(),
     svr_no => es_node_cfg:get_svr_no(),
@@ -44,45 +44,49 @@ priv_new_comm_node()->
   }.
 
 get_start_cmd_info(SelfMap)->
-  {NodeName,Cookie,PaList,{Mod,Fun}} = {get_node_name(SelfMap), priv_get_cookie(SelfMap), priv_get_paList(SelfMap), priv_get_start_fun(SelfMap)},
-  {NodeName,Cookie,PaList,{Mod,Fun}}.
+  {NodeName,Cookie,PaList,StartFun} = {get_node_name(SelfMap),
+    priv_get_cookie(SelfMap),
+    priv_get_paList(SelfMap),
+    priv_get_start_fun(SelfMap)},
+  {NodeName,Cookie,PaList,StartFun}.
 
 get_node_name(SelfMap)->
-  Format = "~s_~s_~s_~w@~s",
-  NodeName = io:format(Format,[
+  Format = "~s_~s_~w_~w@~s",
+  NodeName = io_lib:format(Format,[
     priv_get_svr_root_name(SelfMap),
     priv_get_node_type(SelfMap),
     priv_get_svr_no(SelfMap),
     priv_get_svr_port(SelfMap),
     priv_get_svr_host(SelfMap)
   ]),
-  NodeName.
+  lists:flatten(NodeName).
 
 priv_get_cookie(SelfMap) ->
-  yyu_map:get_value(cookie, SelfMap).
+  es_utils_map:get_value(cookie, SelfMap).
 
 priv_get_paList(SelfMap) ->
-  yyu_map:get_value(paList, SelfMap).
+  es_utils_map:get_value(paList, SelfMap).
 
 priv_get_start_fun(SelfMap) ->
-  yyu_map:get_value(start_fun, SelfMap).
+  es_utils_map:get_value(start_fun, SelfMap).
 
 
 
 priv_get_svr_root_name(SelfMap) ->
-  yyu_map:get_value(svr_root_name, SelfMap).
+  es_utils_map:get_value(svr_root_name, SelfMap).
 
 priv_get_svr_host(SelfMap) ->
-  yyu_map:get_value(svr_host, SelfMap).
+  es_utils_map:get_value(svr_host, SelfMap).
 
 priv_get_svr_port(SelfMap) ->
-  yyu_map:get_value(svr_port, SelfMap).
+  es_utils_map:get_value(svr_port, SelfMap).
 
 priv_get_node_type(SelfMap) ->
-  yyu_map:get_value(node_type, SelfMap).
+  NodeTypeAtom = es_utils_map:get_value(node_type, SelfMap),
+  atom_to_list(NodeTypeAtom).
 
 priv_get_svr_no(SelfMap) ->
-  yyu_map:get_value(svr_no, SelfMap).
+  es_utils_map:get_value(svr_no, SelfMap).
 
 
 

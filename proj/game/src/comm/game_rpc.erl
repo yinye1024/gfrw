@@ -20,6 +20,40 @@
 
 %% API
 -export([do_rpc/1]).
+-export([call_rpc/0]).
+
+%% 由连入脚本启动
+call_rpc()->
+  try
+    priv_call_rpc()
+  catch
+    Error:Reason:STK  ->
+      io:format("error do rpc call: ~n~p ~n~p ~n~p",[Error,Reason,STK]),
+      ?OK
+  end,
+  ?OK.
+priv_call_rpc()->
+  case init:get_plain_arguments() of
+    [TargetNodeName| Args]->
+      io:format("plain arguments is :~n~p",[{TargetNodeName, Args}]),
+      TargetNode = list_to_atom(TargetNodeName),
+      {TargetMod,TargetMethod} = {?MODULE,do_rpc},
+      Status =
+        case rpc:call(TargetNode,TargetMod,TargetMethod,[Args]) of
+          {badrpc,Reason}->
+            io:format("Rpc failed on the node ~w: ~w~n",[TargetNode,Reason]),
+            ?StatusFail;
+          StatusTmp ->
+            StatusTmp
+        end,
+      halt(Status);
+    _->
+      io:format("Rpc failed, no args"),
+      halt(?StatusFail)
+  end,
+  ?OK.
+
+
 
 do_rpc(["status",AppName])->
   Resp =
@@ -37,10 +71,10 @@ do_rpc(["reload"|Less])->
       TokenList = string:tokens(ModsStr,"-"),
       ModList =   [yyu_misc:list_to_atom(Token) || Token <- TokenList],
       yyu_reload:reload_mods(ModList),
-      ?StatusSuccess;
+      ?OK;
     _->
       yyu_reload:reload_all(),
-      ?StatusSuccess
+      ?OK
   end,
   ?StatusSuccess;
 do_rpc(_)->

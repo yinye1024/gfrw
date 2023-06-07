@@ -35,3 +35,6 @@
 
 -define(IF(C,TF,FF),(case (C) of ?TRUE ->(TF);?FALSE->(FF) end)).
 -define(IF(C,TF),(case (C) of ?TRUE ->(TF);?FALSE->?OK end)).
+
+
+-endif.

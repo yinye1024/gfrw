@@ -10,7 +10,7 @@
 -author("yinye").
 
 %% API
--export([format_exec/1,port_exec/1]).
+-export([format_exec/1,port_exec_no_wait/1,port_exec/1]).
 
 %% 连接到服务器，这个命令向stdout输出指令，然后在当前shell执行指令，
 %% 要保持当前shell交互的时候用这个方法
@@ -18,6 +18,9 @@ format_exec(Cmd) when is_list(Cmd)->
   io:format("~ts~n~n~n",[Cmd]),
   ok.
 
+port_exec_no_wait(Command) ->
+  _Port = open_port({spawn, Command}, [stream, in, eof, hide, exit_status]),
+  ok.
 port_exec(Command) ->
   Port = open_port({spawn, Command}, [stream, in, eof, hide, exit_status]),
   Result = priv_wait_get_data(Port, []),

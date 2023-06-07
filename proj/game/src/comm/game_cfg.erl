@@ -25,6 +25,7 @@
 init()->
   {?OK,Path} = file:get_cwd(),
   CfgFilePath = Path++"/config_deploy/server.config",
+  io:format("~n cfgpath:~p~n",[CfgFilePath]),
   {?OK,CfgKvList} =  file:consult(CfgFilePath),
   dynamic_cfg_builder:build(?DYN_GAME_CFG,CfgKvList),
   ?OK.

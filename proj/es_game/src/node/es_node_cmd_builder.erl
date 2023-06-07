@@ -37,13 +37,15 @@ build_node_start_cmd_with_shell(EsNodeItem)->
   CookieFlag = priv_get_node_cookie_flag(Cookie),
   PaFlag = priv_get_node_pa_flag(PaList),
   StartFunFlag = priv_get_node_start_fun_flag({Mod,Fun}),
+  GameRootFlag = priv_get_game_root_flag(),
 
-  FinalCmd = priv_get_erl_exec_cmd()+
-    " "++ NodeNameFlag,
-  " "++ CookieFlag,
-  " "++ StartFunFlag,
-  " "++ PaFlag,
-  " "++ FixFlags,
+  FinalCmd = priv_get_erl_exec_cmd()
+    ++" "++ NodeNameFlag
+    ++" "++ CookieFlag
+    ++" "++ StartFunFlag
+    ++" "++ GameRootFlag
+    ++" "++ PaFlag
+    ++" "++ FixFlags,
   FinalCmd.
 
 %% 守护进程启动节点
@@ -67,38 +69,44 @@ build_node_start_cmd_daemon(EsNodeItem)->
   CookieFlag = priv_get_node_cookie_flag(Cookie),
   PaFlag = priv_get_node_pa_flag(PaList),
   StartFunFlag = priv_get_node_start_fun_flag({Mod,Fun}),
+  GameRootFlag = priv_get_game_root_flag(),
 
-  FinalCmd = priv_get_erl_exec_cmd() ++
-  " "++ NodeNameFlag,
-  " "++ CookieFlag,
-  " "++ StartFunFlag,
-  " "++ PaFlag,
-  " "++ FixFlags,
+  FinalCmd = priv_get_erl_exec_cmd()
+    ++" "++ NodeNameFlag
+    ++" "++ CookieFlag
+    ++" "++ StartFunFlag
+    ++" "++ GameRootFlag
+    ++" "++ PaFlag
+    ++" "++ FixFlags,
   FinalCmd.
 priv_get_erl_exec_cmd()->
-  case os:type() of
-    {win32,_}->"werl ";
-    _->"erl"
+  case es_node_cfg:is_win() of
+    ?TRUE->"werl ";
+    ?FALSE->"erl"
   end.
 
-priv_get_node_name_flag(NodeName) ->
+priv_get_node_name_flag(NodeName) when is_list(NodeName)->
   "-name "++NodeName.
 
-priv_get_node_cookie_flag(Cookie) ->
-  "-setcookie "++Cookie.
+priv_get_node_cookie_flag(Cookie) when is_list(Cookie)->
+  "-setcookie " ++ Cookie.
 
 priv_get_node_pa_flag(PaList)->
-  PaFlag = priv_get_node_pa_flag(PaList,"-pa"),
+  RootPath = es_node_cfg:get_game_root_path(),
+  PaFlag = priv_get_node_pa_flag(PaList,RootPath,"-pa"),
   PaFlag.
 
-priv_get_node_pa_flag([Path|Less],AccPaFlag) ->
-  AccPaFlag_1 = AccPaFlag++" "++Path,
-  priv_get_node_pa_flag(Less,AccPaFlag_1);
-priv_get_node_pa_flag([],AccPaFlag) ->
+priv_get_node_pa_flag([Path|Less],RootPath,AccPaFlag) when is_list(Path) ->
+  AccPaFlag_1 = AccPaFlag++" "++RootPath++Path,
+  priv_get_node_pa_flag(Less,RootPath,AccPaFlag_1);
+priv_get_node_pa_flag([],_RootPath,AccPaFlag) ->
   AccPaFlag.
 
-priv_get_node_start_fun_flag({Mod,Fun}) ->
+priv_get_node_start_fun_flag({Mod,Fun}) when is_list(Mod) andalso is_list(Fun) ->
   "-s "++Mod++" "++Fun.
+
+priv_get_game_root_flag() ->
+  "-game_root_dir "++ es_node_cfg:get_game_root_path().
 
 %% attach到目标进程
 build_node_attach_cmd(EsNodeItem,TargetNodeName)->
@@ -112,12 +120,12 @@ build_node_attach_cmd(EsNodeItem,TargetNodeName)->
   PaFlag = priv_get_node_pa_flag(PaList),
   RemshFlag = "-remsh " ++ TargetNodeName,
 
-  FinalCmd = priv_get_erl_exec_cmd() ++
-    " "++ NodeNameFlag,
-    " "++ CookieFlag,
-    " "++ RemshFlag,
-    " "++ PaFlag,
-    " "++ FixFlags,
+  FinalCmd = priv_get_erl_exec_cmd()
+    ++" "++ NodeNameFlag
+    ++" "++ CookieFlag
+    ++" "++ RemshFlag
+    ++" "++ PaFlag
+    ++" "++ FixFlags,
   FinalCmd.
 
 %% 在目标节点执行rpc
@@ -134,11 +142,11 @@ build_node_rpc_cmd(EsNodeItem,TargetNodeName,Args)->
   PaFlag = priv_get_node_pa_flag(PaList),
   ExtraFlag = "-extra "++ TargetNodeName ++" " ++ Args ,
 
-  FinalCmd = priv_get_erl_exec_cmd() ++
-    " "++ NodeNameFlag,
-    " "++ CookieFlag,
-    " "++ StartFunFlag,
-    " "++ PaFlag,
-    " "++ FixFlags,
-    " "++ ExtraFlag,
+  FinalCmd = priv_get_erl_exec_cmd()
+    ++" "++ NodeNameFlag
+    ++" "++ CookieFlag
+    ++" "++ StartFunFlag
+    ++" "++ PaFlag
+    ++" "++ FixFlags
+    ++" "++ ExtraFlag,
   FinalCmd.

@@ -19,11 +19,15 @@ stop_server()
 }
 live_server()
 {
-  ${ES_SCRIPT_FILE} "${GAME_ROOT_DIR}" live
+  cd "${GAME_ROOT_DIR}" || exit
+  # 把escript io输出作为指令执行，这样可以停留在shell交互界面，方便操作
+  ${${ES_SCRIPT_FILE} "${GAME_ROOT_DIR}" live}
 }
 attach_server()
 {
-  ${ES_SCRIPT_FILE} "${GAME_ROOT_DIR}" attach
+  cd "${GAME_ROOT_DIR}" || exit
+  # 把escript io输出作为指令执行，这样可以停留在shell交互界面，方便操作
+  ${${ES_SCRIPT_FILE} "${GAME_ROOT_DIR}" attach}
 }
 reload()
 {
