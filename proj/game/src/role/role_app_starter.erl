@@ -18,6 +18,6 @@
 start_svr(Port)->
   %% 启动服务端
   gs_role_online_mgr:init(),
-  GwAgent = yynw_tcp_gw_agent:new(role_gw:get_mod(), role_gw:new_data()),
+  GwAgent = yynw_tcp_gw_agent:new(role_gw:get_mod()),
   yynw_tcp_gw_api:start(Port,GwAgent),
   ?OK.

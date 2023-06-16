@@ -10,7 +10,7 @@
   1},
  {<<"mgd4erl">>,
   {path,"D:/allen_github/yinye1024/mgd4erl",
-        {mtime,<<"2023-06-07T09:21:52Z">>}},
+        {mtime,<<"2023-06-16T10:02:09Z">>}},
   0},
  {<<"mochiweb">>,
   {git,"https://github.com/mochi/mochiweb.git",
@@ -18,7 +18,7 @@
   0},
  {<<"network">>,
   {path,"D:/allen_github/yinye1024/network",
-        {mtime,<<"2023-06-05T15:01:40Z">>}},
+        {mtime,<<"2023-06-16T11:16:24Z">>}},
   0},
  {<<"pbkdf2">>,
   {git,"https://github.com/emqx/erlang-pbkdf2.git",
@@ -35,11 +35,11 @@
   0},
  {<<"yypb">>,
   {git,"https://github.com/yinye1024/pbwraper.git",
-       {ref,"dc5358a126ba11d41390e946794544abf7e03cf1"}},
+       {ref,"13f2caaa2f3d1a67fcb2a3d011f97f5e0d75644d"}},
   1},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-06-07T09:21:20Z">>}},
+        {mtime,<<"2023-06-16T11:16:23Z">>}},
   0}]}.
 [
 {pkg_hash,[

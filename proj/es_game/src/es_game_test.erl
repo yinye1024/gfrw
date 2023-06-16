@@ -20,16 +20,16 @@
 %% ===================================================================================
 %% es_game_test:test().
 test()->
-%%  start_with_shell(),
-%%  start_daemon(),
-%%  attach(),
+  start_with_shell(),
+  start_daemon(),
+  attach(),
   stop(),
   ?OK.
 
 %% es_game_test:start_with_shell().
 start_with_shell()->
   ?OK = file:set_cwd(?GameRoot),
-  io:format("root path :~p~n",[file:get_cwd()]),
+%%  io:format("root path :~p~n",[file:get_cwd()]),
 
   CurNodeItem = es_node_item:new_svr_node(),
   {_NodeName,_Cookie,_PaList,{_StarMod,_StartFun}} = es_node_item:get_start_cmd_info(CurNodeItem),
@@ -70,7 +70,7 @@ priv_print_rpc(FileName,Args)->
   write_to_file(FileName,Cmd).
 
 write_to_file(FileName,Text) ->
-  OutPufFile = "D:/allen_github/yinye1024/gfrw/proj/es_game/test/"++ FileName ++".txt",
+  OutPufFile = "D:/allen_github/yinye1024/gfrw/proj/es_game/tmp/"++ FileName ++".txt",
   case file:open(OutPufFile, [write, create]) of
     {ok, File} ->
       file:write(File, Text),
