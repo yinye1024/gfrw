@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/misc_pb.hrl").
+-include_lib("game_proto/include/misc_pb.hrl").
 
 %% API
 -export([proc_init/0]).

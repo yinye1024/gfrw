@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/avatar_pb.hrl").
+-include_lib("game_proto/include/avatar_pb.hrl").
 %% API
 -export([avatar_head_change_s2c/2,svr_open_time_s2c/1]).
 

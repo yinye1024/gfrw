@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/friend_pb.hrl").
+-include_lib("game_proto/include/friend_pb.hrl").
 %% API
 -export([to_p_applyInfo_list/1, to_p_friendInfo_list/1]).
 

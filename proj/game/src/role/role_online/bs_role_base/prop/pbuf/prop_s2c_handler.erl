@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/prop_pb.hrl").
+-include_lib("game_proto/include/prop_pb.hrl").
 %% API
 -export([role_prop_player_s2c/1,role_prop_player_changed_s2c/1]).
 

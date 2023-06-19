@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/mail_pb.hrl").
+-include_lib("game_proto/include/mail_pb.hrl").
 %% API
 -export([to_p_mailInfo_list/1]).
 

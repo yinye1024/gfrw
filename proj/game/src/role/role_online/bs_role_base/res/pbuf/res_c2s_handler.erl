@@ -9,7 +9,7 @@
 -module(res_c2s_handler).
 -author("yinye").
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/res_pb.hrl").
+-include_lib("game_proto/include/res_pb.hrl").
 
 %% API
 -export([res_list_bag_c2s/1, res_list_wallet_c2s/1, res_use_bag_item_c2s/1, res_use_wallet_item_c2s/1]).

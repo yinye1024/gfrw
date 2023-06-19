@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/login_pb.hrl").
+-include_lib("game_proto/include/login_pb.hrl").
 
 -define(Queue_Length,100).  %% 保留发送包的长度
 -define(Max_Miss,20).     %% 超过 Max_Miss 则直接重登，不进行补包操作

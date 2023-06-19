@@ -9,7 +9,7 @@
 -module(role_s2c_handler).
 -author("yinye").
 
--include_lib("protobuf/include/login_pb.hrl").
+-include_lib("game_proto/include/login_pb.hrl").
 -include_lib("yyutils/include/yyu_comm.hrl").
 %% API
 -export([send_role_logout_s2c/1, send_role_info_s2c/1, send_role_reconnect_s2c/3]).

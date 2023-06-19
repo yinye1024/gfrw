@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/res_pb.hrl").
+-include_lib("game_proto/include/res_pb.hrl").
 %% API
 -export([res_list_bag_s2c/1,res_list_wallet_s2c/1, res_use_bag_item_s2c/1]).
 

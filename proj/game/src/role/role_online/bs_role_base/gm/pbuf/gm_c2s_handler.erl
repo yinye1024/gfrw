@@ -9,7 +9,7 @@
 -module(gm_c2s_handler).
 -author("yinye").
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/gm_pb.hrl").
+-include_lib("game_proto/include/gm_pb.hrl").
 
 %% API
 -export([gm_cmd_c2s/1]).

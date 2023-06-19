@@ -9,7 +9,7 @@
 -module(avatar_c2s_handler).
 -author("yinye").
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/avatar_pb.hrl").
+-include_lib("game_proto/include/avatar_pb.hrl").
 
 %% API
 -export([avatar_head_change_c2s/1,svr_open_time_c2s/1]).

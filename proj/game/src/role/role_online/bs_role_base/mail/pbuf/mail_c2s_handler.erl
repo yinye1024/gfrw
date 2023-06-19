@@ -9,7 +9,7 @@
 -module(mail_c2s_handler).
 -author("yinye").
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/mail_pb.hrl").
+-include_lib("game_proto/include/mail_pb.hrl").
 
 %% API
 -export([mail_list_c2s/1, mail_open_c2s/1,clean_mails_c2s/1]).

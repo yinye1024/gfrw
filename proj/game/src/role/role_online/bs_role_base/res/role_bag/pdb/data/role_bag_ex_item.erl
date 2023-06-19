@@ -10,7 +10,7 @@
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
--include_lib("protobuf/include/login_pb.hrl").
+-include_lib("game_proto/include/login_pb.hrl").
 
 
 -define(Class,?MODULE).
