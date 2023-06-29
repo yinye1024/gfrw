@@ -19,8 +19,8 @@
 %% API functions implements
 %% ===================================================================================
 init()->
-
-  McCfg = yymg_mongo_client_cfg:new_auth_cfg("192.168.43.29", 27017,<<"test_db">>,30000,{"mongo-admin", "mgadmin@123456"}),
+%%  McCfg = yymg_mongo_client_cfg:new_auth_cfg("192.168.43.29", 27017,<<"test_db">>,30000,{"mongo-admin", "mgadmin@123456"}),
+  McCfg = game_cfg:game_mongo_cfg(),
   PoolSize = 16,
   game_mongo_pc_mgr:init(McCfg),
   PoolPid = game_mongo_dao:init(PoolSize,McCfg),

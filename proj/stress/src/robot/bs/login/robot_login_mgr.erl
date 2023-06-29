@@ -96,6 +96,7 @@ on_recv_role_info(RoleInfo)->
   ?OK.
 
 on_logout_s2c()->
+  ?LOG_INFO({"on_logout_s2c ++++++++++++++++"}),
   priv_set_login_status(?FALSE),
   ?OK.
 

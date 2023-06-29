@@ -11,13 +11,14 @@
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
--export([start_svr/2]).
+-export([start_svr/1]).
 
 %% ===================================================================================
 %% API functions implements
 %% ===================================================================================
-start_svr(Port,PoolSize)->
+start_svr(Port)->
   RouteAgent = yynw_httpd_route_agent:new(adm_httpd_router:get_mod()),
+  PoolSize = 10,
   yynw_httpd_sup:start_link({Port,RouteAgent,PoolSize}),
   ?OK.
 

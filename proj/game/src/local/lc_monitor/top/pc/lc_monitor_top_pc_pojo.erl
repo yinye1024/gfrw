@@ -36,10 +36,15 @@ put_PidTopInfo(Pid,{MsgQueueLen,MemBytes,Reds,CurFun,CurStk},SelfMap)->
     ?NOT_SET ->
       GenSupMod = lc_monitor_top_helper:get_sup_mod(Pid),
       CanKilled = lc_monitor_top_cfg_helper:is_gen_can_be_killed(GenSupMod),
+      TopItemTmp =
+      case recon:info(Pid,[initial_call,registered_name]) of
+        [{initial_call,InitCall},{registered_name,RegName}] ->
+           lc_monitor_top_pc_item:new_pojo(Pid,{CanKilled,RegName,InitCall});
+        Other ->
+          ?LOG_WARNING({"initial_call and registered_name not correct,return:",Other}),
+          lc_monitor_top_pc_item:new_pojo(Pid,{CanKilled,"no RegName","no InitCall"})
+      end,
 
-      [{initial_call,InitCall},{registered_name,RegName}] = recon:info(Pid,[initial_call,registered_name]),
-
-      TopItemTmp = lc_monitor_top_pc_item:new_pojo(Pid,{CanKilled,RegName,InitCall}),
       TopItemTmp_1 = lc_monitor_top_pc_item:set_new_values({MsgQueueLen,MemBytes,Reds},{CurFun,CurStk},TopItemTmp),
       ItemMapTmp = yyu_map:put_value(Pid, TopItemTmp_1,ItemMap),
       ItemMapTmp;

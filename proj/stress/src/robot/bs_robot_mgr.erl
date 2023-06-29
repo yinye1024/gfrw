@@ -23,7 +23,6 @@ init({UserId} = _GenArgs)->
   robot_gen_mgr:reg(UserId,self()),
   robot_ticker_mgr:init(),
   ?LOG_INFO({"new robot gen init,UserId = ",UserId}),
-
   ?OK.
 
 loop_1_sec()->

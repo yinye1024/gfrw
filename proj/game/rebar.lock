@@ -13,7 +13,7 @@
   1},
  {<<"mgd4erl">>,
   {path,"D:/allen_github/yinye1024/mgd4erl",
-        {mtime,<<"2023-06-19T12:24:36Z">>}},
+        {mtime,<<"2023-06-20T19:09:57Z">>}},
   0},
  {<<"mochiweb">>,
   {git,"https://github.com/mochi/mochiweb.git",
@@ -21,7 +21,7 @@
   1},
  {<<"network">>,
   {path,"D:/allen_github/yinye1024/network",
-        {mtime,<<"2023-06-19T12:24:40Z">>}},
+        {mtime,<<"2023-06-21T11:08:57Z">>}},
   0},
  {<<"pbkdf2">>,
   {git,"https://github.com/emqx/erlang-pbkdf2.git",
@@ -41,7 +41,7 @@
   1},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-06-19T12:24:38Z">>}},
+        {mtime,<<"2023-06-20T16:17:11Z">>}},
   0}]}.
 [
 {pkg_hash,[

@@ -31,7 +31,8 @@ start()->
 start(_StartType, _StartArgs) ->
     io:format("*************** game app start ************************ ~n~p:~p~n",[_StartType, _StartArgs]),
     io:format("game_root_dir:~p~n",[init:get_argument(game_root_dir)]),
-    %% 如果有 自定义的flag  game_root_dir，设置成工作目录
+    %% 如果有 flag game_root_dir(自定义的)，说明要设置工作目录
+    %% 设置game_root_dir的原因是，脚本启动的服务，file:get_cwd()获得的是 脚本所在的目录，不一定是游戏根目录
     case init:get_argument(game_root_dir) of
         {?OK,[[GameRootDir]]}->
             io:format("set_cwd:~p~n",[GameRootDir]),
@@ -52,9 +53,9 @@ start(_StartType, _StartArgs) ->
     lc_app_starter:start_svr(),
 
     %% 后台 http 管理服务端口
-    adm_httpd_starter:start_svr(10091,10),
+    adm_httpd_starter:start_svr(game_cfg:adm_port()),
     %% 启动玩家进程服务，开启网关端口
-    role_app_starter:start_svr(10090),
+    role_app_starter:start_svr(game_cfg:game_port()),
 
     game_sup:start_link().
 

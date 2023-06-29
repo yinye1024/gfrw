@@ -18,13 +18,14 @@ start(_StartType, _StartArgs) ->
 
     %% 启动日志服务
     yyu_logger:start(),
-
+    %% 配置初始化
+    test_cfg:init(),
     %% robot 初始化
     gs_robot_mgr:start_link(),
 
     %% 启动压测
     gs_stress_adm_mgr:init(),
-    {MaxCount,Tps,StartUserId} = {1,10,1002},
+    {MaxCount,Tps,StartUserId} = test_cfg:stress_cfg(),
     gs_stress_adm_mgr:set_stress_cfg({MaxCount,Tps,StartUserId}),
 
 

@@ -16,7 +16,9 @@
 
 new_role_client(UserId)->
   ClientAgent = yynw_tcp_client_agent:new(robot_gw:get_mod(), robot_gw:new_data(UserId)),
-  {Addr,Port} = {"127.0.0.1",10090},
+  GameHost = test_cfg:game_host(),
+  GamePort = test_cfg:game_port(),
+  {Addr,Port} = {GameHost,GamePort},
   ClientGen = yynw_tcp_client_api:new_client({Addr,Port,ClientAgent}),
   robot_pc_mgr:set_tcp_client_gen(ClientGen),
   ?OK.
