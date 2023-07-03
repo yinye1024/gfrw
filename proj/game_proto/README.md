@@ -16,7 +16,7 @@
 
 2.终端跑 rebar3 compile 命令
 
-3.对应的文件生成在 include 和 src/pb 目录
+3.对应的文件生成在 include 和 src/pb 目录，具体位置可在 rebar.config 进行配置
 
 4.game项目加入 game_proto的依赖，用pb下的模块实现业务协议的解包和封包
 
