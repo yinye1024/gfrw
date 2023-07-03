@@ -1,5 +1,7 @@
 
-# 把游戏前后端通信的 protobuf 协议转成 erlang 模块
+### 作用
+把游戏前后端通信的 protobuf 协议转成 erlang 模块,用以对业务 protobuf 协议的封包和解包。
+
 
 
 ### 添加依赖
