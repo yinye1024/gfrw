@@ -1157,25 +1157,25 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"avatar_info_s2c">>) -> avatar_info_s2c;
-fqbin_to_msg_name(<<"avatar_info_change_s2c">>) -> avatar_info_change_s2c;
-fqbin_to_msg_name(<<"avatar_head_change_c2s">>) -> avatar_head_change_c2s;
-fqbin_to_msg_name(<<"avatar_head_change_s2c">>) -> avatar_head_change_s2c;
-fqbin_to_msg_name(<<"avatar_heart_beat_c2s">>) -> avatar_heart_beat_c2s;
-fqbin_to_msg_name(<<"avatar_heart_beat_s2c">>) -> avatar_heart_beat_s2c;
-fqbin_to_msg_name(<<"svr_open_time_c2s">>) -> svr_open_time_c2s;
-fqbin_to_msg_name(<<"svr_open_time_s2c">>) -> svr_open_time_s2c;
+fqbin_to_msg_name(<<"yy.proto.avatar_info_s2c">>) -> avatar_info_s2c;
+fqbin_to_msg_name(<<"yy.proto.avatar_info_change_s2c">>) -> avatar_info_change_s2c;
+fqbin_to_msg_name(<<"yy.proto.avatar_head_change_c2s">>) -> avatar_head_change_c2s;
+fqbin_to_msg_name(<<"yy.proto.avatar_head_change_s2c">>) -> avatar_head_change_s2c;
+fqbin_to_msg_name(<<"yy.proto.avatar_heart_beat_c2s">>) -> avatar_heart_beat_c2s;
+fqbin_to_msg_name(<<"yy.proto.avatar_heart_beat_s2c">>) -> avatar_heart_beat_s2c;
+fqbin_to_msg_name(<<"yy.proto.svr_open_time_c2s">>) -> svr_open_time_c2s;
+fqbin_to_msg_name(<<"yy.proto.svr_open_time_s2c">>) -> svr_open_time_s2c;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(avatar_info_s2c) -> <<"avatar_info_s2c">>;
-msg_name_to_fqbin(avatar_info_change_s2c) -> <<"avatar_info_change_s2c">>;
-msg_name_to_fqbin(avatar_head_change_c2s) -> <<"avatar_head_change_c2s">>;
-msg_name_to_fqbin(avatar_head_change_s2c) -> <<"avatar_head_change_s2c">>;
-msg_name_to_fqbin(avatar_heart_beat_c2s) -> <<"avatar_heart_beat_c2s">>;
-msg_name_to_fqbin(avatar_heart_beat_s2c) -> <<"avatar_heart_beat_s2c">>;
-msg_name_to_fqbin(svr_open_time_c2s) -> <<"svr_open_time_c2s">>;
-msg_name_to_fqbin(svr_open_time_s2c) -> <<"svr_open_time_s2c">>;
+msg_name_to_fqbin(avatar_info_s2c) -> <<"yy.proto.avatar_info_s2c">>;
+msg_name_to_fqbin(avatar_info_change_s2c) -> <<"yy.proto.avatar_info_change_s2c">>;
+msg_name_to_fqbin(avatar_head_change_c2s) -> <<"yy.proto.avatar_head_change_c2s">>;
+msg_name_to_fqbin(avatar_head_change_s2c) -> <<"yy.proto.avatar_head_change_s2c">>;
+msg_name_to_fqbin(avatar_heart_beat_c2s) -> <<"yy.proto.avatar_heart_beat_c2s">>;
+msg_name_to_fqbin(avatar_heart_beat_s2c) -> <<"yy.proto.avatar_heart_beat_s2c">>;
+msg_name_to_fqbin(svr_open_time_c2s) -> <<"yy.proto.svr_open_time_c2s">>;
+msg_name_to_fqbin(svr_open_time_s2c) -> <<"yy.proto.svr_open_time_s2c">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -1187,7 +1187,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -1234,14 +1234,14 @@ get_enum_containment("avatar") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"svr_open_time_s2c">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"svr_open_time_c2s">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_info_s2c">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_info_change_s2c">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_heart_beat_s2c">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_heart_beat_c2s">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_head_change_s2c">>) -> "avatar";
-get_proto_by_msg_name_as_fqbin(<<"avatar_head_change_c2s">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.svr_open_time_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.svr_open_time_c2s">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_info_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_info_change_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_heart_beat_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_heart_beat_c2s">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_head_change_s2c">>) -> "avatar";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.avatar_head_change_c2s">>) -> "avatar";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

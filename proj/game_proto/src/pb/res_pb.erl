@@ -1131,29 +1131,29 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"res_list_bag_c2s">>) -> res_list_bag_c2s;
-fqbin_to_msg_name(<<"res_list_bag_s2c">>) -> res_list_bag_s2c;
-fqbin_to_msg_name(<<"p_bag_item">>) -> p_bag_item;
-fqbin_to_msg_name(<<"res_list_wallet_c2s">>) -> res_list_wallet_c2s;
-fqbin_to_msg_name(<<"res_list_wallet_s2c">>) -> res_list_wallet_s2c;
-fqbin_to_msg_name(<<"p_wallet_item">>) -> p_wallet_item;
-fqbin_to_msg_name(<<"res_use_bag_item_c2s">>) -> res_use_bag_item_c2s;
-fqbin_to_msg_name(<<"res_use_bag_item_s2c">>) -> res_use_bag_item_s2c;
-fqbin_to_msg_name(<<"res_use_wallet_item_c2s">>) -> res_use_wallet_item_c2s;
-fqbin_to_msg_name(<<"res_use_wallet_item_s2c">>) -> res_use_wallet_item_s2c;
+fqbin_to_msg_name(<<"yy.proto.res_list_bag_c2s">>) -> res_list_bag_c2s;
+fqbin_to_msg_name(<<"yy.proto.res_list_bag_s2c">>) -> res_list_bag_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_bag_item">>) -> p_bag_item;
+fqbin_to_msg_name(<<"yy.proto.res_list_wallet_c2s">>) -> res_list_wallet_c2s;
+fqbin_to_msg_name(<<"yy.proto.res_list_wallet_s2c">>) -> res_list_wallet_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_wallet_item">>) -> p_wallet_item;
+fqbin_to_msg_name(<<"yy.proto.res_use_bag_item_c2s">>) -> res_use_bag_item_c2s;
+fqbin_to_msg_name(<<"yy.proto.res_use_bag_item_s2c">>) -> res_use_bag_item_s2c;
+fqbin_to_msg_name(<<"yy.proto.res_use_wallet_item_c2s">>) -> res_use_wallet_item_c2s;
+fqbin_to_msg_name(<<"yy.proto.res_use_wallet_item_s2c">>) -> res_use_wallet_item_s2c;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(res_list_bag_c2s) -> <<"res_list_bag_c2s">>;
-msg_name_to_fqbin(res_list_bag_s2c) -> <<"res_list_bag_s2c">>;
-msg_name_to_fqbin(p_bag_item) -> <<"p_bag_item">>;
-msg_name_to_fqbin(res_list_wallet_c2s) -> <<"res_list_wallet_c2s">>;
-msg_name_to_fqbin(res_list_wallet_s2c) -> <<"res_list_wallet_s2c">>;
-msg_name_to_fqbin(p_wallet_item) -> <<"p_wallet_item">>;
-msg_name_to_fqbin(res_use_bag_item_c2s) -> <<"res_use_bag_item_c2s">>;
-msg_name_to_fqbin(res_use_bag_item_s2c) -> <<"res_use_bag_item_s2c">>;
-msg_name_to_fqbin(res_use_wallet_item_c2s) -> <<"res_use_wallet_item_c2s">>;
-msg_name_to_fqbin(res_use_wallet_item_s2c) -> <<"res_use_wallet_item_s2c">>;
+msg_name_to_fqbin(res_list_bag_c2s) -> <<"yy.proto.res_list_bag_c2s">>;
+msg_name_to_fqbin(res_list_bag_s2c) -> <<"yy.proto.res_list_bag_s2c">>;
+msg_name_to_fqbin(p_bag_item) -> <<"yy.proto.p_bag_item">>;
+msg_name_to_fqbin(res_list_wallet_c2s) -> <<"yy.proto.res_list_wallet_c2s">>;
+msg_name_to_fqbin(res_list_wallet_s2c) -> <<"yy.proto.res_list_wallet_s2c">>;
+msg_name_to_fqbin(p_wallet_item) -> <<"yy.proto.p_wallet_item">>;
+msg_name_to_fqbin(res_use_bag_item_c2s) -> <<"yy.proto.res_use_bag_item_c2s">>;
+msg_name_to_fqbin(res_use_bag_item_s2c) -> <<"yy.proto.res_use_bag_item_s2c">>;
+msg_name_to_fqbin(res_use_wallet_item_c2s) -> <<"yy.proto.res_use_wallet_item_c2s">>;
+msg_name_to_fqbin(res_use_wallet_item_s2c) -> <<"yy.proto.res_use_wallet_item_s2c">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -1165,7 +1165,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -1212,16 +1212,16 @@ get_enum_containment("res") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"res_use_wallet_item_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_wallet_item_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_bag_item_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_use_bag_item_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_list_wallet_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_list_wallet_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_list_bag_s2c">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"res_list_bag_c2s">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"p_wallet_item">>) -> "res";
-get_proto_by_msg_name_as_fqbin(<<"p_bag_item">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_use_wallet_item_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_use_wallet_item_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_use_bag_item_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_use_bag_item_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_list_wallet_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_list_wallet_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_list_bag_s2c">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.res_list_bag_c2s">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_wallet_item">>) -> "res";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_bag_item">>) -> "res";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

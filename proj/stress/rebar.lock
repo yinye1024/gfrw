@@ -3,9 +3,9 @@
   {git,"https://github.com/comtihon/bson-erlang.git",
        {ref,"d5e5a954ab29d721cfab0dcf2906d247208bdd35"}},
   2},
- {<<"game">>,{path,"../game",{mtime,<<"2023-06-25T16:14:58Z">>}},0},
+ {<<"game">>,{path,"../game",{mtime,<<"2023-07-06T14:42:38Z">>}},0},
  {<<"game_proto">>,
-  {path,"../game_proto",{mtime,<<"2023-06-19T14:21:08Z">>}},
+  {path,"../game_proto",{mtime,<<"2023-07-03T09:49:55Z">>}},
   1},
  {<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},3},
  {<<"lager">>,
@@ -14,7 +14,7 @@
   2},
  {<<"mgd4erl">>,
   {path,"D:/allen_github/yinye1024/mgd4erl",
-        {mtime,<<"2023-06-20T19:09:57Z">>}},
+        {mtime,<<"2023-06-28T14:40:54Z">>}},
   1},
  {<<"mochiweb">>,
   {git,"https://github.com/mochi/mochiweb.git",
@@ -42,7 +42,7 @@
   2},
  {<<"yyutils">>,
   {path,"D:/allen_github/yinye1024/yyutils",
-        {mtime,<<"2023-06-20T16:17:11Z">>}},
+        {mtime,<<"2023-07-06T14:29:21Z">>}},
   1}]}.
 [
 {pkg_hash,[

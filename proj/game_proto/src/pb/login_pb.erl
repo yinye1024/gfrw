@@ -1504,35 +1504,35 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"connect_active_s2c">>) -> connect_active_s2c;
-fqbin_to_msg_name(<<"role_login_c2s">>) -> role_login_c2s;
-fqbin_to_msg_name(<<"p_machineInfo">>) -> p_machineInfo;
-fqbin_to_msg_name(<<"role_reconnect_c2s">>) -> role_reconnect_c2s;
-fqbin_to_msg_name(<<"role_reconnect_s2c">>) -> role_reconnect_s2c;
-fqbin_to_msg_name(<<"reset_gw_mid_c2s">>) -> reset_gw_mid_c2s;
-fqbin_to_msg_name(<<"create_role_c2s">>) -> create_role_c2s;
-fqbin_to_msg_name(<<"create_role_s2c">>) -> create_role_s2c;
-fqbin_to_msg_name(<<"role_login_s2c">>) -> role_login_s2c;
-fqbin_to_msg_name(<<"role_info_s2c">>) -> role_info_s2c;
-fqbin_to_msg_name(<<"p_roleInfo">>) -> p_roleInfo;
-fqbin_to_msg_name(<<"role_logout_c2s">>) -> role_logout_c2s;
-fqbin_to_msg_name(<<"role_logout_s2c">>) -> role_logout_s2c;
+fqbin_to_msg_name(<<"yy.proto.connect_active_s2c">>) -> connect_active_s2c;
+fqbin_to_msg_name(<<"yy.proto.role_login_c2s">>) -> role_login_c2s;
+fqbin_to_msg_name(<<"yy.proto.p_machineInfo">>) -> p_machineInfo;
+fqbin_to_msg_name(<<"yy.proto.role_reconnect_c2s">>) -> role_reconnect_c2s;
+fqbin_to_msg_name(<<"yy.proto.role_reconnect_s2c">>) -> role_reconnect_s2c;
+fqbin_to_msg_name(<<"yy.proto.reset_gw_mid_c2s">>) -> reset_gw_mid_c2s;
+fqbin_to_msg_name(<<"yy.proto.create_role_c2s">>) -> create_role_c2s;
+fqbin_to_msg_name(<<"yy.proto.create_role_s2c">>) -> create_role_s2c;
+fqbin_to_msg_name(<<"yy.proto.role_login_s2c">>) -> role_login_s2c;
+fqbin_to_msg_name(<<"yy.proto.role_info_s2c">>) -> role_info_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_roleInfo">>) -> p_roleInfo;
+fqbin_to_msg_name(<<"yy.proto.role_logout_c2s">>) -> role_logout_c2s;
+fqbin_to_msg_name(<<"yy.proto.role_logout_s2c">>) -> role_logout_s2c;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(connect_active_s2c) -> <<"connect_active_s2c">>;
-msg_name_to_fqbin(role_login_c2s) -> <<"role_login_c2s">>;
-msg_name_to_fqbin(p_machineInfo) -> <<"p_machineInfo">>;
-msg_name_to_fqbin(role_reconnect_c2s) -> <<"role_reconnect_c2s">>;
-msg_name_to_fqbin(role_reconnect_s2c) -> <<"role_reconnect_s2c">>;
-msg_name_to_fqbin(reset_gw_mid_c2s) -> <<"reset_gw_mid_c2s">>;
-msg_name_to_fqbin(create_role_c2s) -> <<"create_role_c2s">>;
-msg_name_to_fqbin(create_role_s2c) -> <<"create_role_s2c">>;
-msg_name_to_fqbin(role_login_s2c) -> <<"role_login_s2c">>;
-msg_name_to_fqbin(role_info_s2c) -> <<"role_info_s2c">>;
-msg_name_to_fqbin(p_roleInfo) -> <<"p_roleInfo">>;
-msg_name_to_fqbin(role_logout_c2s) -> <<"role_logout_c2s">>;
-msg_name_to_fqbin(role_logout_s2c) -> <<"role_logout_s2c">>;
+msg_name_to_fqbin(connect_active_s2c) -> <<"yy.proto.connect_active_s2c">>;
+msg_name_to_fqbin(role_login_c2s) -> <<"yy.proto.role_login_c2s">>;
+msg_name_to_fqbin(p_machineInfo) -> <<"yy.proto.p_machineInfo">>;
+msg_name_to_fqbin(role_reconnect_c2s) -> <<"yy.proto.role_reconnect_c2s">>;
+msg_name_to_fqbin(role_reconnect_s2c) -> <<"yy.proto.role_reconnect_s2c">>;
+msg_name_to_fqbin(reset_gw_mid_c2s) -> <<"yy.proto.reset_gw_mid_c2s">>;
+msg_name_to_fqbin(create_role_c2s) -> <<"yy.proto.create_role_c2s">>;
+msg_name_to_fqbin(create_role_s2c) -> <<"yy.proto.create_role_s2c">>;
+msg_name_to_fqbin(role_login_s2c) -> <<"yy.proto.role_login_s2c">>;
+msg_name_to_fqbin(role_info_s2c) -> <<"yy.proto.role_info_s2c">>;
+msg_name_to_fqbin(p_roleInfo) -> <<"yy.proto.p_roleInfo">>;
+msg_name_to_fqbin(role_logout_c2s) -> <<"yy.proto.role_logout_c2s">>;
+msg_name_to_fqbin(role_logout_s2c) -> <<"yy.proto.role_logout_s2c">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -1544,7 +1544,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -1592,19 +1592,19 @@ get_enum_containment("login") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"role_reconnect_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_reconnect_c2s">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_logout_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_logout_c2s">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_login_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_login_c2s">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"role_info_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"reset_gw_mid_c2s">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"create_role_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"create_role_c2s">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"connect_active_s2c">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"p_roleInfo">>) -> "login";
-get_proto_by_msg_name_as_fqbin(<<"p_machineInfo">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_reconnect_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_reconnect_c2s">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_logout_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_logout_c2s">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_login_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_login_c2s">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_info_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.reset_gw_mid_c2s">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.create_role_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.create_role_c2s">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.connect_active_s2c">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_roleInfo">>) -> "login";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_machineInfo">>) -> "login";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

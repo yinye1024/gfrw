@@ -1,5 +1,5 @@
 syntax = "proto2";
-
+package yy.proto;
 
 message p_kv_int{
   optional int32 key = 1;

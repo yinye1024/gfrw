@@ -1,5 +1,5 @@
 syntax = "proto2";
-
+package yy.proto;
 
 message avatar_info_s2c{
   required string name = 1;

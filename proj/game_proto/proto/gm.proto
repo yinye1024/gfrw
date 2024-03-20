@@ -1,4 +1,5 @@
 syntax = "proto2";
+package yy.proto;
 
 message gm_cmd_c2s{
   required string cmd = 1;

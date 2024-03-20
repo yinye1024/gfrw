@@ -1,4 +1,5 @@
 syntax = "proto2";
+package yy.proto;
 import "comm.proto";
 
 message role_prop_player_c2s{

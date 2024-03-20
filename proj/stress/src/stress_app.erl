@@ -24,9 +24,9 @@ start(_StartType, _StartArgs) ->
     gs_robot_mgr:start_link(),
 
     %% 启动压测
-    gs_stress_adm_mgr:init(),
-    {MaxCount,Tps,StartUserId} = test_cfg:stress_cfg(),
-    gs_stress_adm_mgr:set_stress_cfg({MaxCount,Tps,StartUserId}),
+%%    gs_stress_adm_mgr:init(),
+%%    {MaxCount,Tps,StartUserId} = test_cfg:stress_cfg(),
+%%    gs_stress_adm_mgr:set_stress_cfg({MaxCount,Tps,StartUserId}),
 
 
     stress_sup:start_link().

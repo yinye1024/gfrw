@@ -893,21 +893,21 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"mail_list_c2s">>) -> mail_list_c2s;
-fqbin_to_msg_name(<<"mail_list_s2c">>) -> mail_list_s2c;
-fqbin_to_msg_name(<<"p_mailInfo">>) -> p_mailInfo;
-fqbin_to_msg_name(<<"mail_open_c2s">>) -> mail_open_c2s;
-fqbin_to_msg_name(<<"mail_open_s2c">>) -> mail_open_s2c;
-fqbin_to_msg_name(<<"clean_mails_c2s">>) -> clean_mails_c2s;
+fqbin_to_msg_name(<<"yy.proto.mail_list_c2s">>) -> mail_list_c2s;
+fqbin_to_msg_name(<<"yy.proto.mail_list_s2c">>) -> mail_list_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_mailInfo">>) -> p_mailInfo;
+fqbin_to_msg_name(<<"yy.proto.mail_open_c2s">>) -> mail_open_c2s;
+fqbin_to_msg_name(<<"yy.proto.mail_open_s2c">>) -> mail_open_s2c;
+fqbin_to_msg_name(<<"yy.proto.clean_mails_c2s">>) -> clean_mails_c2s;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(mail_list_c2s) -> <<"mail_list_c2s">>;
-msg_name_to_fqbin(mail_list_s2c) -> <<"mail_list_s2c">>;
-msg_name_to_fqbin(p_mailInfo) -> <<"p_mailInfo">>;
-msg_name_to_fqbin(mail_open_c2s) -> <<"mail_open_c2s">>;
-msg_name_to_fqbin(mail_open_s2c) -> <<"mail_open_s2c">>;
-msg_name_to_fqbin(clean_mails_c2s) -> <<"clean_mails_c2s">>;
+msg_name_to_fqbin(mail_list_c2s) -> <<"yy.proto.mail_list_c2s">>;
+msg_name_to_fqbin(mail_list_s2c) -> <<"yy.proto.mail_list_s2c">>;
+msg_name_to_fqbin(p_mailInfo) -> <<"yy.proto.p_mailInfo">>;
+msg_name_to_fqbin(mail_open_c2s) -> <<"yy.proto.mail_open_c2s">>;
+msg_name_to_fqbin(mail_open_s2c) -> <<"yy.proto.mail_open_s2c">>;
+msg_name_to_fqbin(clean_mails_c2s) -> <<"yy.proto.clean_mails_c2s">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -919,7 +919,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -966,12 +966,12 @@ get_enum_containment("mail") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"mail_open_s2c">>) -> "mail";
-get_proto_by_msg_name_as_fqbin(<<"mail_open_c2s">>) -> "mail";
-get_proto_by_msg_name_as_fqbin(<<"mail_list_s2c">>) -> "mail";
-get_proto_by_msg_name_as_fqbin(<<"mail_list_c2s">>) -> "mail";
-get_proto_by_msg_name_as_fqbin(<<"clean_mails_c2s">>) -> "mail";
-get_proto_by_msg_name_as_fqbin(<<"p_mailInfo">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.mail_open_s2c">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.mail_open_c2s">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.mail_list_s2c">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.mail_list_c2s">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.clean_mails_c2s">>) -> "mail";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_mailInfo">>) -> "mail";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

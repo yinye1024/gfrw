@@ -1109,29 +1109,29 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"friend_apply_list_c2s">>) -> friend_apply_list_c2s;
-fqbin_to_msg_name(<<"friend_apply_list_s2c">>) -> friend_apply_list_s2c;
-fqbin_to_msg_name(<<"p_applyInfo">>) -> p_applyInfo;
-fqbin_to_msg_name(<<"friend_new_apply_c2s">>) -> friend_new_apply_c2s;
-fqbin_to_msg_name(<<"friend_new_apply_s2c">>) -> friend_new_apply_s2c;
-fqbin_to_msg_name(<<"friend_handle_apply_c2s">>) -> friend_handle_apply_c2s;
-fqbin_to_msg_name(<<"friend_handle_apply_s2c">>) -> friend_handle_apply_s2c;
-fqbin_to_msg_name(<<"friend_list_c2s">>) -> friend_list_c2s;
-fqbin_to_msg_name(<<"friend_list_s2c">>) -> friend_list_s2c;
-fqbin_to_msg_name(<<"p_friendInfo">>) -> p_friendInfo;
+fqbin_to_msg_name(<<"yy.proto.friend_apply_list_c2s">>) -> friend_apply_list_c2s;
+fqbin_to_msg_name(<<"yy.proto.friend_apply_list_s2c">>) -> friend_apply_list_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_applyInfo">>) -> p_applyInfo;
+fqbin_to_msg_name(<<"yy.proto.friend_new_apply_c2s">>) -> friend_new_apply_c2s;
+fqbin_to_msg_name(<<"yy.proto.friend_new_apply_s2c">>) -> friend_new_apply_s2c;
+fqbin_to_msg_name(<<"yy.proto.friend_handle_apply_c2s">>) -> friend_handle_apply_c2s;
+fqbin_to_msg_name(<<"yy.proto.friend_handle_apply_s2c">>) -> friend_handle_apply_s2c;
+fqbin_to_msg_name(<<"yy.proto.friend_list_c2s">>) -> friend_list_c2s;
+fqbin_to_msg_name(<<"yy.proto.friend_list_s2c">>) -> friend_list_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_friendInfo">>) -> p_friendInfo;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(friend_apply_list_c2s) -> <<"friend_apply_list_c2s">>;
-msg_name_to_fqbin(friend_apply_list_s2c) -> <<"friend_apply_list_s2c">>;
-msg_name_to_fqbin(p_applyInfo) -> <<"p_applyInfo">>;
-msg_name_to_fqbin(friend_new_apply_c2s) -> <<"friend_new_apply_c2s">>;
-msg_name_to_fqbin(friend_new_apply_s2c) -> <<"friend_new_apply_s2c">>;
-msg_name_to_fqbin(friend_handle_apply_c2s) -> <<"friend_handle_apply_c2s">>;
-msg_name_to_fqbin(friend_handle_apply_s2c) -> <<"friend_handle_apply_s2c">>;
-msg_name_to_fqbin(friend_list_c2s) -> <<"friend_list_c2s">>;
-msg_name_to_fqbin(friend_list_s2c) -> <<"friend_list_s2c">>;
-msg_name_to_fqbin(p_friendInfo) -> <<"p_friendInfo">>;
+msg_name_to_fqbin(friend_apply_list_c2s) -> <<"yy.proto.friend_apply_list_c2s">>;
+msg_name_to_fqbin(friend_apply_list_s2c) -> <<"yy.proto.friend_apply_list_s2c">>;
+msg_name_to_fqbin(p_applyInfo) -> <<"yy.proto.p_applyInfo">>;
+msg_name_to_fqbin(friend_new_apply_c2s) -> <<"yy.proto.friend_new_apply_c2s">>;
+msg_name_to_fqbin(friend_new_apply_s2c) -> <<"yy.proto.friend_new_apply_s2c">>;
+msg_name_to_fqbin(friend_handle_apply_c2s) -> <<"yy.proto.friend_handle_apply_c2s">>;
+msg_name_to_fqbin(friend_handle_apply_s2c) -> <<"yy.proto.friend_handle_apply_s2c">>;
+msg_name_to_fqbin(friend_list_c2s) -> <<"yy.proto.friend_list_c2s">>;
+msg_name_to_fqbin(friend_list_s2c) -> <<"yy.proto.friend_list_s2c">>;
+msg_name_to_fqbin(p_friendInfo) -> <<"yy.proto.p_friendInfo">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -1143,7 +1143,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -1190,16 +1190,16 @@ get_enum_containment("friend") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"friend_new_apply_s2c">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_new_apply_c2s">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_list_s2c">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_list_c2s">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_handle_apply_s2c">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_handle_apply_c2s">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_apply_list_s2c">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"friend_apply_list_c2s">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"p_friendInfo">>) -> "friend";
-get_proto_by_msg_name_as_fqbin(<<"p_applyInfo">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_new_apply_s2c">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_new_apply_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_list_s2c">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_list_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_handle_apply_s2c">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_handle_apply_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_apply_list_s2c">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.friend_apply_list_c2s">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_friendInfo">>) -> "friend";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_applyInfo">>) -> "friend";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

@@ -682,17 +682,17 @@ fqbins_to_service_and_rpc_name(S, R) -> error({gpb_error, {badservice_or_rpc, {S
 service_and_rpc_name_to_fqbins(S, R) -> error({gpb_error, {badservice_or_rpc, {S, R}}}).
 
 
-fqbin_to_msg_name(<<"role_prop_player_c2s">>) -> role_prop_player_c2s;
-fqbin_to_msg_name(<<"role_prop_player_s2c">>) -> role_prop_player_s2c;
-fqbin_to_msg_name(<<"role_prop_player_changed_s2c">>) -> role_prop_player_changed_s2c;
-fqbin_to_msg_name(<<"p_kv_int">>) -> p_kv_int;
+fqbin_to_msg_name(<<"yy.proto.role_prop_player_c2s">>) -> role_prop_player_c2s;
+fqbin_to_msg_name(<<"yy.proto.role_prop_player_s2c">>) -> role_prop_player_s2c;
+fqbin_to_msg_name(<<"yy.proto.role_prop_player_changed_s2c">>) -> role_prop_player_changed_s2c;
+fqbin_to_msg_name(<<"yy.proto.p_kv_int">>) -> p_kv_int;
 fqbin_to_msg_name(E) -> error({gpb_error, {badmsg, E}}).
 
 
-msg_name_to_fqbin(role_prop_player_c2s) -> <<"role_prop_player_c2s">>;
-msg_name_to_fqbin(role_prop_player_s2c) -> <<"role_prop_player_s2c">>;
-msg_name_to_fqbin(role_prop_player_changed_s2c) -> <<"role_prop_player_changed_s2c">>;
-msg_name_to_fqbin(p_kv_int) -> <<"p_kv_int">>;
+msg_name_to_fqbin(role_prop_player_c2s) -> <<"yy.proto.role_prop_player_c2s">>;
+msg_name_to_fqbin(role_prop_player_s2c) -> <<"yy.proto.role_prop_player_s2c">>;
+msg_name_to_fqbin(role_prop_player_changed_s2c) -> <<"yy.proto.role_prop_player_changed_s2c">>;
+msg_name_to_fqbin(p_kv_int) -> <<"yy.proto.p_kv_int">>;
 msg_name_to_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 
@@ -704,7 +704,7 @@ fqbin_to_enum_name(E) -> error({gpb_error, {badenum, E}}).
 enum_name_to_fqbin(E) -> error({gpb_error, {badenum, E}}).
 
 
-get_package_name() -> undefined.
+get_package_name() -> 'yy.proto'.
 
 
 %% Whether or not the message names
@@ -756,10 +756,10 @@ get_enum_containment("comm") -> [];
 get_enum_containment(P) -> error({gpb_error, {badproto, P}}).
 
 
-get_proto_by_msg_name_as_fqbin(<<"role_prop_player_s2c">>) -> "prop";
-get_proto_by_msg_name_as_fqbin(<<"role_prop_player_changed_s2c">>) -> "prop";
-get_proto_by_msg_name_as_fqbin(<<"role_prop_player_c2s">>) -> "prop";
-get_proto_by_msg_name_as_fqbin(<<"p_kv_int">>) -> "comm";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_prop_player_s2c">>) -> "prop";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_prop_player_changed_s2c">>) -> "prop";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.role_prop_player_c2s">>) -> "prop";
+get_proto_by_msg_name_as_fqbin(<<"yy.proto.p_kv_int">>) -> "comm";
 get_proto_by_msg_name_as_fqbin(E) -> error({gpb_error, {badmsg, E}}).
 
 

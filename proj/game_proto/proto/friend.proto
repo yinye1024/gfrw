@@ -1,4 +1,5 @@
 syntax = "proto2";
+package yy.proto;
 
 message friend_apply_list_c2s{
 }
